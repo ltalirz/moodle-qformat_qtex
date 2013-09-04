@@ -1,3 +1,8 @@
+Beta 8 (3.9.2013)
+=================
+- Since qtex is an import/export format and *not* a question type,
+  the repository should be named 'moodle-qformat_qtex'
+
 Beta 7 (14.9.2011)
 ==================
 - File import (png images) has been implemented
