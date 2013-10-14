@@ -24,25 +24,52 @@
  *
  * For more information visit www.lemuren.math.ethz.ch
  *
- * @package questionbank
- * @subpackage importexport
- * @version Beta 6 (13.6.2011)
- * @author Leopold Talirz, Simon Knellwolf
- * @copyright 2011 Project LEMUREN, ETH Zurich
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    qformat
+ * @subpackage qtex
+ * @copyright  2013 Project LEMUREN, ETH Zurich
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+defined('MOODLE_INTERNAL') || die();
+
+if (!class_exists('qformat_default')) {
+	// This is ugly, but this class is also (ab)used by mod/lesson, which defines
+	// a different base class in mod/lesson/format.php. Thefore, we can only
+	// include the proper base class conditionally like this. (We have to include
+	// the base class like this, otherwise it breaks third-party question types.)
+	// This may be reviewd, and a better fix found one day.
+	require_once($CFG->dirroot . '/question/format.php');
+}
+
+/**
+ * Question format class providing import from and export to QuestionTeX,
+ * a LaTeX-based question format.
  *
- * @uses config.php
- * @uses format.php (included by ../../import.php)
- * @uses questionlib.php (included by ../../import.php)
+ * Supported question types are:
+ *   - Multiple choice
+ *   - Description
+ *
+ * For more information visit www.lemuren.math.ethz.ch
+ * 
+ * @copyright  2013 Project LEMUREN, ETH Zurich
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ *
+ * @uses       config.php
+ * @uses       format.php (included by ../../import.php)
+ * @uses       questionlib.php (included by ../../import.php)
  */
 class qformat_qtex extends qformat_default{
 
-    function provide_import() {
+    public function provide_import() {
         return true;
     }
 
-    function provide_export() {
+    public function provide_export() {
         return true;
+    }
+    
+    public function mime_type() {
+    	return 'application/x-latex';
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -69,7 +96,7 @@ class qformat_qtex extends qformat_default{
      * In order to avoid calling everything twice, the initialization proccess
      * is moved into the preprocessing phase.
      */
-    function qformat_qtex_initialize(){
+    public function qformat_qtex_initialize(){
         // Read configuration from file.
         // Make sure we look only in this directory.
         if( (require(dirname(__FILE__) . '/config.php')) ){
@@ -95,7 +122,7 @@ class qformat_qtex extends qformat_default{
     /**
      * Sets $this->renderengine to Moodle's render engine.
      */
-    function tex_get_render_engine(){
+    public function tex_get_render_engine(){
         global $CFG;
 
         $filters = get_list_of_plugins('filter');
@@ -125,7 +152,7 @@ class qformat_qtex extends qformat_default{
     /**
      * Initializes all variables
      */
-    function importpreprocess(){
+    public function importpreprocess(){
         // Initialize the format ("constructor")
         $this->qformat_qtex_initialize();
 
@@ -144,7 +171,7 @@ class qformat_qtex extends qformat_default{
      * @param string $filename Path to the uploaded file.
      * @return string The .tex file as a string
      */
-    function readdata($filename){
+    protected function readdata($filename){
 
         if (!is_readable($filename)) {
             return false;
@@ -364,7 +391,7 @@ class qformat_qtex extends qformat_default{
      * @param string $texfile The uploaded .tex file as a string
      * @return array Array of question objects
      */
-    function readquestions($texfile){
+    protected function readquestions($texfile){
         if(self::$cfg['GO_VIA_LEM'] == true){
             $parsed = $this->import_process_latex($texfile);
         }
@@ -608,7 +635,7 @@ class qformat_qtex extends qformat_default{
      * @return object The question object to insert into Moodle or NULL, if
      *      type of question unknown.
      */
-    function readquestion($ematch){
+    protected function readquestion($ematch){
 
         // Figure out, whether we know this question type
         if(!empty($ematch['multichoice'])) $qtype = 'multichoice';
@@ -1155,7 +1182,7 @@ class qformat_qtex extends qformat_default{
      * @param object $question A question object fresh from the moodle database
      * @param string The tex code corresponding to this question
      */
-    function writequestion($question){
+    protected function writequestion($question){
         $identifier = $this->get_identifier($question->qtype);
 
         // If our get_identifier function knows the question type
@@ -1410,7 +1437,7 @@ class qformat_qtex extends qformat_default{
      * @return string The content of the file to be downloaded
      *      (either TeX code or a zip file if images are included).
      */
-    function presave_process($content){
+    protected function presave_process($content){
         // Handle images
         $content = $this->export_extract_images($content);
 

@@ -21,12 +21,12 @@
  * @copyright 2011 Leopold Talirz
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-$string['qtex'] = 'QuestionTeX format';
-$string['qtex_help'] = 'QuestionTeX is a collection of LaTeX-macros that enables authors to create multiple-choice tests.';
-$string['qtex_link'] = 'qformat/qtex';
+$string['pluginname'] = 'QuestionTeX format';
+$string['pluginname_help'] = 'QuestionTeX is a collection of LaTeX-macros that enables authors to create multiple-choice tests.';
+$string['pluginname_link'] = 'qformat/qtex';
 
 
-
+/////////////////////
 // Used during import
 $string['cannotopenzip'] = 'Can not open zip archive, error code: \$a.';
 $string['notexfound'] = 'Found no .tex file in zip archive.';
@@ -45,6 +45,7 @@ $string['changedpercentage'] = "In question \"\$a->question\" : The percentage \
 // Standard import category
 $cfg['importcategory'] = 'QuestionTeX Import';
 
+/////////////////////
 // Used during export
 $string['unknownexportformat'] = "The export of format \$a is not supported.";
 $string['cannotreadimage'] = "Can not read image from \$a";
@@ -67,7 +68,7 @@ $string['preamble'] = '% QuestionTeX Template
 // Subfolder to store images in exported zip (may be left empty)
 $string['imagefolder'] = 'images/';
 
-
+////////////////
 // Miscellaneous
 $string['wrongidentifier'] = "The identifier \$a is unknown.";
 $string['norenderenginefound'] = 'No render engine for LaTeX detected. Assuming MimeTeX.';
