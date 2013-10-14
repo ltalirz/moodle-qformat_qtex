@@ -68,9 +68,9 @@ class qformat_qtex extends qformat_default{
         return true;
     }
     
-    public function mime_type() {
+    /*public function mime_type() {
     	return 'application/x-latex';
-    }
+    }*/
 
     ///////////////////////////////////////////////////////////////////////////
     ///////////    Variables and initialization process     ///////////////////
@@ -751,7 +751,7 @@ class qformat_qtex extends qformat_default{
      * @return object The question object created from this information.
      */
     function import_multichoice($ematch, $qobject){
-        $qobject->qtype = MULTICHOICE;
+        $qobject->qtype = 'multichoice';
 
         $econtent = $ematch['content'];
 
@@ -803,7 +803,7 @@ class qformat_qtex extends qformat_default{
      * @return object The question object created from this information.
      */
     function import_description($ematch, $qobject){
-        $qobject->qtype = DESCRIPTION;
+        $qobject->qtype = 'description';
 
         return $qobject;
     }
@@ -1154,15 +1154,15 @@ class qformat_qtex extends qformat_default{
     /**
      * Translate internal Moodle code number into human readable format
      *
-     * @param mixed $type_id Internal code
+     * @param string $qtype Moodle-internal question type
      * @return string Identifier of corresponding LaTeX environment
      */
-    function get_identifier($qtypeid) {
-        switch($qtypeid) {
-            case MULTICHOICE:
+    function get_identifier($qtype) {
+        switch($qtype) {
+            case 'multichoice':
                 $identifier = 'multichoice';
                 break;
-            case DESCRIPTION:
+            case 'description':
                 $identifier = 'description';
                 break;
                 // There is no constant for categories, they come in plain text
