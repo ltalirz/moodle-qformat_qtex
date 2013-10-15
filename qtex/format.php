@@ -1158,14 +1158,13 @@ class qformat_qtex extends qformat_default{
      * @return string Identifier of corresponding LaTeX environment
      */
     function get_identifier($qtype) {
-        switch($qtype) {
+    	switch($qtype) {
             case 'multichoice':
                 $identifier = 'multichoice';
                 break;
             case 'description':
                 $identifier = 'description';
                 break;
-                // There is no constant for categories, they come in plain text
             case 'category':
                 $identifier = 'category';
                 break;
