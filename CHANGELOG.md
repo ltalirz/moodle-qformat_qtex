@@ -1,29 +1,34 @@
-Beta 8 (3.9.2013)
-=================
+14.10.2013
+=========
+- qtex now works with Moodle 2.5
+- qtex can be installed conveniently via the Moodle admin interface
+
+3.9.2013
+=======
 - Since qtex is an import/export format and *not* a question type,
   the repository should be named 'moodle-qformat_qtex'
 
-Beta 7 (14.9.2011)
-==================
+14.9.2011
+=======
 - File import (png images) has been implemented
 - Export has been implemented, but still some stuff to do
   (if images are included, it really returns a zip file, but with tex
   extension that needs to be renamed)
 
 
-Beta 6 (13.6.2011)
-==================
+13.6.2011
+=======
 - The plugin (import) works on Moodle 2.1
 - File import and all the export still todo
 
-Beta 5 (23.5.2011)
-==================
+23.5.2011
+=======
 - The conversion process is finally updated to the new LaTeX syntax
 - The standalone GUI works again
 
 
-Beta 4
-======
+Base
+====
 - From now on, the format goes under the name "QuestionTeX". Changed naming
   conventions and dialogues. 
 - Moved some stuff from config to language file  
