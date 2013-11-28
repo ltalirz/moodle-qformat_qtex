@@ -1,3 +1,5 @@
+- Make questionSc single choice
+
 - Change display of tex format in import/export dialogue
 - Check whether the new import also works for the old format
 - FIX: In standalone converter, quotes must not be escaped
