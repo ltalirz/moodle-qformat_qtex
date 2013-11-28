@@ -1067,7 +1067,6 @@ class qformat_xml extends qformat_default {
      * @return string formatted text.
      */
     public function writetext($raw, $indent = 0, $short = true) {
-    	var_dump($raw);
         $indent = str_repeat('  ', $indent);
         $raw = $this->xml_escape($raw);
 

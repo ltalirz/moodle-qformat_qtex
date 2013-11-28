@@ -88,7 +88,6 @@ if($_POST['sent']=='yes'){
     $qexport->course = new stdClass();
     $qexport->course->id = 'courseid';
 
-    echo "hello";
     $qexport->questions = $questions;
     $targetfile = $qexport->exportprocess();
 
@@ -225,18 +224,39 @@ function process_for_export($questions){
  *
  * @param object $questions An imported question
  * @return object Processed question, ready to be handled by writequestions()
+ * @see http://docs.moodle.org/dev/Question_data_structures
  */
 function rearrange_multichoice($question){
     // We go from a structure
     // $question->answer, $question->feedback, $question->fraction   to
     // $question->options->answers, where each answer object has
     // $answer->answer, $answer->fraction, $answer->feedback
+	
+	// Handling answer text and fraction
 	foreach($question->answer as $i => $answer){
 		$answers[$i] = new stdClass();
-        $answers[$i]->answer = $answer;
-        $answers[$i]->feedback = $question->feedback[$i];
+		
+		if(is_array($answer)){
+			$answers[$i]->answer = $answer['text'];
+			$answers[$i]->answerfiles = $answer['files'];
+			$answers[$i]->answerformat = $answer['format'];
+		} else {
+			$answers[$i]->answer = $answer;
+		}	
         $answers[$i]->fraction = $question->fraction[$i];
     }
+    
+    // Handling answer feedbacks
+    foreach($question->feedback as $i => $feedback){
+    	if(is_array($feedback)){
+    		$answers[$i]->feedback = $feedback['text'];
+    		$answers[$i]->feedbackfiles = $feedback['files'];
+    		$answers[$i]->feedbackformat = $feedback['format'];
+    	} else {
+    		$answers[$i]->feedback = $feedback;
+    	}
+    }
+    
 
     $question->options = new stdClass();
     $question->options->answers = $answers;
