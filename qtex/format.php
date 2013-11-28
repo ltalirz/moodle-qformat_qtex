@@ -931,6 +931,9 @@ class qformat_qtex extends qformat_default{
         // Finalize regexp
 
         // Environment mode: Match until next environment tag or end of file
+        // Note: Due to this strategy, it doesn't really matter, whether the
+        //       'environment' tag actually *is* an environment with 
+        //        \begin{env}...\end{env} or whether it's just a tag \env{...}
         if($mode == self::FLAG_ENVIRONMENT_MATCH){
             $envstop = self::create_tex_rgxp(array_keys(self::$cfg['ENVIRONMENTS']), self::FLAG_MACRO_MATCH, -1, self::FLAG_NO_IDENTIFIER);
             $regexp .= "(?<content>.*?)(?=$envstop|\z)";
@@ -1629,115 +1632,6 @@ class qformat_qtex extends qformat_default{
         return $dirty;
     }
 
-    /**
-     * Does the export processing.
-     *
-     * Normally, the default function is not meant to be overwritten, however I
-     * cannot pass zip files otherwise.
-     * Changes are highlighted by // CHANGE:
-     *
-     * @uses the main code of the original exportprocess() function from file
-     *       'format_default.php'
-     * @return boolean success
-     */
-    function exportprocess_standalone(){
-        global $CFG;
-
-        // create a directory for the exports (if not already existing)
-        if (! $export_dir = make_upload_directory($this->question_get_export_dir())) {
-            error( get_string('cannotcreatepath','quiz',$export_dir) );
-        }
-        $path = $CFG->dataroot.'/'.$this->question_get_export_dir();
-
-        // get the questions (from database) in this category
-        // only get q's with no parents (no cloze subquestions specifically)
-        if ($this->category){
-            $questions = get_questions_category( $this->category, true );
-        } else {
-            $questions = $this->questions;
-        }
-
-        // CHANGE: Do not notify in Moodle emulator
-        if(!($this->standalone)) notify( get_string('exportingquestions','quiz'));
-        $count = 0;
-
-        // results are first written into string (and then to a file)
-        // so create/initialize the string here
-        $expout = "";
-
-        // track which category questions are in
-        // if it changes we will record the category change in the output
-        // file if selected. 0 means that it will get printed before the 1st question
-        $trackcategory = 0;
-
-        // iterate through questions
-        foreach($questions as $question) {
-
-            // do not export hidden questions
-            if (!empty($question->hidden)) {
-                continue;
-            }
-
-            // do not export random questions
-            if ($question->qtype==RANDOM) {
-                continue;
-            }
-
-            // check if we need to record category change
-            if ($this->cattofile) {
-                if ($question->category != $trackcategory) {
-                    $trackcategory = $question->category;
-                    $categoryname = $this->get_category_path($trackcategory, '/', $this->contexttofile);
-
-                    // create 'dummy' question for category export
-                    $dummyquestion = new object;
-                    $dummyquestion->qtype = 'category';
-                    $dummyquestion->category = $categoryname;
-                    $dummyquestion->name = "switch category to $categoryname";
-                    $dummyquestion->id = 0;
-                    $dummyquestion->questiontextformat = '';
-                    $expout .= $this->writequestion( $dummyquestion ) . "\n";
-                }
-            }
-
-            // export the question displaying message
-            $count++;
-            // CHANGE: No echo in stand alone
-            if(!$this->standalone) echo "<hr /><p><b>$count</b>. ".$this->format_question_text($question)."</p>";
-            if (question_has_capability_on($question, 'view', $question->category)){
-                $expout .= $this->writequestion( $question ) . "\n";
-            }
-        }
-
-        // continue path for following error checks
-        $course = $this->course;
-        $continuepath = "$CFG->wwwroot/question/export.php?courseid=$course->id";
-
-        // did we actually process anything
-        if ($count==0) {
-            print_error( 'noquestions','quiz',$continuepath );
-        }
-
-        // final pre-process on exported data
-        $expout = $this->presave_process( $expout );
-
-        // write file
-        $filepath = $path."/".$this->filename . $this->export_file_extension();
-
-        // CHANGE: In standalone mode, we simply return $expout
-        if($this->standalone) return $expout;
-        else{
-            if (!$fh=fopen($filepath,"w")) {
-                print_error( 'cannotopen','quiz',$continuepath,$filepath );
-            }
-            if (!fwrite($fh, $expout, strlen($expout) )) {
-                print_error( 'cannotwrite','quiz',$continuepath,$filepath );
-            }
-            fclose($fh);
-        }
-
-        return true;
-    }
 
 }
 

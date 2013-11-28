@@ -13,7 +13,7 @@
  *   so it should be the preferred one.
  */
 $cfg['ENVIRONMENTS'] = array(
-        'multichoice' => array('question', 'begin{multichoice}', 'begin{question}'),
+        'multichoice' => array('question', 'begin{multichoice}', 'begin{question}', 'questionSc'),
         'description' => array('remark')
 );
 $cfg['MACROS'] = array(

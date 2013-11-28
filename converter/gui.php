@@ -20,7 +20,6 @@ $gui_redirect = $_SERVER['SCRIPT_NAME'];
 
 
 if($_POST['sent']=='yes'){
-
     // Get me a moodle
     require_once($path_to_moodle_emulator); // Then Moodle Emulator
 
@@ -48,16 +47,15 @@ if($_POST['sent']=='yes'){
     $CFG->notify = (isset($_POST['errorhandling']['notify'])) ? true : false;
 
 
-
     // If we shall translate from LaTeX to MoodleXML
     if($direction == 't2x'){
-        $startformat = 'qtex';
-        $endformat = 'xml';
+        $startformat = 'qtex_emulator';
+        $endformat = 'xml_emulator';
     }
     // If we shall translate from MoodleXML to TeX
     elseif($direction == 'x2t'){
-        $startformat = 'xml';
-        $endformat = 'qtex';
+        $startformat = 'xml_emulator';
+        $endformat = 'qtex_emulator';
     }
     else{
         print_form(1, "Unknown conversion requested.\n");
@@ -76,7 +74,6 @@ if($_POST['sent']=='yes'){
     $lines = $qimport->readdata($qimport->filename);
 
     $questions = $qimport->readquestions($lines);
-
     // Regretfully, the questions don't pop out of the database as they
     // come in. Thus we have to do some cosmetics before passing them
     // back again.
@@ -88,8 +85,10 @@ if($_POST['sent']=='yes'){
     // Handle name of target file
     $qexport->setFilename('temp');
     $qexport->setRealfilename('temp');
+    $qexport->course = new stdClass();
     $qexport->course->id = 'courseid';
 
+    echo "hello";
     $qexport->questions = $questions;
     $targetfile = $qexport->exportprocess();
 
@@ -214,7 +213,7 @@ This script converts between QuestionTeX and Moodle XML.<br><br>
  */
 function process_for_export($questions){
     foreach($questions as $question){
-            if($question->qtype == MULTICHOICE) $question = rearrange_multichoice($question);
+            if($question->qtype == 'multichoice') $question = rearrange_multichoice($question);
     }
 
     return $questions;
@@ -232,12 +231,14 @@ function rearrange_multichoice($question){
     // $question->answer, $question->feedback, $question->fraction   to
     // $question->options->answers, where each answer object has
     // $answer->answer, $answer->fraction, $answer->feedback
-    foreach($question->answer as $i => $answer){
+	foreach($question->answer as $i => $answer){
+		$answers[$i] = new stdClass();
         $answers[$i]->answer = $answer;
         $answers[$i]->feedback = $question->feedback[$i];
         $answers[$i]->fraction = $question->fraction[$i];
     }
 
+    $question->options = new stdClass();
     $question->options->answers = $answers;
     unset($question->answer);
 
