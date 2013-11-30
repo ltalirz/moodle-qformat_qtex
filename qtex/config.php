@@ -13,7 +13,8 @@
  *   so it should be the preferred one.
  */
 $cfg['ENVIRONMENTS'] = array(
-        'multichoice' => array('question', 'begin{multichoice}', 'begin{question}', 'questionSc'),
+        'multichoice' => array('question', 'begin{multichoice}', 'begin{question}'),
+		'singlechoice' => array('questionSc'),
         'description' => array('remark')
 );
 $cfg['MACROS'] = array(
@@ -31,8 +32,8 @@ $cfg['MACROS'] = array(
 );
 
 // Default weight of wrong answer (must be in [-1,1])
-$cfg['DEFAULT_WRONG_WEIGHT'] = -1;
-
+$cfg['DEFAULT_WRONG_WEIGHT_MULTICHOICE'] = -1;
+$cfg['DEFAULT_WRONG_WEIGHT_SINGLECHOICE'] = 0;
 // Special file names
 $cfg['MACRO_FILENAME'] = 'MoodleQuiz_Macros.tex';
 $cfg['CORPORATE_FILENAME'] = 'MoodleQuiz_Corporate.tex';
@@ -64,6 +65,9 @@ $cfg['GO_VIA_LEM'] = false;
 // Path to latex.exe from a LaTeX distribution (read from MimeTeX, if present)
 $cfg['PATH_TO_LATEX'] = '';
 
+// Whether to get the question category from a 'title' environment
+$cfg['CATEGORY_FROM_TITLE'] = false;
+$cfg['DEFAULT_CATEGORY'] = 'QuestionTeX import';
 ///////////////////////////////////////////////////////////////////////////
 //////////////      End of configuration         /// //////////////////////
 ///////////////////////////////////////////////////////////////////////////

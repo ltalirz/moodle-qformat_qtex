@@ -639,6 +639,8 @@ class qformat_qtex extends qformat_default{
 
         // Figure out, whether we know this question type
         if(!empty($ematch['multichoice'])) $qtype = 'multichoice';
+        // If we have a single-choice question here
+        elseif(!empty($ematch['singlechoice'])) $qtype = 'singlechoice';
         // If we have a remark here
         elseif(!empty($ematch['description'])) $qtype = 'description';
         // Else we do not know what we have here
@@ -676,10 +678,10 @@ class qformat_qtex extends qformat_default{
      * Imports generic part of an answer
      *
      * @param array $amatch The preg_match from an answer macro
-     * @param array $qname The name of the question, passed for error messages
+     * @param array $qobject The question object, passed for additional info
      * @return object The answer object created from this information
      */
-    function import_answer($amatch, $qname){
+    function import_answer($amatch, $qobject){
         $aobject = new stdclass;
 
         // Get credit points for answer from optional parameter
@@ -687,7 +689,7 @@ class qformat_qtex extends qformat_default{
 
             // Complain, if it contains bad characters
             if(preg_match('/[^\+\-\.\d]+/', $amatch['optional'])){
-                $notification->question = $qname;
+                $notification->question = $qobject->name;
                 $notification->fraction = $amatch['optional'];
                 notify(get_string('badpercentage', 'qformat_qtex', $notification));
 
@@ -708,7 +710,7 @@ class qformat_qtex extends qformat_default{
             if((string) $fraction != (string) $newfraction){
                 $notification->original = $original;
                 $notification->new = $newfraction * 100;
-                $notification->question = $qname;
+                $notification->question = $qobject->name;
                 notify(get_string('changedpercentage', 'qformat_qtex', $notification));
             }
             $aobject->fraction = $newfraction;
@@ -720,7 +722,11 @@ class qformat_qtex extends qformat_default{
         // Else, the answer is wrong. For single answers, we want to set the fraction to 0,
         // for multiple answers we set it to -100 (we don't like guessing)
         else{
-            $aobject->fraction = self::$cfg['DEFAULT_WRONG_WEIGHT'];
+        	if($qobject->single == true){ 
+        		$aobject->fraction = self::$cfg['DEFAULT_WRONG_WEIGHT_SINGLECHOICE'];
+        	} else {
+        		$aobject->fraction = self::$cfg['DEFAULT_WRONG_WEIGHT_MULTICHOICE'];
+        	} 
         }
 
         // Get answertext
@@ -741,6 +747,20 @@ class qformat_qtex extends qformat_default{
         return $aobject;
     }
 
+    /**
+     * Writes a single choice question from a string into a question object.
+     *
+     * @param array $ematch The preg_match from a 'singlechoice' environment
+     * @param object $qobject The current questionobject that has been
+     *      preprocessed by $this->readquestion.
+     * @return object The question object created from this information.
+     */
+    function import_singlechoice($ematch, $qobject){
+    	$qobject->qtype = 'multichoice';
+    	$qobject->single = true;
+
+    	return $this->import_anychoice($ematch, $qobject);
+    }
 
     /**
      * Writes the multiple choice question from a string into a question object.
@@ -751,13 +771,26 @@ class qformat_qtex extends qformat_default{
      * @return object The question object created from this information.
      */
     function import_multichoice($ematch, $qobject){
-        $qobject->qtype = 'multichoice';
-
-        $econtent = $ematch['content'];
-
-        // Multianswer?
+    	$qobject->qtype = 'multichoice';
+    	$qobject->single = false;
+    	 
+        // Even in multichoice answers one may trigger single choice
         if($this->tex_rgxp_match(array('multianswer'), $econtent, self::FLAG_SINGLE_MATCH, -1)) $qobject->single = false;
         else $qobject->single = true;
+        
+    	return $this->import_anychoice($ematch, $qobject);
+    }
+    	 
+    /**
+     * Writes multi/single choice question from a string into a question object.
+     *
+     * @param array $ematch The preg_match from a 'multichoice' environment
+     * @param object $qobject The current questionobject that has been
+     *      preprocessed by $this->readquestion.
+     * @return object The question object created from this information.
+     */
+    function import_anychoice($ematch, $qobject){
+        $econtent = $ematch['content'];
 
         // Forbid shuffling of answers for this particular question?
         if($shuffle = $this->tex_rgxp_match(array('shuffleanswers'), $econtent, self::FLAG_SINGLE_MATCH, 1)){
@@ -784,7 +817,7 @@ class qformat_qtex extends qformat_default{
         for($answercount = 0; isset($texanswers[$answercount]); $answercount++){
             $amatch = $texanswers[$answercount];
 
-            $aobject = $this->import_answer($amatch, $qobject->name);
+            $aobject = $this->import_answer($amatch, $qobject);
 
             $qobject->answer[$answercount] = $aobject->answer;
             $qobject->feedback[$answercount] = $aobject->feedback;
@@ -813,20 +846,22 @@ class qformat_qtex extends qformat_default{
      * It tries to take the quiz title.
      *
      * @param string $tex The pre-processed TeX file
-     * @return object $category The category question
+     * @return object $category The category
      */
     function import_category($tex) {
         $category = new stdClass;
         $category->qtype = 'category';
-
-        // Try to get category from quiz title
+        
         $texcategory = $this->tex_rgxp_match(array('title'), $tex);
-        if(empty($texcategory)){
-            $texcategory = get_string('importcategory', 'qformat_qtex');
+        if( empty($texcategory) || !(self::$cfg['CATEGORY_FROM_TITLE']) ){
+        	$texcategory = self::$cfg['DEFAULT_CATEGORY'];
+        } else {
+        	//$texcategory = get_string('importcategory', 'qformat_qtex');
+        	$texcategory = self::$cfg['DEFAULT_CATEGORY'];
         }
-        // Moodle does not like all characters as categories
-        $category->category = preg_replace('/[^a-z_\.0-9\s]*/i', '', $texcategory);
 
+      	// Moodle does not like all characters as categories
+       	$category->category = preg_replace('/[^a-z_\.0-9\s]*/i', '', $texcategory);
 
         return $category;
     }

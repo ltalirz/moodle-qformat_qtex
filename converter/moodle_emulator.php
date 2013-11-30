@@ -289,11 +289,18 @@ function rearrange_multichoice($question){
 		}
 	}
 
-
 	$question->options = new stdClass();
 	$question->options->answers = $answers;
 	unset($question->answer);
-
+	
+	// Multichoice has a few more options...
+	$question->options->single = $question->single;
+	unset($question->single);
+	$question->options->answernumbering = $question->answernumbering;
+	unset($question->answernumbering);
+	$question->options->shuffleanswers = $question->shuffleanswers;
+	unset($question->shuffleanswers);
+	
 	return $question;
 }
 
