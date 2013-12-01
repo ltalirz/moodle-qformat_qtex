@@ -92,7 +92,8 @@ function match_grade_options($options, $fraction, $mode){
 
 // Used to find out whether TeX filter is available. We claim it is...
 function get_list_of_plugins($d){
-    if ($d == 'filter') return array('tex');
+	global $CFG;
+    if ($d == 'filter') return $CFG->textfilters;
     else echo "Error: get_list_of_plugins called with unfamiliar parameter $d";
 }
 
@@ -373,7 +374,14 @@ class qformat_xml_emulator extends qformat_xml {
 
             $expout .= $this->writequestion( $question ) . "\n";
         }
-
+        
+        // did we actually process anything
+        if ($count==0) {
+        	print_error('noquestions', 'question', $continuepath);
+        }
+        
+        // final pre-process on exported data
+        $expout = $this->presave_process($expout);
         return $expout;
     }
 

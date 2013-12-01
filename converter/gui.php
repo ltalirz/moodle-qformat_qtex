@@ -40,12 +40,12 @@ if($_POST['sent']=='yes'){
     $targetfilename = $_POST['target'];
     $direction = $_POST['conversion'];
     switch($_POST['renderengine']){
-        case 'mimetex': $CFG->textfilters == 'filter/tex'; break;
+        case 'tex': $CFG->textfilters = array('filter/tex'); break;
         // TODO: Handle Jsmath properly
-        case 'jsmath': $CFG->textfilters == 'filter/tex'; break;
+        case 'jsmath': $CFG->textfilters = array('filter/tex'); break;
+        case 'mathjax': $CFG->textfilters = array('filter/mathjax'); break;
     }
-    $CFG->notify = (isset($_POST['errorhandling']['notify'])) ? true : false;
-
+    $CFG->notify = (isset($_POST['errorhandling']['notify'])) ? true : false;   
 
     // If we shall translate from LaTeX to MoodleXML
     if($direction == 't2x'){
@@ -159,10 +159,11 @@ This script converts between QuestionTeX and Moodle XML.<br><br>
 		<td><font size=-1>Render engine</font></td>
 		<td>
 		 <select name='renderengine'>
-          <option value='mimetex'".($_POST['renderengine']=='mimetex' ? ' selected' : '').">MimeTeX plugin</option>
+          <option value='tex'".($_POST['renderengine']=='tex' ? ' selected' : '').">TeX or MimeTeX plugin</option>
           <option value='jsmath'".($_POST['renderengine']=='jsmath' ? ' selected' : '').">JsMath plugin</option>
+          <option value='mathjax'".($_POST['renderengine']=='mathjax' ? ' selected' : '').">MathJax plugin</option>
          </select>
-	    <td><font size=-1> The render engine used by Moodle to display formulae</td>
+	    <td><font size=-1> The text filter used by Moodle to display formulae</td>
 	</tr>
 	<tr>
 		<td><font size=-1>Type of input</font></td>

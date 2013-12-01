@@ -6,7 +6,8 @@ Prerequisites
   (for convenient installation through the Moodle admin interface)
 - A configured and enabled TeX Notation filter.
     See http://docs.moodle.org/25/en/TeX_notation_filter for instructions.
-    For better image quality, I recommend the png format with a density > 200.  
+- Note: In order to vertically align images, add the following css to your theme
+  .texrender {border:0px;vertical-align:middle;}
 
 Installation through Admin interface
 ------------------------------------
@@ -28,7 +29,5 @@ purge the Plugin list
 
 
 ###Notes
- - This plugin was written for Moodle 1.9.4. Other versions have not been
-   tested. A version for Moodle 2.0 will probably be released.  
  - For handling of images, PHP's Zip extension is required.
 

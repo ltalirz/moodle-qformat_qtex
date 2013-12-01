@@ -117,8 +117,9 @@ class qformat_qtex extends qformat_default{
 
 
 
-    const FLAG_JSMATH = 0;
-    const FLAG_MIMETEX = 1;
+    const FLAG_FILTER_JSMATH = 0;
+    const FLAG_FILTER_TEX = 1;
+    const FLAG_FILTER_MATHJAX = 2;
     /**
      * Sets $this->renderengine to Moodle's render engine.
      */
@@ -127,14 +128,15 @@ class qformat_qtex extends qformat_default{
 
         $filters = get_list_of_plugins('filter');
         // TODO: Check whether filter is also active and not just available
-        if (array_search('tex', $filters) !== FALSE){
-            return self::FLAG_MIMETEX;
-        }
-        elseif (array_search('jsmath', $filters) !== FALSE){
-        }
-        else{
+        if (in_array('filter/tex', $filters)){
+            return self::FLAG_FILTER_TEX;
+        } elseif (in_array('filter/jsmath', $filters)){
+        	return self::FLAG_FILTER_JSMATH;
+        } elseif (in_array('filter/mathjax', $filters)){
+        	return self::FLAG_FILTER_MATHJAX;
+        } else{
             notify(get_string('norenderenginefound', 'qformat_qtex'));
-            return self::FLAG_MIMETEX;
+            return self::FLAG_FILTER_TEX;
         }
 
     }
@@ -464,24 +466,20 @@ class qformat_qtex extends qformat_default{
             $tex = preg_replace('/'.$umacroregexp.'/', $urepl, $tex);
         }
 
-
         // In XML, the characters <,>,& have to be replaced by their html entities.
         // I assume that this process does not destroy any of the macros
         // related to questions.
         $tex = htmlspecialchars($tex, ENT_NOQUOTES);
 
-        // Formulae between $$ $$, \[ \], in eqnarrays, etc. are put into paragraphs
-        $pformula = '<p style=\'text-align: center\' class=\'formula\'>';
-        $tex = preg_replace('/\${2}([^\$]*?)\${2}/sx',$pformula.'\$\\1\$</p>', $tex);
-        $tex = preg_replace('/\\\\\[(.*?)\\\\\]/sx',$pformula.'\$\\1\$</p>', $tex);
-        $peqn = '<p style=\'text-align: center\' class=\'eqn\'>';
-        $tex = preg_replace('/(\\\\begin\{eqnarray\*?}.*?\\\\end\{eqnarray\*?})/sx',$peqn.'\$\\1\$</p>', $tex);
-        $tex = preg_replace('/\$([^\$]*?)\$/sx','\$\$\\1\$\$', $tex);
-
+        // In LaTeX, inline equations are enclosed by $ $. We now make sure that all
+        // all block-style equations are enclosed by $$ $$.
+        $tex = preg_replace('/\\\\\[(.*?)\\\\\]/sx','\$\$\\1\$\$', $tex);
+        $tex = preg_replace('/(\\\\begin\{eqnarray\*?}.*?\\\\end\{eqnarray\*?})/sx','\$\$\\1\$\$', $tex);
+              
         // Now, since formulae and plain text are are displayed by different
         // render engines, they have to be treated differently.
         // Text is stored in even array items, formulae in uneven array items.
-        preg_match_all('/((?:.*?)(?:\${2}|\Z))/sx', $tex, $sectors, PREG_PATTERN_ORDER);
+        preg_match_all('/((?:.*?)(?:\${2}|\${1}|\Z))/sx', $tex, $sectors, PREG_PATTERN_ORDER);
 
         // In non-formula text, we have to replace LaTeX commands by their HTML
         // representation, while formulae are treated by the respective render
@@ -491,12 +489,33 @@ class qformat_qtex extends qformat_default{
             else $sectors[1][$i] = $this->import_prepare_formula($sectors[1][$i]);
         }
         $tex = implode('', $sectors[1]);
+        
 
-        // JsMath has almost the same syntax, just use \(...\) instead of $$...$$
-        if($this->renderengine == self::FLAG_JSMATH){
-            $tex = preg_replace('/\${2}([^\$]*?)\${2}/s','\\\\(\\1\\\\)', $tex);
+        // Finally, we have to perform some adjustments depending on the filter
+        // used by Moodle.
+        if($this->renderengine == self::FLAG_FILTER_TEX ||
+           $this->renderengine == self::FLAG_FILTER_JSMATH) {
+        	// TeX and JsMath filters have no built-in way for displaying equations inline
+        	// and in block-style. We therefore put block-style equations
+        	// ( $$ $$, \[ \], in eqnarrays, etc.) into paragraphs by hand.
+        	 
+        	$pformula = '<p style=\'text-align: center\' class=\'formula\'>';
+        	
+        	if($this->renderengine == self::FLAG_FILTER_JSMATH){
+        		$tex = preg_replace('/\${2}([^\$]*?)\${2}/sx', $pformula.'\\\\(\\1\\\\)</p>', $tex);
+        		$tex = preg_replace('/\$([^\$]*?)\$/sx', '\\\\(\\1\\\\)', $tex);
+        	} elseif ($this->renderengine == self::FLAG_FILTER_TEX) {
+        		$tex = preg_replace('/\${2}([^\$]*?)\${2}/sx', $pformula.'\$\$\\1\$\$</p>', $tex);
+        		// A single $ is one that is neither preceded nor followed by another $:
+        		$tex = preg_replace('/([^\$])\$([^\$]+?)\$/sx', '\\1\$\$\\2\$\$', $tex);
+        	}
+        } elseif ($this->renderengine == self::FLAG_FILTER_MATHJAX) {
+        	// MathJax uses \( \) for inline formulae
+        	// A single $ is one that is neither preceded nor followed by another $:
+        	$tex = preg_replace('/([^\$])\$([^\$]+?)\$/sx','\\1\(\\2\)', $tex);
+        	// and $$ $$ for block-formatted ones (nothing to be done here)
         }
-
+        
         return $tex;
     }
 
@@ -542,7 +561,7 @@ class qformat_qtex extends qformat_default{
     }
 
     /**
-     * Prepares a formula for display with MimeTeX/JsMath
+     * Prepares a formula for display with one of Moodle's filters
      *
      * @param string $formula
      * @return string Processed formula.
@@ -854,14 +873,14 @@ class qformat_qtex extends qformat_default{
         
         $texcategory = $this->tex_rgxp_match(array('title'), $tex);
         if( empty($texcategory) || !(self::$cfg['CATEGORY_FROM_TITLE']) ){
-        	$texcategory = self::$cfg['DEFAULT_CATEGORY'];
+        	$category->category = self::$cfg['DEFAULT_CATEGORY'];
         } else {
         	//$texcategory = get_string('importcategory', 'qformat_qtex');
-        	$texcategory = self::$cfg['DEFAULT_CATEGORY'];
+        	$category->category = self::$cfg['DEFAULT_CATEGORY'];
         }
 
       	// Moodle does not like all characters as categories
-       	$category->category = preg_replace('/[^a-z_\.0-9\s]*/i', '', $texcategory);
+       	$category->category = preg_replace('/[^a-z_\.0-9\s]*/i', '', $category->category);
 
         return $category;
     }
@@ -1653,7 +1672,7 @@ class qformat_qtex extends qformat_default{
 
 
         // For JsMath replace the brackets by $$
-        if($this->renderengine == self::FLAG_JSMATH){
+        if($this->renderengine == self::FLAG_FILTER_JSMATH){
             $dirty = preg_replace('/\\\\\((.*?)\\\\\)/', '\$\$\\1\$\$', $dirty);
         }
 
