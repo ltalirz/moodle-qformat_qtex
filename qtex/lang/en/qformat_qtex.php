@@ -71,5 +71,6 @@ $string['imagefolder'] = 'images/';
 ////////////////
 // Miscellaneous
 $string['wrongidentifier'] = "The identifier \$a is unknown.";
-$string['norenderenginefound'] = 'No render engine for LaTeX detected. Assuming MimeTeX.';
+$string['norenderenginefound'] = 'No text filter for math detected. Assuming standard TeX filter.';
+$string['unknowngradingscheme'] = 'The specified grading scheme cannot be found.';
 $string['configmissing'] = 'The TeX-Format configuration file can not be accessed.';

@@ -86,7 +86,9 @@ class qformat_qtex extends qformat_default{
     private static $cfg;
     /** This script may also be used in a "stand alone" version */
     private $standalone;
-
+    /** Grading scheme object, @see config.php */
+    private $gradingscheme;
+    
     /**
      * Initializes all variables.
      *
@@ -113,6 +115,7 @@ class qformat_qtex extends qformat_default{
         $this->includes = NULL;
         $this->images = NULL;
         $this->renderengine = $this->tex_get_render_engine();
+        $this->gradingscheme = $this->tex_get_grading_scheme();
     }
 
 
@@ -139,6 +142,24 @@ class qformat_qtex extends qformat_default{
             return self::FLAG_FILTER_TEX;
         }
 
+    }
+    
+    /**
+     * Sets $this->gradingscheme to object of appropriate class
+     * @see config.php for grading scheme classes
+     */
+    public function tex_get_grading_scheme(){
+    	global $CFG;
+    	
+    	if($this->standalone && isset($CFG->gradingscheme)){
+    		switch($CFG->gradingscheme){
+    			case 'default': return new DefaultGradingScheme(); break;
+    			case 'akveld' : return new AkveldGradingScheme(); break;
+    			default       : $this->error(get_string('unknowngradingscheme', 'qformat_qtex'));
+    		}
+    	} else{
+    		return new DefaultGradingScheme();
+    	}
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -742,17 +763,14 @@ class qformat_qtex extends qformat_default{
             $aobject->fraction = $newfraction;
         }
         // If not specified, check whether answer is true
+        // For grading schemes, @see config.php
         elseif(!empty($amatch['true'])){
-            $aobject->fraction = 1;
+            $aobject->fraction = 'FRACTION_TRUE';
         }
-        // Else, the answer is wrong. For single answers, we want to set the fraction to 0,
-        // for multiple answers we set it to -100 (we don't like guessing)
+        // Else, the answer is wrong.
+        // For grading schemes, @see config.php
         else{
-        	if($qobject->single == true){ 
-        		$aobject->fraction = self::$cfg['DEFAULT_WRONG_WEIGHT_SINGLECHOICE'];
-        	} else {
-        		$aobject->fraction = self::$cfg['DEFAULT_WRONG_WEIGHT_MULTICHOICE'];
-        	} 
+        	$aobject->fraction = 'FRACTION_FALSE';
         }
 
         // Get answertext
@@ -851,6 +869,8 @@ class qformat_qtex extends qformat_default{
 
             unset($aobject);
         }
+        
+        $qobject = $this->gradingscheme->grade($qobject);
 
         return $qobject;
     }

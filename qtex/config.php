@@ -68,6 +68,91 @@ $cfg['PATH_TO_LATEX'] = '';
 // Whether to get the question category from a 'title' environment
 $cfg['CATEGORY_FROM_TITLE'] = false;
 $cfg['DEFAULT_CATEGORY'] = 'QuestionTeX import';
+
+/**
+ * Default grading scheme. 
+ */
+class DefaultGradingScheme {
+	/**
+	 * @param object $qobject Question object imported from QuestionTeX.
+	 *   $qobject->fraction[$i] holds:
+	 *     - a proper fraction, if it was specified in the TeX source
+	 *     - 'FRACTION_TRUE', if the answer was true
+	 *     - 'FRACTION_FALSE', if the answer was false.  
+	 * @return $qobject with updated grades
+	 */
+	function grade($qobject) {
+		// one point per question
+		$qobject->defaultmark= 1;
+			
+		$truecount = 0;
+		foreach($qobject->fraction as $i => $fraction){
+			if($fraction == 'FRACTION_FALSE' <= 0){
+				// for single choice, we don't punish guessing
+				if($qobject->single) $qobject->fraction[$i] = 0;
+				// for multi choice, we punish guessing
+				else                 $qobject->fraction[$i] = -1.0;
+			} elseif ($fraction == 'FRACTION_TRUE'){
+				++$truecount;
+			}
+		}
+			
+		// Each true answer gets the same fraction
+		$truefraction = 1.0/$truecount;
+		foreach($qobject->fraction as $i => $fraction){
+			if ($fraction == 'FRACTION_TRUE'){
+				$qobject->fraction[$i] = $truefraction;
+			}
+		}
+
+		return $qobject;
+	}
+}
+
+/**
+ * Grading scheme used by Meike Akveld for test on december 2nd, 2013
+ * @author leoteo
+ */
+class AkveldGradingScheme {
+	/**
+	 * @param object $qobject Question object imported from QuestionTeX.
+	 *   $qobject->fraction[$i] holds:
+	 *     - a proper fraction, if it was specified in the TeX source
+	 *     - 'FRACTION_TRUE', if the answer was true
+	 *     - 'FRACTION_FALSE', if the answer was false.
+	 * @return $qobject with updated grades
+	 */
+	function grade($qobject) {
+		// True/false questions get 1 point.
+		// False answers are punished with -1 point.
+		if(sizeof($qobject->answer) == 2){
+			$qobject->defaultmark= 1;
+			foreach($qobject->fraction as $i => $fraction){
+				if($fraction == 'FRACTION_FALSE'){
+					$qobject->fraction[$i] = -1;
+				}
+			}
+		// Single-choice questions with >2 answers get 2 points.
+		// False answers cost -0.5 points (fraction -0.25).
+		} else {
+			$qobject->defaultmark= 2;
+			foreach($qobject->fraction as $i => $fraction){
+				if($fraction == 'FRACTION_FALSE'){
+					$qobject->fraction[$i] = -0.25;
+				}
+			}
+				
+		}
+		
+		// True answers always have fraction 1.0.
+		foreach($qobject->fraction as $i => $fraction){
+			if ($fraction == 'FRACTION_TRUE'){
+				$qobject->fraction[$i] = 1.0;
+			}
+		}
+		return $qobject; 
+	}	
+}
 ///////////////////////////////////////////////////////////////////////////
 //////////////      End of configuration         /// //////////////////////
 ///////////////////////////////////////////////////////////////////////////

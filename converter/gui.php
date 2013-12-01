@@ -45,6 +45,8 @@ if($_POST['sent']=='yes'){
         case 'jsmath': $CFG->textfilters = array('filter/tex'); break;
         case 'mathjax': $CFG->textfilters = array('filter/mathjax'); break;
     }
+    $CFG->gradingscheme = $_POST['gradingscheme'];
+    
     $CFG->notify = (isset($_POST['errorhandling']['notify'])) ? true : false;   
 
     // If we shall translate from LaTeX to MoodleXML
@@ -166,6 +168,15 @@ This script converts between QuestionTeX and Moodle XML.<br><br>
 	    <td><font size=-1> The text filter used by Moodle to display formulae</td>
 	</tr>
 	<tr>
+		<td><font size=-1>Grading scheme</font></td>
+		<td>
+		 <select name='gradingscheme'>
+          <option value='default'".($_POST['gradingscheme']=='default' ? ' selected' : '').">default scheme</option>
+          <option value='akveld'".($_POST['gradingscheme']=='akveld' ? ' selected' : '').">Meike Akveld 11-2013</option>
+         </select>
+	    <td><font size=-1> The scheme employed to grade the answers.</td>
+	</tr>
+          		<tr>
 		<td><font size=-1>Type of input</font></td>
 		<td>
 		 <select name='filetype'>
