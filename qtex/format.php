@@ -405,12 +405,13 @@ class qformat_qtex extends qformat_default{
 
         // Array to hold the questions
         $questions = array();
-        $questioncount = 0;
+        $questionindex = 0; 
+        $questioncount = 0; // categories should not count as questions
 
         // Handle category
         if($category = $this->import_category($tex)){
             $questions[0] = $category;
-            ++$questioncount;
+            ++$questionindex;
         }
 
         // Now store the environment content in $texenvironments
@@ -420,11 +421,12 @@ class qformat_qtex extends qformat_default{
         // For each tex environment perform the following operations
         for($texenvironmentcount = 0; isset($texenvironments[$texenvironmentcount]); $texenvironmentcount++){
 
-            $qobject = $this->readquestion($texenvironments[$texenvironmentcount]);
+            $qobject = $this->readquestion($texenvironments[$texenvironmentcount], $questioncount + 1);
 
             // Add question to quiz and increase corresponding count
             if(isset($qobject)){
-                $questions[$questioncount] = $qobject;
+                $questions[$questionindex] = $qobject;
+                ++$questionindex;
                 ++$questioncount;
             }
             unset($qobject);
@@ -651,10 +653,11 @@ class qformat_qtex extends qformat_default{
      * Delegates tasks to specialized import functions
      *
      * @param array $ematch The match of a LaTeX environment
+     * @param int $questioncount The index of the question in the quiz
      * @return object The question object to insert into Moodle or NULL, if
      *      type of question unknown.
      */
-    protected function readquestion($ematch){
+    protected function readquestion($ematch, $questioncount){
 
         // Figure out, whether we know this question type
         if(!empty($ematch['multichoice'])) $qtype = 'multichoice';
@@ -677,7 +680,11 @@ class qformat_qtex extends qformat_default{
             // Get name
             if(!empty($ematch['optional'])) $name = $ematch['optional'];
             // If not set, we take the beginning of the question.
-            else $name = $qobject->questiontext;
+            else {
+            	// Moodle sorts questions alphabetically, so putting a number in front
+            	// helps to retain the order.
+            	$name  = sprintf('%03d',$questioncount).' '.$qobject->questiontext;
+            }
             // We have to clean the names (Moodle does not allow special characters)
             $name = preg_replace('/[^a-z_\.0-9\s]*/i', '', $name);
             $qobject->name = substr($name, 0, self::$cfg['QNAME_LENGTH']);
