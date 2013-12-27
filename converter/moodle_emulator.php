@@ -31,6 +31,8 @@ define('MOODLE_INTERNAL', true);              // New in Moodle 2.?
 $CFG = new stdClass;
 $CFG->libdir = 'lib';                   // Used by xml format
 
+$OUTPUT = new core_renderer();
+
 // Get required code
 //require_once('lib/setuplib.php');     // First get help strings
 //require_once('lib/moodlelib.php');     // First get help strings
@@ -59,14 +61,17 @@ function get_string($identifier, $module = '', $a = ''){
     }
 }
 
-// Used to notify, mostly about irregularities, but not only.
-// Turning it on can provide insight into process of import (but will also
-// cause import to fail, since this causes headers to be sent).
-function notify($string){
-    global $CFG;
-
-    if($CFG->notify) echo "<p><b>Warning:</b> $string</p>";
+class core_renderer {
+	// Used to notify, mostly about irregularities, but not only.
+	// Turning it on can provide insight into process of import (but will also
+	// cause import to fail, since this causes headers to be sent).
+	function notification($string){
+		global $CFG;
+	
+		if($CFG->notify) echo "<p><b>Warning:</b> $string</p>";
+	}	
 }
+
 
 // Prints errors
 function print_error($identifier, $module, $c){
