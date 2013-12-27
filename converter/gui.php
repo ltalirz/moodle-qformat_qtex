@@ -20,6 +20,7 @@ $gui_redirect = $_SERVER['SCRIPT_NAME'];
 
 
 if($_POST['sent']=='yes'){
+	
     // Get me a moodle
     require_once($path_to_moodle_emulator); // Then Moodle Emulator
 
@@ -47,7 +48,7 @@ if($_POST['sent']=='yes'){
     }
     $CFG->gradingscheme = $_POST['gradingscheme'];
     
-    $CFG->notify = (isset($_POST['errorhandling']['notify'])) ? true : false;   
+    $CFG->notify = (isset($_POST['errorhandling'])) ? true : false;
 
     // If we shall translate from LaTeX to MoodleXML
     if($direction == 't2x'){
@@ -173,7 +174,7 @@ This script converts between QuestionTeX and Moodle XML.<br><br>
 		 <select name='gradingscheme'>
           <option value='default'".($_POST['gradingscheme']=='default' ? ' selected' : '').">default scheme</option>
           <option value='akveld'".($_POST['gradingscheme']=='akveld' ? ' selected' : '').">Meike Akveld 11-2013</option>
-         </select>
+          <option value='akveld-exam'".($_POST['gradingscheme']=='akveld-exam' ? ' selected' : '').">Meike Akveld 2-2014</option>         </select>
 	    <td><font size=-1> The scheme employed to grade the answers.</td>
 	</tr>
           		<tr>

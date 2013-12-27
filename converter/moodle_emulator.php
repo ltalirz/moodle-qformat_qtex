@@ -61,11 +61,11 @@ function get_string($identifier, $module = '', $a = ''){
 
 // Used to notify, mostly about irregularities, but not only.
 // Turning it on can provide insight into process of import (but will also
-// cause import to fail, since nothing may be "echoed").
+// cause import to fail, since this causes headers to be sent).
 function notify($string){
     global $CFG;
 
-    if($CFG->notify) echo "\n<b>Warning:</b> $string\n";
+    if($CFG->notify) echo "<p><b>Warning:</b> $string</p>";
 }
 
 // Prints errors

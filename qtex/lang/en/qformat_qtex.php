@@ -42,6 +42,7 @@ $string['unsupportedimagetype'] = "The image type of \$a may not be supported fo
 $string['allimagesmissing'] = 'The .tex file includes images. If you upload a zip archive containing the images and the .tex file, the images will be embedded automatically (supported formats: png).';
 $string['badpercentage'] = "In question \"\$a->question\" : The optional parameter \$a->fraction contains bad characters.";
 $string['changedpercentage'] = "In question \"\$a->question\" : The percentage \$a->original is not allowed in Moodle and has been changed to \$a->new.";
+$string['noanswers'] = "No answers found for question \"\$a->question\".";
 // Standard import category
 $cfg['importcategory'] = 'QuestionTeX Import';
 

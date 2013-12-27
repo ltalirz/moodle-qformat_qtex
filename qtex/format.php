@@ -153,8 +153,9 @@ class qformat_qtex extends qformat_default{
     	
     	if($this->standalone && isset($CFG->gradingscheme)){
     		switch($CFG->gradingscheme){
-    			case 'default': return new DefaultGradingScheme(); break;
-    			case 'akveld' : return new AkveldGradingScheme(); break;
+    			case 'default'     : return new DefaultGradingScheme(); break;
+    			case 'akveld'      : return new AkveldGradingScheme(); break;
+    			case 'akveld-exam' : return new AkveldGradingSchemeExam(); break;
     			default       : $this->error(get_string('unknowngradingscheme', 'qformat_qtex'));
     		}
     	} else{
@@ -869,6 +870,11 @@ class qformat_qtex extends qformat_default{
 
             unset($aobject);
         }
+        if(empty($qobject->answer)) {
+        	$notification = new stdClass();
+        	$notification->question = $qobject->name;
+        	notify(get_string('noanswers', 'qformat_qtex', $notification));
+        } 
         
         $qobject = $this->gradingscheme->grade($qobject);
 

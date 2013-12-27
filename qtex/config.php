@@ -70,7 +70,12 @@ $cfg['CATEGORY_FROM_TITLE'] = false;
 $cfg['DEFAULT_CATEGORY'] = 'QuestionTeX import';
 
 /**
- * Default grading scheme. 
+ * Default grading scheme.
+ * 
+ * Punish guessing in multi-choice questions,
+ * but not in single-choice ones.
+ * If several answers are correct, each get the same
+ * fraction. 
  */
 class DefaultGradingScheme {
 	/**
@@ -110,8 +115,7 @@ class DefaultGradingScheme {
 }
 
 /**
- * Grading scheme used by Meike Akveld for test on december 2nd, 2013
- * @author leoteo
+ * Grading scheme used by Meike Akveld for a test exam held on Dec 2nd, 2013
  */
 class AkveldGradingScheme {
 	/**
@@ -153,6 +157,38 @@ class AkveldGradingScheme {
 		return $qobject; 
 	}	
 }
+
+/**
+ * Grading scheme used by Meike Akveld for Analysis I exam held on Feb 2nd, 2013.
+ */
+class AkveldGradingSchemeExam {
+	/**
+	 * @param object $qobject Question object imported from QuestionTeX.
+	 *   $qobject->fraction[$i] holds:
+	 *     - a proper fraction, if it was specified in the TeX source
+	 *     - 'FRACTION_TRUE', if the answer was true
+	 *     - 'FRACTION_FALSE', if the answer was false.
+	 * @return $qobject with updated grades
+	 */
+	function grade($qobject) {
+		// All questions are worth 1 point (?).
+		// There is always exactly one correct answer.
+		// False answers are punished with -1 point.
+		var_dump($qobject);
+
+		$qobject->defaultmark= 1;
+		foreach($qobject->fraction as $i => $fraction){
+			if($fraction == 'FRACTION_FALSE'){
+				$qobject->fraction[$i] = -1;
+			} elseif ($fraction == 'FRACTION_TRUE'){
+				$qobject->fraction[$i] = +1;
+			}
+		}
+		
+		return $qobject;
+	}
+}
+
 ///////////////////////////////////////////////////////////////////////////
 //////////////      End of configuration         /// //////////////////////
 ///////////////////////////////////////////////////////////////////////////
