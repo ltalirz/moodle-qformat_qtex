@@ -475,7 +475,7 @@ class qformat_qtex extends qformat_default{
         $tex = preg_replace('/^%.*$\r?\n/m','',$tex);
         // Remove other commantaries, leave line break
         $tex = preg_replace('/(?<!\\\\)%(.*)/','',$tex);
-
+        
         // Replace user-defined LaTeX macros (TODO: still beta stadium)
         preg_match('/(.*?)\\\\begin{document}(.*?)\\\\end{document}/sx', $tex, $documents);
         $head = $documents[1];
@@ -485,17 +485,20 @@ class qformat_qtex extends qformat_default{
         $udefinedregexp = $this->create_tex_rgxp(array('newcommand', 'renewcommand'), self::FLAG_MACRO_MATCH, 2);
         preg_match_all('/'.$udefinedregexp.'/s', $head, $udefinedmatches, PREG_SET_ORDER);
         foreach($udefinedmatches as $match){
-            // We have to remove the backslash, since we want to pass it to create_rgxp)
-            $umacro = substr($match['obligatory1'], 1, 0);
+        	// We have to remove the backslash, since we want to pass it to create_rgxp
+            $umacro = substr($match['obligatory1'], 1);
             $umacroregexp = $this->create_tex_rgxp(array($umacro), self::FLAG_MACRO_MATCH, -1);
+            $urepl  = $match['obligatory2'];        
+            
             $tex = preg_replace('/'.$umacroregexp.'/', $urepl, $tex);
         }
 
+        
         // In XML, the characters <,>,& have to be replaced by their html entities.
         // I assume that this process does not destroy any of the macros
         // related to questions.
         $tex = htmlspecialchars($tex, ENT_NOQUOTES);
-
+        
         // In LaTeX, inline equations are enclosed by $ $. We now make sure that all
         // all block-style equations are enclosed by $$ $$.
         $tex = preg_replace('/\\\\\[(.*?)\\\\\]/sx','\$\$\\1\$\$', $tex);
@@ -515,7 +518,6 @@ class qformat_qtex extends qformat_default{
         }
         $tex = implode('', $sectors[1]);
         
-
         // Finally, we have to perform some adjustments depending on the filter
         // used by Moodle.
         if($this->renderengine == self::FLAG_FILTER_TEX ||

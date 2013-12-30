@@ -75,14 +75,14 @@ class core_renderer {
 
 // Prints errors
 function print_error($identifier, $module, $c){
-    error($c, $identifier);
+    error($c, $identifier, $module);
 }
 
 // Prints error without dying.
 function error($string, $identifier, $module){
     global $CFG;
 
-    if($CFG->notify) echo "Error: $string with identifier $identifier in module $module";
+    if($CFG->notify) echo "<p><b>Error:</b> $string (identifier: $identifier, module: $module)</p>";
 }
 
 // Normally returns an object containing grades...
@@ -101,8 +101,6 @@ function get_list_of_plugins($d){
     if ($d == 'filter') return $CFG->textfilters;
     else echo "Error: get_list_of_plugins called with unfamiliar parameter $d";
 }
-
-
 
 
 /**
