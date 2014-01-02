@@ -68,10 +68,6 @@ class qformat_qtex extends qformat_default{
         return true;
     }
     
-    /*public function mime_type() {
-    	return 'application/x-latex';
-    }*/
-
     ///////////////////////////////////////////////////////////////////////////
     ///////////    Variables and initialization process     ///////////////////
     ///////////////////////////////////////////////////////////////////////////
@@ -88,6 +84,33 @@ class qformat_qtex extends qformat_default{
     private $standalone;
     /** Grading scheme object, @see config.php */
     private $gradingscheme;
+
+    /**
+     * Finds allowed mime types for file import.
+     * 
+     * We need to allow both .tex and .zip extension.
+     * 
+     * @return array of allowed mime types
+     */
+    public function mime_types() {
+    	$t = array(mimeinfo('type', '.tex'),
+    	           mimeinfo('type', '.zip'));
+    	return $t;
+    }
+    
+    /**
+     * Perform simple check, whether to accept user-provided file for import.
+     * 
+     * Overvwritten, since we need to search in list of MIME types.
+     * @see qformat_default::can_import_file()
+     */
+    public function can_import_file($file){
+    	if (in_array($file->get_mimetype(), $this->mime_types())){
+    		return true;
+    	} else {
+    		return false;
+    	}
+    }
     
     /**
      * Initializes all variables.
@@ -583,6 +606,7 @@ class qformat_qtex extends qformat_default{
         // Handle some special symbols
         $text = preg_replace('/\\\\Big(\W{1})/','<font size=\'+1\'>\\1</font> ', $text);
         $text = preg_replace('/\\\\textbackslash/','&#92;', $text);
+        $text = preg_replace('/\\\\ldots/','...', $text);
 
         return $text;
     }
