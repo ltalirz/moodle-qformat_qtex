@@ -970,10 +970,9 @@ class qformat_qtex extends qformat_default{
     $paramcount = 1,
     $getidentifier = self::FLAG_NO_IDENTIFIER){
 
-        // In LaTeX, a macro is terminated by a whitespace, by [ or by {
-        //$macroterminator = '(?=\s|\[|\{)';
-        // TODO: Wie bin ich auf die obige Liste gekommen?
-        $macroterminator = '(?=\s|\[|\{|\$|\\\\|,)';
+        // According to http://en.wikibooks.org/wiki/LaTeX/Basics,
+        // LaTeX commands may consist of letters only.
+        $macroterminator = '(?=[^a-zA-Z])';
         $commands = array_merge(self::$cfg['MACROS'], self::$cfg['ENVIRONMENTS']);
 
         // Preg_quote input, if we have any identifiers to match
