@@ -184,7 +184,6 @@ class AkveldGradingSchemeExam {
 		// All questions are worth 1 point (?).
 		// There is always exactly one correct answer.
 		// False answers are punished with -1 point.
-		var_dump($qobject);
 
 		$qobject->defaultmark= 1;
 		foreach($qobject->fraction as $i => $fraction){

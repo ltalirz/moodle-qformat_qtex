@@ -132,14 +132,14 @@ class qformat_qtex extends qformat_default{
 
         $filters = get_list_of_plugins('filter');
         // TODO: Check whether filter is also active and not just available
-        if (in_array('filter/tex', $filters)){
-            return self::FLAG_FILTER_TEX;
-        } elseif (in_array('filter/jsmath', $filters)){
-        	return self::FLAG_FILTER_JSMATH;
-        } elseif (in_array('filter/mathjax', $filters)){
+        if (in_array('mathjax', $filters)){
         	return self::FLAG_FILTER_MATHJAX;
+        } elseif (in_array('tex', $filters)){
+            return self::FLAG_FILTER_TEX;
+        } elseif (in_array('jsmath', $filters)){
+        	return self::FLAG_FILTER_JSMATH;
         } else{
-            $OUTPUT->notification(get_string('norenderenginefound', 'qformat_qtex'));
+            echo $OUTPUT->notification(get_string('norenderenginefound', 'qformat_qtex'));
             return self::FLAG_FILTER_TEX;
         }
 
@@ -652,19 +652,19 @@ class qformat_qtex extends qformat_default{
                         // Do a check on file extension
                         $providedtype = substr(strrchr($providedname,"."), 1);
                         $allowedtypes = $this->preg_match_batch('/'.preg_quote($providedtype, '/').'/i', self::$cfg['IMAGE_FORMATS'], self::PREG_DISCARD_EMPTY_MATCHES);
-                        if(!isset($allowedtypes[0][0])) $OUTPUT->notification(get_string('unsupportedimagetype', 'qformat_qtex', $providedname));
+                        if(!isset($allowedtypes[0][0])) echo $OUTPUT->notification(get_string('unsupportedimagetype', 'qformat_qtex', $providedname));
 
                         // Add it to the image list
                         $images[$teximage]['content'] = base64_encode($includes[$providedname]);
                         $images[$teximage]['type'] = $providedtype;
 
                     }
-                    else $OUTPUT->notification(get_string('imagemissing', 'qformat_qtex', $teximage));
+                    else echo $OUTPUT->notification(get_string('imagemissing', 'qformat_qtex', $teximage));
                 }
             }
             // If no images are provided, we complain
             else{
-                $OUTPUT->notification(get_string('allimagesmissing', 'qformat_qtex'));
+                echo $OUTPUT->notification(get_string('allimagesmissing', 'qformat_qtex'));
             }
 
             // Put images into $this
@@ -693,7 +693,7 @@ class qformat_qtex extends qformat_default{
         // If we have a remark here
         elseif(!empty($ematch['description'])) $qtype = 'description';
         // Else we do not know what we have here
-        else $OUTPUT->notification(get_string('unknownenvironment', 'qformat_qtex', $ematch['identifier']));
+        else echo $OUTPUT->notification(get_string('unknownenvironment', 'qformat_qtex', $ematch['identifier']));
 
         if(isset($qtype)){
             $qobject = $this->defaultquestion();
@@ -745,7 +745,7 @@ class qformat_qtex extends qformat_default{
             if(preg_match('/[^\+\-\.\d]+/', $amatch['optional'])){
                 $notification->question = $qobject->name;
                 $notification->fraction = $amatch['optional'];
-                $OUTPUT->notification(get_string('badpercentage', 'qformat_qtex', $notification));
+                echo $OUTPUT->notification(get_string('badpercentage', 'qformat_qtex', $notification));
 
             }
 
@@ -765,7 +765,7 @@ class qformat_qtex extends qformat_default{
                 $notification->original = $original;
                 $notification->new = $newfraction * 100;
                 $notification->question = $qobject->name;
-                $OUTPUT->notification(get_string('changedpercentage', 'qformat_qtex', $notification));
+                echo $OUTPUT->notification(get_string('changedpercentage', 'qformat_qtex', $notification));
             }
             $aobject->fraction = $newfraction;
         }
@@ -880,7 +880,7 @@ class qformat_qtex extends qformat_default{
         if(empty($qobject->answer)) {
         	$notification = new stdClass();
         	$notification->question = $qobject->name;
-        	$OUTPUT->notification(get_string('noanswers', 'qformat_qtex', $notification));
+        	echo $OUTPUT->notification(get_string('noanswers', 'qformat_qtex', $notification));
         } 
         
         $qobject = $this->gradingscheme->grade($qobject);
@@ -1199,7 +1199,7 @@ class qformat_qtex extends qformat_default{
 
                     $string = preg_replace('/'.$thatimageregexp.'/s', $repstring, $string);
                 }
-                else $OUTPUT->notification(get_string('imagemissing', 'qformat_qtex', $imagename));
+                else echo $OUTPUT->notification(get_string('imagemissing', 'qformat_qtex', $imagename));
             }
         }
 
@@ -1313,7 +1313,7 @@ class qformat_qtex extends qformat_default{
         }
         // Else we don't know the type
         else{
-            $OUTPUT->notification(get_string('unknownexportformat', 'qformat_qtex', $question->qtype));
+            echo $OUTPUT->notification(get_string('unknownexportformat', 'qformat_qtex', $question->qtype));
         }
 
         return $content;
@@ -1620,7 +1620,7 @@ class qformat_qtex extends qformat_default{
                         $this->images[$image['includename']] = base64_decode($embeddings['data']);
                     }
                     else{
-                        $OUTPUT->notification(get_string('embederror', 'qformat_qtex'));
+                        echo $OUTPUT->notification(get_string('embederror', 'qformat_qtex'));
                     }
                 }
 
