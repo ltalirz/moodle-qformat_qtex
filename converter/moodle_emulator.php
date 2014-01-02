@@ -68,7 +68,8 @@ class core_renderer {
 	function notification($string){
 		global $CFG;
 	
-		if($CFG->notify) echo "<p><b>Warning:</b> $string</p>";
+		if($CFG->notify) return "<p><b>Note:</b> $string</p>";
+		else return "";
 	}	
 }
 

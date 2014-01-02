@@ -28,31 +28,31 @@ $string['pluginname_link'] = 'qformat/qtex';
 
 /////////////////////
 // Used during import
-$string['cannotopenzip'] = 'Can not open zip archive, error code: \$a.';
+$string['cannotopenzip'] = 'Can not open zip archive, error code: {$a}.';
 $string['notexfound'] = 'Found no .tex file in zip archive.';
 $string['macrosmissing'] = 'File with QuestionTeX macros is missing.';
 $string['latexdistromissing'] = 'No LaTeX distribution found. Please set path to latex.exe in config.php.';
 $string['tempdir'] = 'Problem with creation/deletion of temporary directory.';
-$string['latexcompilation'] = "Error during LaTeX compilation:\n\$a";
-$string['multipletex'] = 'Found multiple .tex files \$a in zip archive. Do not know, which to translate.';
-$string['unknownenvironment'] = "Unknown LaTeX environment \$a.";
-$string['unknownfiletype'] = "Unknown file extension: \$a.";
-$string['imagemissing'] = "Image  \$a can not be found in the zip archive.";
-$string['unsupportedimagetype'] = "The image type of \$a may not be supported for display in Moodle.";
+$string['latexcompilation'] = 'Error during LaTeX compilation:\n{$a}';
+$string['multipletex'] = 'Found multiple .tex files {$a} in zip archive. Do not know, which to translate.';
+$string['unknownenvironment'] = 'Unknown LaTeX environment {$a}.';
+$string['unknownfiletype'] = 'Unknown file extension: {$a}.';
+$string['imagemissing'] = 'Image "{$a}" can not be found in the zip archive.';
+$string['unsupportedimagetype'] = 'The image type of {$a} may not be supported for display in Moodle.';
 $string['allimagesmissing'] = 'The .tex file includes images. If you upload a zip archive containing the images and the .tex file, the images will be embedded automatically (supported formats: png).';
-$string['badpercentage'] = "In question \"\$a->question\" : The optional parameter \$a->fraction contains bad characters.";
-$string['changedpercentage'] = "In question \"\$a->question\" : The percentage \$a->original is not allowed in Moodle and has been changed to \$a->new.";
-$string['noanswers'] = "No answers found for question \"\$a->question\".";
+$string['badpercentage'] = 'In question "{$a->question}" : The optional parameter {$a->fraction} contains bad characters.';
+$string['changedpercentage'] = 'In question "{$a->question}" : The percentage {$a->original} is not allowed in Moodle and has been changed to {$a->new}.';
+$string['noanswers'] = 'No answers found for question "{$a->question}".';
 // Standard import category
 $cfg['importcategory'] = 'QuestionTeX Import';
 
 /////////////////////
 // Used during export
-$string['unknownexportformat'] = "The export of format \$a is not supported.";
-$string['cannotreadimage'] = "Can not read image from \$a";
+$string['unknownexportformat'] = 'The export of format {$a} is not supported.';
+$string['cannotreadimage'] = 'Can not read image from {$a}';
 $string['questionsincludeimages'] = 'The selected questions include images. A zip archive is being created, containing the images as well as the .tex file.';
 $string['embederror'] = 'Error while parsing embedded image';
-$string['notreadable'] = "The filepath \$a could not be read and can thus not be included in export.";
+$string['notreadable'] = 'The filepath {$a} could not be read and can thus not be included in export.';
 // The preamble put into an exported quiz
 $string['preamble'] = '% QuestionTeX Template
 % Version of 8.5.2009
@@ -71,7 +71,7 @@ $string['imagefolder'] = 'images/';
 
 ////////////////
 // Miscellaneous
-$string['wrongidentifier'] = "The identifier \$a is unknown.";
+$string['wrongidentifier'] = 'The identifier {$a} is unknown.';
 $string['norenderenginefound'] = 'No text filter for math detected. Assuming standard TeX filter.';
 $string['unknowngradingscheme'] = 'The specified grading scheme cannot be found.';
 $string['configmissing'] = 'The TeX-Format configuration file can not be accessed.';

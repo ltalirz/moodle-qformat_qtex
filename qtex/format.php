@@ -971,7 +971,9 @@ class qformat_qtex extends qformat_default{
     $getidentifier = self::FLAG_NO_IDENTIFIER){
 
         // In LaTeX, a macro is terminated by a whitespace, by [ or by {
-        $macroterminator = '(?=\s|\[|\{)';
+        //$macroterminator = '(?=\s|\[|\{)';
+        // TODO: Wie bin ich auf die obige Liste gekommen?
+        $macroterminator = '(?=\s|\[|\{|\$|\\\\|,)';
         $commands = array_merge(self::$cfg['MACROS'], self::$cfg['ENVIRONMENTS']);
 
         // Preg_quote input, if we have any identifiers to match
@@ -1199,7 +1201,10 @@ class qformat_qtex extends qformat_default{
 
                     $string = preg_replace('/'.$thatimageregexp.'/s', $repstring, $string);
                 }
-                else echo $OUTPUT->notification(get_string('imagemissing', 'qformat_qtex', $imagename));
+                else {
+                	echo "here $imagename";
+                	echo $OUTPUT->notification(get_string('imagemissing', 'qformat_qtex', $imagename));
+                }
             }
         }
 
