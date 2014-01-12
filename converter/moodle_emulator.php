@@ -97,7 +97,7 @@ function match_grade_options($options, $fraction, $mode){
     return $fraction;
 }
 
-// Used to find out whether TeX filter is available. We claim it is...
+// Used to find out which TeX filter is active
 function get_list_of_plugins($d){
 	global $CFG;
     if ($d == 'filter') return $CFG->textfilters;

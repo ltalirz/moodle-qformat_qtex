@@ -41,10 +41,10 @@ if($_POST['sent']=='yes'){
     $targetfilename = $_POST['target'];
     $direction = $_POST['conversion'];
     switch($_POST['renderengine']){
-        case 'tex': $CFG->textfilters = array('filter/tex'); break;
+        case 'tex': $CFG->textfilters = array('tex'); break;
         // TODO: Handle Jsmath properly
-        case 'jsmath': $CFG->textfilters = array('filter/tex'); break;
-        case 'mathjax': $CFG->textfilters = array('filter/mathjax'); break;
+        case 'jsmath': $CFG->textfilters = array('tex'); break;
+        case 'mathjax': $CFG->textfilters = array('mathjax'); break;
     }
     $CFG->gradingscheme = $_POST['gradingscheme'];
     
