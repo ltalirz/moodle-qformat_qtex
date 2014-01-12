@@ -93,25 +93,25 @@ class DefaultGradingScheme {
 		$truecount = 0;
 		$predefcount = 0;
 		foreach($qobject->fraction as $i => $fraction){
-			if($fraction == 'FRACTION_FALSE'){
+			if($fraction === 'FRACTION_FALSE'){
 				// for single choice, we don't punish guessing
-				if($qobject->single) $qobject->fraction[$i] = 0;
+				if($qobject->single) $qobject->fraction[$i] = 0.0;
 				// for multi choice, we punish guessing
 				else                 $qobject->fraction[$i] = -1.0;
-			} elseif ($fraction == 'FRACTION_TRUE'){
+			} elseif ($fraction === 'FRACTION_TRUE'){
 				++$truecount;
 			} else {
 				++$predefcount;
 			}
 		}
-			
+		
 		if ($predefcount == 0) {
 			// Each true answer gets the same fraction
 			if ($truecount == 0) print_error('allanswerswrong','qtex',"Question \"$qobject->name\" 
 					                          has no true answer.");
 			$truefraction = 1.0/$truecount;
 			foreach($qobject->fraction as $i => $fraction){
-				if ($fraction == 'FRACTION_TRUE'){
+				if ($fraction === 'FRACTION_TRUE'){
 					$qobject->fraction[$i] = $truefraction;
 				}
 			}
