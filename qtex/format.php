@@ -466,7 +466,6 @@ class qformat_qtex extends qformat_default{
 
         // For each tex environment perform the following operations
         for($texenvironmentcount = 0; isset($texenvironments[$texenvironmentcount]); $texenvironmentcount++){
-
             $qobject = $this->readquestion($texenvironments[$texenvironmentcount], $questioncount + 1);
 
             // Add question to quiz and increase corresponding count
@@ -607,6 +606,7 @@ class qformat_qtex extends qformat_default{
         $text = preg_replace('/\\\\Big(\W{1})/','<font size=\'+1\'>\\1</font> ', $text);
         $text = preg_replace('/\\\\textbackslash/','&#92;', $text);
         $text = preg_replace('/\\\\ldots/','...', $text);
+        $text = preg_replace('/\\\\dots/','...', $text);
 
         return $text;
     }
@@ -1220,12 +1220,12 @@ class qformat_qtex extends qformat_default{
                     // Embed image into string
                     $thatimageregexp = $this->create_tex_rgxp(array('image'), self::FLAG_MACRO_MATCH, 0, self::FLAG_NO_IDENTIFIER);
                     $thatimageregexp .= '\{'.preg_quote($imagename, '/').'}';
-                    $repstring = "\n".'<img src="@@PLUGINFILE@@/'. $imagename .'" alt="'. $imagename .'" align="center">';
+                    $repstring = "\n".'<img src="@@PLUGINFILE@@/'. $imagename 
+                                     .'" alt="'. $imagename .'" align="center" width="100%">';
 
                     $string = preg_replace('/'.$thatimageregexp.'/s', $repstring, $string);
                 }
                 else {
-                	echo "here $imagename";
                 	echo $OUTPUT->notification(get_string('imagemissing', 'qformat_qtex', $imagename));
                 }
             }

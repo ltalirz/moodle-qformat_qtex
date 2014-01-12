@@ -52,7 +52,8 @@ function get_string($identifier, $module = '', $a = ''){
 
     if($module == 'qformat_qtex'){
         $message = $string[$identifier];
-        // TODO: handle cases, when $a is set (string + object)
+        // TODO: handle cases, when $a is not simply a string, but an object
+        if ($a != '') $message = preg_replace('/\{\$a\}/s', $a, $message);
 
         return $message;
     }
