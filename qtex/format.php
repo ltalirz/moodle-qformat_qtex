@@ -1319,6 +1319,7 @@ class qformat_qtex extends qformat_default{
             $exportfunction = 'export_'.$identifier;
             $content = $this->{$exportfunction}($question);
 
+            /*
             // Keep track of non-embedded images (DEPRECATED)
             if(!empty($question->image)){
                 // Get file name
@@ -1334,9 +1335,28 @@ class qformat_qtex extends qformat_default{
 
                 unset($image);
             }
+            */
 
-            // Handle questiontext images
+            $fs = get_file_storage();
+            $contextid = $question->contextid;
+            // Get files used by the questiontext.
+            $question->questiontextfiles = $fs->get_area_files(
+                                                               $contextid, 'question', 'questiontext', $question->id);
             $this->writeimages($question->questiontextfiles);
+
+            // Get files used by the generalfeedback.
+            $question->generalfeedbackfiles = $fs->get_area_files(
+                                                                  $contextid, 'question', 'generalfeedback', $question->id);
+            if (!empty($question->options->answers)) {
+                foreach ($question->options->answers as $answer) {
+                    $answer->answerfiles = $fs->get_area_files(
+                                                               $contextid, 'question', 'answer', $answer->id);
+                    $this->writeimages($answer->answerfiles);
+                    $answer->feedbackfiles = $fs->get_area_files(
+                                                                 $contextid, 'question', 'answerfeedback', $answer->id);
+                    $this->writeimages($answer->feedbackfiles);
+                }
+            }
 
         }
         // Else we don't know the type
