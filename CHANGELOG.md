@@ -1,3 +1,10 @@
+18.01.2013
+==========
+- Fixes in the export file handling.
+  Now images can be exported using the qtex format.
+- Fixes in the converter.
+  Both directions work now, but no images are handled.
+
 14.10.2013
 =========
 - qtex now works with Moodle 2.5
