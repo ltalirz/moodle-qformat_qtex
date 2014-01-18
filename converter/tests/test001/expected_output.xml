@@ -1,0 +1,1371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+<!-- question:   -->
+  <question type="category">
+    <category>
+        <text>QuestionTeX import</text>
+
+    </category>
+  </question>
+
+<!-- question:   -->
+  <question type="multichoice">
+    <name>
+      <text>001  Die unten stehende Figur wird beschrieben dur</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[ Die unten stehende Figur wird beschrieben durch $$ \dots $$ \begin{figure}[!ht] \begin{center} 
+<img src="@@PLUGINFILE@@/square" alt="square" align="center" width="100%"> \end{center} \end{figure}]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden></hidden>
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="unknown">
+      <text></text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="unknown">
+      <text></text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="unknown">
+      <text></text>
+    </incorrectfeedback>
+    <answer fraction="100" format="moodle_auto_format">
+      <text> $$\left\{ (x,y) \in \mathbb{R} ^2 \,\big|\, |x| + |y| \le 1 \right\}$$.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$\left\{ (x,y) \in \mathbb{R} ^2 \,\big|\, |x+y| \le 1\right\}$$.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$\left\{ (x,y) \in \mathbb{R} ^2 \,\big|\, \mbox{max} \{ |x|, |y| \} \le 1\right\}$$.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$\left\{ (x,y) \in \mathbb{R} ^2 \,\big|\, \mbox{min} \{ |x|, |y| \} \le 1\right\}$$.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+  </question>
+
+<!-- question:   -->
+  <question type="multichoice">
+    <name>
+      <text>002  Die Punktemenge  z in mathbbC  big  z  mboxRe</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text> Die Punktemenge $$\{ z \in \mathbb{C} \, \big| \, |z| = \mbox{Re} (z) +1 \}$$ ist $$ \dots $$</text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden></hidden>
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="unknown">
+      <text></text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="unknown">
+      <text></text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="unknown">
+      <text></text>
+    </incorrectfeedback>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> eine Gerade.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> eine Ellipse.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="100" format="moodle_auto_format">
+      <text> eine Parabel.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> eine Hyperbel.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+  </question>
+
+<!-- question:   -->
+  <question type="multichoice">
+    <name>
+      <text>003  Die schwarzen Punkte in der unten stehenden F</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[ Die schwarzen Punkte in der unten stehenden Figur entsprechen den Lösungen der Gleichung $$ \dots $$ \begin{figure}[!ht] \begin{center} 
+<img src="@@PLUGINFILE@@/wurzel" alt="wurzel" align="center" width="100%"> \end{center} \end{figure}]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden></hidden>
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="unknown">
+      <text></text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="unknown">
+      <text></text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="unknown">
+      <text></text>
+    </incorrectfeedback>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$z^6 = \frac{1}{2}$$.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$z^6 = \frac{1}{64}$$.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="100" format="moodle_auto_format">
+      <text> $$z^6 = - \frac{1}{64}$$.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$z^8 = - \frac{1}{256}$$.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+  </question>
+
+<!-- question:   -->
+  <question type="multichoice">
+    <name>
+      <text>004  Gegeben seien die komplexen Zahlen z_1  sqrt3</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text> Gegeben seien die komplexen Zahlen $$z_1 = \sqrt{3} - i$$ und  $$z_2 = \frac{1}{2} \left( \cos \frac{2\pi}{3} -i \sin \frac{2\pi}{3} \right)$$.  Welche Aussagen über $$z=\frac{z_1}{z_2}$$ sind korrekt?</text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden></hidden>
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="unknown">
+      <text></text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="unknown">
+      <text></text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="unknown">
+      <text></text>
+    </incorrectfeedback>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$|z| = 4 $$ und $$\mbox{arg} (z) = -\frac{5\pi}{6}$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="100" format="moodle_auto_format">
+      <text> $$|z| = 4$$ und $$\mbox{arg} (z) = \frac{\pi}{2}$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$|z| = 1$$ und $$\mbox{arg} (z) = -\frac{5\pi}{6}$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$|z| = 1$$ und $$\mbox{arg} (z) = \frac{\pi}{2}$$ </text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$z$$ ist nicht eindeutig bestimmt, da $$z_2$$ nicht reell ist.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+  </question>
+
+<!-- question:   -->
+  <question type="multichoice">
+    <name>
+      <text>005  Bestimmen Sie ob die folgende Aussage richtig</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text> Bestimmen Sie, ob die folgende Aussage richtig oder falsch ist:   Die Summe zweier divergenter Folgen ist divergent.</text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden></hidden>
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="unknown">
+      <text></text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="unknown">
+      <text></text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="unknown">
+      <text></text>
+    </incorrectfeedback>
+    <answer fraction="100" format="moodle_auto_format">
+      <text> falsch</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> richtig</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+  </question>
+
+<!-- question:   -->
+  <question type="multichoice">
+    <name>
+      <text>006  Betrachten Sie die Folge  p styletextalign ce</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[ Betrachten Sie die Folge  <p style='text-align: center' class='formula'>$$
+a_n = \left( \frac{(5+n)^{100}}{5^{n+1}} \right) \cdot \left(
+\frac{5^n}{(4+n)^{100}} \right).
+$$</p> Bestimmen Sie den Grenzwert $$a = \underset{n \to \infty}{\lim} a_n$$.]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden></hidden>
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="unknown">
+      <text></text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="unknown">
+      <text></text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="unknown">
+      <text></text>
+    </incorrectfeedback>
+    <answer fraction="100" format="moodle_auto_format">
+      <text> $$a = \frac{1}{5}$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$a = 1$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$a = \frac{5}{4}$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$a = \left(\frac{5}{4}\right) ^{100}$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> Diese Folge konvergiert nicht.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+  </question>
+
+<!-- question:   -->
+  <question type="multichoice">
+    <name>
+      <text>007 Bestimmen Sie alle k in mathbbZ kgt1 so dass d</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[Bestimmen Sie alle $$k \in \mathbb{Z}, k&gt;1$$, so dass die Reihen <p style='text-align: center' class='formula'>$$
+\sum_{n=1}^{\infty} \frac{(-1)^{kn}}{n} \quad \mbox{ und } \quad 
+\sum_{n=1}^{\infty} \left(\frac{k}{4}\right) ^n
+$$</p> beide konvergieren.]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden></hidden>
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="unknown">
+      <text></text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="unknown">
+      <text></text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="unknown">
+      <text></text>
+    </incorrectfeedback>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$k =2$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="100" format="moodle_auto_format">
+      <text> $$k =3$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$ k =4$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$k=2$$ und $$k=3$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$k=3$$ und $$k =5$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+  </question>
+
+<!-- question:   -->
+  <question type="multichoice">
+    <name>
+      <text>008  Welche der folgenden Reihen konvergieren p st</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[ Welche der folgenden Reihen konvergieren? <p style='text-align: center' class='formula'>$$
+\mbox{I.} \sum_{n=1}^{\infty} \frac{n}{n+2}; \qquad 
+\mbox{II.} \sum_{n=1}^{\infty}  \frac{\cos (n \pi)}{n}; \qquad 
+\mbox{III.} \sum_{n=1}^{\infty} \frac{1}{n}.
+$$</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden></hidden>
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="unknown">
+      <text></text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="unknown">
+      <text></text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="unknown">
+      <text></text>
+    </incorrectfeedback>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> keine einzige</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="100" format="moodle_auto_format">
+      <text> nur II</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> nur III</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> nur I und II</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> nur I und III</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+  </question>
+
+<!-- question:   -->
+  <question type="multichoice">
+    <name>
+      <text>009  Bestimmen Sie die Inverse von fx  frac11a ex </text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[ Bestimmen Sie die Inverse von $$f(x) = \frac{1}{1+a e^x} $$ mit $$a &gt;0$$ und deren maximalen Definitionsbereich.]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden></hidden>
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="unknown">
+      <text></text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="unknown">
+      <text></text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="unknown">
+      <text></text>
+    </incorrectfeedback>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$f^{-1} (x) = \ln \left( \frac{1-x}{ax} \right),\, x \in (0,\infty)$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text>  $$f^{-1} (x) = \ln \left( \frac{1-x}{ax} \right),\, x \in \mathbb{R}$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="100" format="moodle_auto_format">
+      <text>  $$f^{-1} (x) = \ln \left( \frac{1-x}{ax} \right),\, x \in (0,1)$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text>  $$f^{-1} (x) = 1 + a e^x,\, x \in \mathbb{R}$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+  </question>
+
+<!-- question:   -->
+  <question type="multichoice">
+    <name>
+      <text>010  Sei f mathbbR to mathbbR eine Funktion. Welch</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[ Sei $$f: \mathbb{R} \to \mathbb{R}$$ eine Funktion. Welche der folgenden Bedingungen ist <i><b>nicht</i></b> hinreichend um zu garantieren, dass $$f$$ eine Inverse hat?]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden></hidden>
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="unknown">
+      <text></text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="unknown">
+      <text></text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="unknown">
+      <text></text>
+    </incorrectfeedback>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$f(x) = a x^3, a \ne 0$$.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$f$$ ist streng monoton wachsend und surjektiv.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$f$$ ist bijektiv.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="100" format="moodle_auto_format">
+      <text> $$f$$ ist symmetrisch bezüglich des Ursprungs.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+  </question>
+
+<!-- question:   -->
+  <question type="multichoice">
+    <name>
+      <text>011  Betrachten Sie die Funktion fx  sqrt x. Wir m</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text> Betrachten Sie die Funktion $$f(x) = \sqrt {|x|}$$. Wir möchten die Nullstelle dieser Funktion mit Hilfe des Newton-Verfahrens bestimmen. Sei $$x_0 \ne 0$$  ein beliebiger Startwert des Newton-Verfahrens, so gilt für die Folge $$x_n$$, welche wir iterativ erhalten:</text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden></hidden>
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="unknown">
+      <text></text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="unknown">
+      <text></text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="unknown">
+      <text></text>
+    </incorrectfeedback>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> Die Folge ist konstant gleich $$x_0$$.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> Die Folge konvergiert nur, wenn man nahe genug bei der Nullstelle anfängt.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> Die Folge divergiert immer nach unendlich.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="100" format="moodle_auto_format">
+      <text> Die Folge oszilliert zwischen $$x_0$$ und $$-x_0$$.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+  </question>
+
+<!-- question:   -->
+  <question type="multichoice">
+    <name>
+      <text>012  Betrachten Sie die Bernoullische Spirale p st</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[ Betrachten Sie die Bernoulli'sche Spirale <p style='text-align: center' class='formula'>$$
+r(t) = \left(e^t \cos t, e^t \sin t \right).
+$$</p> Bestimmen Sie, ob die folgende Aussage richtig oder falsch ist: Der Ortsvektor $$r(t)$$ eines Punktes auf der Spirale steht immer senkrecht auf seinem Tangentialvektor.]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden></hidden>
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="unknown">
+      <text></text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="unknown">
+      <text></text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="unknown">
+      <text></text>
+    </incorrectfeedback>
+    <answer fraction="0" format="moodle_auto_format">
+      <text>wahr</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="100" format="moodle_auto_format">
+      <text>falsch</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+  </question>
+
+<!-- question:   -->
+  <question type="multichoice">
+    <name>
+      <text>013  Betrachten Sie nochmals die Bernoullische Spi</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[ Betrachten Sie nochmals die Bernoulli'sche Spirale <p style='text-align: center' class='formula'>$$
+r(t) = \left(e^t \cos t, e^t \sin t \right).
+$$</p> Bestimmen Sie, ob die folgende Aussage richtig oder falsch ist: Der Quotient der $$x$$-Koordinaten zweier sukzessiver Schnittpunkte der Spirale mit der positiven $$x$$-Achse ist konstant.]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden></hidden>
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="unknown">
+      <text></text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="unknown">
+      <text></text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="unknown">
+      <text></text>
+    </incorrectfeedback>
+    <answer fraction="100" format="moodle_auto_format">
+      <text>wahr</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text>falsch</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+  </question>
+
+<!-- question:   -->
+  <question type="multichoice">
+    <name>
+      <text>014  Sei Px  sum _n1 infty fracx2nn2. Bestimmen Si</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text> Sei $$P(x) = \sum _{n=1} ^\infty \frac{(x-2)^n}{n^2}$$. Bestimmen Sie das Konvergenzintervall von $$P(x)$$</text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden></hidden>
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="unknown">
+      <text></text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="unknown">
+      <text></text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="unknown">
+      <text></text>
+    </incorrectfeedback>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$[1,3)$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="100" format="moodle_auto_format">
+      <text> $$[1,3]$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$[-1,1)$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$[-2,2]$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$\mathbb{R}$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+  </question>
+
+<!-- question:   -->
+  <question type="multichoice">
+    <name>
+      <text>015  Bestimmen Sie den Koeffizienten von x2 in der</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text> Bestimmen Sie den Koeffizienten von $$x^2$$ in der Taylorreihe von $$f(x) = 
+\frac{1}{(1+x)^2}$$ um $$x_0 = 0$$.</text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden></hidden>
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="unknown">
+      <text></text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="unknown">
+      <text></text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="unknown">
+      <text></text>
+    </incorrectfeedback>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$\frac{1}{6}$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$\frac{1}{3}$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$1$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="100" format="moodle_auto_format">
+      <text> $$3$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$6$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+  </question>
+
+<!-- question:   -->
+  <question type="multichoice">
+    <name>
+      <text>016  Sei T_5x  3x2  5x3  7x4  3x5 das Taylorpolyno</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text> Sei $$T_5(x) = 3x^2 - 5x^3 + 7x^4 + 3x^5$$ das Taylorpolynom 5. Grades an der Stelle $$x_0 = 0$$ von $$f$$. Dann ist $$f'''(0)=\dots$$</text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden></hidden>
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="unknown">
+      <text></text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="unknown">
+      <text></text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="unknown">
+      <text></text>
+    </incorrectfeedback>
+    <answer fraction="100" format="moodle_auto_format">
+      <text> $$-30$$.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$-15$$.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$-5$$.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$-\frac{5}{6}$$.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$-\frac{1}{6}$$.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+  </question>
+
+<!-- question:   -->
+  <question type="multichoice">
+    <name>
+      <text>017 Betrachten Sie die Obersumme O_n und die Unter</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text>Betrachten Sie die Obersumme $$O_n$$ und die Untersumme $$U_n$$ zur Bestimmung der Fläche unter dem Funktionsgraph der Funktion $$f(x) = x^2$$ auf dem Intervall $$[0,1]$$. Was ist der kleinste Wert von $$n\in \mathbb{N}$$, so dass $$O_n - U_n \le 0.1$$ gilt?</text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden></hidden>
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="unknown">
+      <text></text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="unknown">
+      <text></text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="unknown">
+      <text></text>
+    </incorrectfeedback>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> 5</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="100" format="moodle_auto_format">
+      <text> 10</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> 11</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> 20</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> 21</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+  </question>
+
+<!-- question:   -->
+  <question type="multichoice">
+    <name>
+      <text>018  Wenn das bestimmte Integral von 1 bis 1 der F</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text> Wenn das bestimmte Integral von $$-1$$ bis $$1$$ der Funktion  $$f(x) =\cos x \cdot e^{-x^2}$$ gleich $$k$$ ist, so ist das bestimmte Integral von $$-1$$ bis $$0$$ der Funktion  $$f(x) =\cos x \cdot  e^{-x^2}$$ gleich $$\dots$$</text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden></hidden>
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="unknown">
+      <text></text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="unknown">
+      <text></text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="unknown">
+      <text></text>
+    </incorrectfeedback>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$-2k$$.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$-k$$.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$-\frac{k}{2}$$.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="100" format="moodle_auto_format">
+      <text> $$\frac{k}{2}$$.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$2k$$.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+  </question>
+
+<!-- question:   -->
+  <question type="multichoice">
+    <name>
+      <text>019  Sei fx  int _0 x frac1sqrtt32  textdt. Welche</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[ Sei $$f(x) = \int _0 ^x \frac{1}{\sqrt{t^3+2}} \, \text{d}t$$. Welche der folgenden Aussagen ist <i><b>falsch</i></b>?]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden></hidden>
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="unknown">
+      <text></text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="unknown">
+      <text></text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="unknown">
+      <text></text>
+    </incorrectfeedback>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$f(0)=0$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text><![CDATA[ $$f(1) &gt; 0$$]]></text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text><![CDATA[ $$f(-1) &lt; 0$$]]></text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="100" format="moodle_auto_format">
+      <text><![CDATA[ $$f(-1) &gt; 0$$]]></text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+  </question>
+
+<!-- question:   -->
+  <question type="multichoice">
+    <name>
+      <text>020  Sei fx  int _0 x frac1sqrtt32  textdt. Welche</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text> Sei $$f(x) = \int _0 ^x \frac{1}{\sqrt{t^3+2}} \, \text{d}t$$. Welche der folgenden Aussagen über $$f'(1)$$ ist richtig?</text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden></hidden>
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="unknown">
+      <text></text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="unknown">
+      <text></text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="unknown">
+      <text></text>
+    </incorrectfeedback>
+    <answer fraction="0" format="moodle_auto_format">
+      <text>$$ f'(1) $$ kann man nicht bestimmen, weil man die Stammfunktion nicht kennt.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="100" format="moodle_auto_format">
+      <text> $$f'(1) = \frac{1}{\sqrt{3}}$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$f'(1) = \frac{1}{\sqrt{2}}$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$f'(1) = \mbox{arsinh} (1) $$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+  </question>
+
+<!-- question:   -->
+  <question type="multichoice">
+    <name>
+      <text>021  Betrachten Sie eine kreisfrmige Stadt die von</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[ Betrachten Sie eine kreisförmige Stadt, die von einer geraden Autobahn durchquert wird, welche genau durchs Stadtzentrum geht. Der Radius der Stadt ist 3 Kilometer und die Bevölkerungsdichte (Anzahl Personen pro Quadratkilometer) ist gegeben durch  <p style='text-align: center' class='formula'>$$
+f(r) = 12000 - 2000r,
+$$</p>  wobei $$r$$ die Distanz zur Autobahn in Kilometern ist. Welche der folgenden Formeln berechnet die Einwohnerzahl der Stadt?]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden></hidden>
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="unknown">
+      <text></text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="unknown">
+      <text></text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="unknown">
+      <text></text>
+    </incorrectfeedback>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$\int _0 ^3 (12000 - 2000r) \, \text{d}r$$  </text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$2 \int _0 ^3 (12000 - 2000r) \sqrt{9 - r^2} \, \text{d}r$$ </text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="100" format="moodle_auto_format">
+      <text> $$4 \int _0 ^3 (12000 - 2000r)  \sqrt{9 - r^2}\, \text{d}r$$ </text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$\int _0 ^3 2 \pi r (12000 - 2000r) \, \text{d}r$$ </text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$2 \int _0 ^3 2 \pi r (12000 - 2000r) \, \text{d}r$$ </text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+  </question>
+
+<!-- question:   -->
+  <question type="multichoice">
+    <name>
+      <text>022  Fr 0 lt a lt b und 0 lt c lt d sei f  ab to c</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[ Für $$0 &lt; a &lt; b$$ und $$0 &lt; c &lt; d$$ sei $$f : [a,b] \to [c,d]$$ eine  stetig differenzierbare, streng monoton wachsende und surjektive Funktion mit Umkehrfunktion $$f ^{-1}$$. Dann ist $$\int _c ^d f^{-1} ({}y) \, \text{d}y = \dots $$]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden></hidden>
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="unknown">
+      <text></text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="unknown">
+      <text></text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="unknown">
+      <text></text>
+    </incorrectfeedback>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$\int _a ^b f(x) \, \text{d}x$$.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="100" format="moodle_auto_format">
+      <text> $$bd - ac - \int _a ^b f(x) \, \text{d}x$$.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$\frac{1}{\int _a ^b f(x) \, \text{d}x}$$.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$bd - ac - \int _c ^d f(x) \, \text{d}x$$.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+  </question>
+
+<!-- question:   -->
+  <question type="multichoice">
+    <name>
+      <text>023 Die allgemeine Lsung der Differentialgleichung</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[Die allgemeine Lösung der Differentialgleichung <p style='text-align: center' class='formula'>$$
+\frac{\text{d}W}{\text{d}t} = 0.05 W - 200
+$$</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden></hidden>
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="unknown">
+      <text></text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="unknown">
+      <text></text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="unknown">
+      <text></text>
+    </incorrectfeedback>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$W (t) = A e^t + 4000$$ für $$A \in \mathbb{R}$$.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$W(t) = A e^{-10t}$$ für $$A \in \mathbb{R}$$.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$W(t) = \frac{A e^{0.05t}}{0.05}$$ für $$A \in \mathbb{R}$$. </text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="100" format="moodle_auto_format">
+      <text> $$W(t) = A e^{0.05t} + 4000$$ für $$A \in \mathbb{R}$$.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+  </question>
+
+<!-- question:   -->
+  <question type="multichoice">
+    <name>
+      <text>024 Zu welcher Differentialgleichung gehrt dieses </text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[Zu welcher Differentialgleichung gehört dieses Richtungsfeld? \begin{figure}[!ht] \begin{center} \label{fig:DGL} 
+<img src="@@PLUGINFILE@@/directionfield" alt="directionfield" align="center" width="100%"> \end{center} \end{figure}]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden></hidden>
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="unknown">
+      <text></text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="unknown">
+      <text></text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="unknown">
+      <text></text>
+    </incorrectfeedback>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$y' = y-x$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="100" format="moodle_auto_format">
+      <text> $$y' = y+x$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$y' = x-y$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$y' = xy$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$y' = \frac{x}{y}$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+  </question>
+
+<!-- question:   -->
+  <question type="multichoice">
+    <name>
+      <text>025  Bestimmen Sie die Form der allgemeinen Lsung </text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[ Bestimmen Sie die Form der allgemeinen Lösung der Differentialgleichung <p style='text-align: center' class='formula'>$$
+y''(x) + 16 y(x) = e^{3x}.
+$$</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden></hidden>
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="unknown">
+      <text></text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="unknown">
+      <text></text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="unknown">
+      <text></text>
+    </incorrectfeedback>
+    <answer fraction="100" format="moodle_auto_format">
+      <text> $$y(x) = c_1 \cos (4x) + c_2 \sin (4x) + \frac{1}{25} e ^{3x}$$ für $$c_1, c_2 \in \mathbb{R}$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$y(x) = c_1 e^{4x} + c_2 e^{-4x} + \frac{1}{25} e ^{3x}$$ für $$c_1, c_2 \in \mathbb{R}$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$y(x) = c_1 \cos (4x) + c_2 \sin (4x) + \frac{1}{5} e ^{3x}$$ für $$c_1, c_2 \in \mathbb{R}$$ </text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$y(x) = c_1 \cos (4x) + c_2 \sin (4x) + \frac{1}{25} e ^{4x}$$ für $$c_1, c_2 \in \mathbb{R}$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$y(x) = c_1 e^{4x} + c_2 e^{-4x} + \frac{1}{5} e ^{3x}$$ für $$c_1, c_2 \in \mathbb{R}$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+  </question>
+
+</quiz>
