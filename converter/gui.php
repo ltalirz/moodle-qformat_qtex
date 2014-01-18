@@ -19,8 +19,7 @@ $path_to_moodle_emulator = 'moodle_emulator.php';
 $gui_redirect = $_SERVER['SCRIPT_NAME'];
 
 
-if($_POST['sent']=='yes'){
-	
+if (isset($_POST['sent']) && $_POST['sent']==='yes') {
     // Get me a moodle
     require_once($path_to_moodle_emulator); // Then Moodle Emulator
 
@@ -30,6 +29,7 @@ if($_POST['sent']=='yes'){
         print_form(1, "File upload failed.\n");
         die;
     }
+
     $inputfilepath = $inputdata['tmp_name'];
     $inputfilename = $inputdata['name'];
     // If specified, we add an extra extension (no harm done if we doubled it)
@@ -70,7 +70,9 @@ if($_POST['sent']=='yes'){
 
     // Import questions into array of objects
     $qimport = new $startclass();
-    $qimport->qformat_qtex_initialize();
+    if ($direction === 't2x') {
+        $qimport->qformat_qtex_initialize();
+    }
     $qimport->setFilename($inputfilepath);
     // Realfilename is used to determine the type of the file
     $qimport->setRealfilename($inputfilename);
@@ -84,6 +86,10 @@ if($_POST['sent']=='yes'){
 
     // Export questions
     $qexport = new $endclass();
+
+    if ($direction === 'x2t') {
+        $qexport->qformat_qtex_initialize();
+    }
 
     // Handle name of target file
     $qexport->setFilename('temp');

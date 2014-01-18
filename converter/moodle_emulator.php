@@ -36,6 +36,7 @@ $OUTPUT = new core_renderer();
 // Get required code
 //require_once('lib/setuplib.php');     // First get help strings
 //require_once('lib/moodlelib.php');     // First get help strings
+require_once('lib/text.php');
 require_once($path_to_qformat_qtex);     // First get help strings
 require_once($path_to_default_class);   // Then base class for formats
 require_once($path_to_qtex_class);       // Then the real tex...
@@ -144,10 +145,11 @@ class qformat_qtex_emulator extends qformat_qtex{
         global $CFG;
 
         // create a directory for the exports (if not already existing)
-        if (! $export_dir = make_upload_directory($this->question_get_export_dir())) {
-            error( get_string('cannotcreatepath','quiz',$export_dir) );
-        }
-        $path = $CFG->dataroot.'/'.$this->question_get_export_dir();
+        //if (! $export_dir = make_upload_directory($this->question_get_export_dir())) {
+        //    error( get_string('cannotcreatepath','quiz',$export_dir) );
+        //}
+        //$path = $CFG->dataroot.'/'.$this->question_get_export_dir();
+        $path = $CFG->dataroot.'/export';
 
         // get the questions (from database) in this category
         // only get q's with no parents (no cloze subquestions specifically)
@@ -158,7 +160,7 @@ class qformat_qtex_emulator extends qformat_qtex{
         }
 
         // CHANGE: Do not notify in Moodle emulator
-        if(!($this->standalone)) notify( get_string('exportingquestions','quiz'));
+        if(!($this->standalone)) $CFG->notify( get_string('exportingquestions','quiz'));
         $count = 0;
 
         // results are first written into string (and then to a file)
@@ -332,6 +334,22 @@ function rearrange_multichoice($question){
  */
 class qformat_xml_emulator extends qformat_xml {
     /**
+     * readdata of base class is protected!
+     * @see qformat_default::readdata()
+     */
+    function readdata($filename){
+        return parent::readdata($filename);
+    }
+
+    /**
+     * readquestions of base class is protected!
+     * @see qformat_default::readquestions()
+     */
+    function readquestions($lines){
+        return parent::readquestions($lines);
+    }
+
+    /**
      * Need to stop this function from inserting stuff into database etc.
      *
      * @param array $questions Array of questions to export
@@ -398,15 +416,27 @@ function get_file_storage(){
     return new file_storage;
 }
 
+function file_get_unused_draft_itemid() {
+    return rand(1, 999999999);
+}
+
+
+
 class file_storage {
     function get_area_files($a,$b,$c,$d){
         return NULL;
+    }
+    public function create_file_from_string($str) {
     }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 ////////    Emulated Moodle functions used by qformat_default   ///////////////
 ///////////////////////////////////////////////////////////////////////////////
+
+function clean_param($param, $type) {
+    return $param;
+}
 
 function get_config($module, $item){
     return true;
@@ -416,13 +446,20 @@ function format_text($text, $format, $options){
     return $text;
 }
 
-//function question_has_capability_on($question, $capability, $category){
-//    return true;
-//}
+function question_has_capability_on($question, $capability, $category){
+    return true;
+}
 
 $USER = new stdClass();
 $USER->id = 'userid';
 
+class context_user {
+    public static function instance($instanceid, $strictness = 0) {
+        $USER = new stdClass();
+        $USER->id = 'userid';
+        return $USER;
+    }
+}
 
 //function make_upload_directory($directory){
 //    return true;

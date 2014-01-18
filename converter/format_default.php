@@ -23,6 +23,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+
 defined('MOODLE_INTERNAL') || die();
 
 /**
@@ -531,7 +532,7 @@ class qformat_default {
             $filearray = file($filename);
 
             // If the first line of the file starts with a UTF-8 BOM, remove it.
-            $filearray[0] = textlib::trim_utf8_bom($filearray[0]);
+            $filearray[0] = core_text::trim_utf8_bom($filearray[0]);
 
             // Check for Macintosh OS line returns (ie file on one line), and fix.
             if (preg_match("~\r~", $filearray[0]) AND !preg_match("~\n~", $filearray[0])) {
@@ -651,7 +652,7 @@ class qformat_default {
         $name = clean_param($name, PARAM_TEXT); // Matches what the question editing form does.
         $name = trim($name);
         $trimlength = 251;
-        while (textlib::strlen($name) > 255 && $trimlength > 0) {
+        while (core_text::strlen($name) > 255 && $trimlength > 0) {
             $name = shorten_text($name, $trimlength);
             $trimlength -= 10;
         }
@@ -955,8 +956,8 @@ class qformat_based_on_xml extends qformat_default {
             "&#8212;" => "-",
         );
         $str = strtr($str, $html_code_list);
-        // Use textlib entities_to_utf8 function to convert only numerical entities.
-        $str = textlib::entities_to_utf8($str, false);
+        // Use core_text entities_to_utf8 function to convert only numerical entities.
+        $str = core_text::entities_to_utf8($str, false);
         return $str;
     }
 
