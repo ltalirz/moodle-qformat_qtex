@@ -1,3 +1,16 @@
+20.01.2013
+==========
+- Added a commandline based Moodle question converter.
+  It is written in `bash` and makes use of `curl`.
+  The idea is to use a full Moodle installation
+  to do the conversion instead of emulating Moodle. It logs
+  into Moodle, imports the questions given the import format.
+  Then it exports the questions given the export format. The
+  advantage of this is that it is easy to support other types
+  than `xml` and `qtex`. A further advantage is that we do
+  not need to emulate Moodle. A disadvantage is the overhead
+  of importing it into the Moodle database, uploading the images and so on.
+
 18.01.2013
 ==========
 - Fixes in the export file handling.
