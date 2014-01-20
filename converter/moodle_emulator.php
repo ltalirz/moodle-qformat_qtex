@@ -2,8 +2,8 @@
 /**
  * Moodle emulator for standalone version of the TeX converter
  *
- * @uses format_default.php
- * @uses format_xml.php
+ * @uses lib/format_default.php
+ * @uses lib/format_xml.php
  * @uses ../qtex/format.php
  * @uses ../qtex/qformat_tex.php
  *
@@ -15,11 +15,12 @@
 ////////////////            Configuration              ////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-$path_to_default_class = 'format_default.php';
-$path_to_xml_class = 'format_xml.php';
 $path_to_plugin = '../qtex/';
 $path_to_qtex_class = $path_to_plugin.'format.php';
-$path_to_qformat_qtex = $path_to_plugin.'lang/en/qformat_qtex.php';
+$path_to_qtex_strings = $path_to_plugin.'lang/en/qformat_qtex.php';
+
+$CFG = new stdClass;
+$CFG->libdir = 'lib';                   // Used by xml format
 
 ///////////////////////////////////////////////////////////////////////////////
 ////////////////     End of configuration              ////////////////////////
@@ -28,19 +29,18 @@ $path_to_qformat_qtex = $path_to_plugin.'lang/en/qformat_qtex.php';
 // Set some variables
 define('TEXFORMAT_STANDALONE', true);   // Triggers standalone mode
 define('MOODLE_INTERNAL', true);              // New in Moodle 2.?
-$CFG = new stdClass;
-$CFG->libdir = 'lib';                   // Used by xml format
 
 $OUTPUT = new core_renderer();
 
 // Get required code
 //require_once('lib/setuplib.php');     // First get help strings
 //require_once('lib/moodlelib.php');     // First get help strings
-require_once('lib/text.php');
-require_once($path_to_qformat_qtex);     // First get help strings
-require_once($path_to_default_class);   // Then base class for formats
-require_once($path_to_qtex_class);       // Then the real tex...
-require_once($path_to_xml_class);       // and xml converters.
+require_once($CFG->libdir . '/text.php');
+require_once($path_to_qtex_strings);     // First get help strings
+require_once($CFG->libdir . '/format_default.php');   // Then base class for formats
+require_once($CFG->libdir . '/format_xml.php');       // Moodle XML format...
+require_once($path_to_qtex_class);       // and finally the qtex format
+
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -160,7 +160,7 @@ class qformat_qtex_emulator extends qformat_qtex{
         }
 
         // CHANGE: Do not notify in Moodle emulator
-        if(!($this->standalone)) $CFG->notify( get_string('exportingquestions','quiz'));
+        // $CFG->notify( get_string('exportingquestions','quiz'));
         $count = 0;
 
         // results are first written into string (and then to a file)

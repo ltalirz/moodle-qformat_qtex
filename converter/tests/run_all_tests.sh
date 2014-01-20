@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-# change this to the path to `gui.php`
-URL="http://localhost/moodle-qformat_qtex/converter/gui.php"
+read -p "Please enter the URL pointig to 'gui.php' " URL
+
 
 for test in ./test*
 do
