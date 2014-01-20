@@ -1,0 +1,26 @@
+% QuestionTeX Template
+% Version of 8.5.2009
+
+% User Information
+% ================
+%   - This LaTeX source may be compiled by either latex or pdflatex.
+%   - The compilation process requires a file "Questiontex_Macros.tex" to be
+%     found in the same folder. It can be downloaded from
+%       www.lemuren.math.ethz.ch/coursesupport/multiplechoice
+%     where you can also find a more detailed documentation.
+%   - Please do not make use of user-defined macros.
+
+\documentclass[a4paper,oneside]{article}
+\input{MoodleQuiz_Macros.tex}
+\showsolution
+\showfeedback
+
+\begin{document}
+\question[002  Die Punktemenge  z in mathbbC  big  z  mboxRe]{Die Punktemenge $\{ z \in \mathbb{C} \, \big| \, |z| = \mbox{Re} (z) +1 \}$ ist $ \dots $}
+\multianswer
+\false{eine Gerade.}
+\false{eine Ellipse.}
+\true[100]{eine Parabel.}
+\false{eine Hyperbel.}
+
+\end{document}
