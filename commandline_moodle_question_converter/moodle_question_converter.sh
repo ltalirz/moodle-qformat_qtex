@@ -1,11 +1,54 @@
 #!/usr/bin/env bash
 
+function usage {
+    printf \
+        "usage: %s <URL to Moodle> <username> <password> \
+<format from> <format to> <input file> <output file>\n" $(basename $0)
+    exit 1
+}
+
+nCommandLineArgs=$#
+if (( $nCommandLineArgs != 7 ))
+then
+    usage
+fi
+
+argUrlToMoodle=$1
+argUsername=$2
+argPassword=$3
+argFormatFrom=$4
+argFormatTo=$5
+argInputFile=$6
+argOutputFile=$7
+
+formatFrom="xml"
+if [[ $argFormatFrom = "xml" ]]
+then
+    formatFrom="xml"
+elif [[ $argFormatFrom = "qtex" ]]
+then
+    formatFrom="qtex"
+else
+    echo "Unknown format $argFormatFrom, using xml."
+fi
+
+formatTo="xml"
+if [[ $argFormatTo = "xml" ]]
+then
+    formatTo="xml"
+elif [[ $argFormatTo = "qtex" ]]
+then
+    formatTo="qtex"
+else
+    echo "Unknown format $argFormatFrom, using xml."
+fi
+
 COOKIE_FILE="/tmp/cookies.txt"
-LOGIN_URL="http://localhost/moodle/moodle-2.6.1/moodle/login/index.php"
-UPLOAD_URL="http://localhost/moodle/moodle-2.6.1/moodle/repository/repository_ajax.php?action=upload"
-IMPORT_URL="http://localhost/moodle/moodle-2.6.1/moodle/question/import.php"
-EXPORT_URL="http://localhost/moodle/moodle-2.6.1/moodle/question/export.php"
-CATEGORY_URL="http://localhost/moodle/moodle-2.6.1/moodle/question/category.php"
+LOGIN_URL="$argUrlToMoodle/login/index.php"
+UPLOAD_URL="$argUrlToMoodle/repository/repository_ajax.php?action=upload"
+IMPORT_URL="$argUrlToMoodle/question/import.php"
+EXPORT_URL="$argUrlToMoodle/question/export.php"
+CATEGORY_URL="$argUrlToMoodle/question/category.php"
 PAGE_LIMIT=1000
 
 # Moodle login using the given username and password.
@@ -150,50 +193,11 @@ function timestamp {
     date +"%s"
 }
 
-function usage {
-    printf "usage: %s <format from> <format to> <input file> <output file>\n" \
-        $(basename $0)
-    exit 1
-}
-
-nCommandLineArgs=$#
-if (( $nCommandLineArgs != 4 ))
-then
-    usage
-fi
-
-argFormatFrom=$1
-argFormatTo=$2
-argInputFile=$3
-argOutputFile=$4
-
-formatFrom="xml"
-if [[ $argFormatFrom = "xml" ]]
-then
-    formatFrom="xml"
-elif [[ $argFormatFrom = "qtex" ]]
-then
-    formatFrom="qtex"
-else
-    echo "Unknown format $argFormatFrom, using xml."
-fi
-
-formatTo="xml"
-if [[ $argFormatTo = "xml" ]]
-then
-    formatTo="xml"
-elif [[ $argFormatTo = "qtex" ]]
-then
-    formatTo="qtex"
-else
-    echo "Unknown format $argFormatFrom, using xml."
-fi
-
 itemid=$RANDOM
 clientid=$RANDOM
 categoryName="$(timestamp)_$RANDOM"
 
-sesskey=$(login "admin" "Admin12#")
+sesskey=$(login $argUsername $argPassword)
 category="$(addCategory $categoryName $sesskey),2"
 upload $argInputFile $itemid $clientid $sesskey
 importQuestions $category $itemid $sesskey $formatFrom
