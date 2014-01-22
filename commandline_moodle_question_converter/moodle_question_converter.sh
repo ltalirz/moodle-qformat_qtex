@@ -203,3 +203,6 @@ upload $argInputFile $itemid $clientid $sesskey
 importQuestions $category $itemid $sesskey $formatFrom
 exportQuestions $category $sesskey $formatTo > $argOutputFile
 
+# TODO: logout, i. e. invalidate the session.
+
+
