@@ -93,7 +93,7 @@ class qformat_qtex extends qformat_default{
      * @return array of allowed mime types
      */
     public function mime_types() {
-    	$t = array(mimeinfo('type', '.tex'),
+    	$t = array(/*mimeinfo('type', '.tex'),*/
     	           mimeinfo('type', '.zip'));
     	return $t;
     }
@@ -236,14 +236,58 @@ class qformat_qtex extends qformat_default{
             $zip = new ZipArchive();
             $zipOpen = $zip->open($filename);
             if ($zipOpen !== true){
-
-            $res = $zip->open('test.zip');
                 $this->error(get_string('cannotopenzip', 'qformat_qtex', $zipOpen));
             }
 
             // Create a list of the paths to the files contained in the zip
             for ($i=0; $i < $zip->numFiles; $i++) {
                 $zippedfilenames[$i] = $zip->getNameIndex($i);
+            }
+
+            // Search the parameter file and set the parameters.
+            $paramFile = '';
+            for ($i=0; $i < count($zippedfilenames); $i++) {
+                if (preg_match('/(.*?\.json\z)/i',
+                               $zippedfilenames[$i], $matches)) {
+                    if (1 < count($matches)) {
+                        $paramFile = $matches[1];
+                    }
+                }
+            }
+            if ($paramFile !== '') {
+                $params = json_decode($zip->getFromName($paramFile));
+
+                switch ($params->renderengine) {
+                case 'tex':
+                    $this->renderengine = self::FLAG_FILTER_TEX;
+                    break;
+                case 'mathjax':
+                    $this->renderengine = self::FLAG_FILTER_MATHJAX;
+                    break;
+                case 'jsmath':
+                    $this->renderengine = self::FLAG_FILTER_JSMATH;
+                    break;
+                default:
+                    $this->error(get_string('norenderingenginefound',
+                                            'qformat_qtex'));
+                    break;
+                }
+
+                switch ($params->gradingscheme) {
+                case 'default':
+                    $this->gradingscheme = new DefaultGradingScheme();
+                    break;
+                case 'akveld':
+                    $this->gradingscheme = new AkveldGradingScheme();
+                    break;
+                case 'akveld-exam':
+                    $this->gradingscheme = new AkveldGradingSchemeExam();
+                   break;
+                default:
+                    $this->error(get_string('unknowngradingscheme',
+                                            'qformat_qtex'));
+                    break;
+                }
             }
 
             // Find the tex file to translate (apart from the reserved ones,
@@ -1269,12 +1313,12 @@ class qformat_qtex extends qformat_default{
      * @return string The file extension.
      */
     function export_file_extension() {
-        if(!empty($this->images)){
+        /*if(!empty($this->images)){
             return '.zip';
         }
-        else{
+        else{*/
             return '.tex';
-        }
+        //}
     }
 
     /**
@@ -1592,7 +1636,7 @@ class qformat_qtex extends qformat_default{
         $texfile = $this->export_prepare_for_display($content);
 
         // If images have been included, we will return a zip file
-        if(!empty($this->images)){
+        //if(!empty($this->images)){
 
             // Create a zip file for download
 
@@ -1621,11 +1665,11 @@ class qformat_qtex extends qformat_default{
 
             $zip->close();
             return file_get_contents($zip_tempname);
-        }
+            //}
         // If no images are included, we return a texfile
-        else{
-            return $texfile;
-        }
+        //else{
+        //    return $texfile;
+        //}
     }
 
     /**
