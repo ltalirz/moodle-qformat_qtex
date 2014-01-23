@@ -1644,7 +1644,8 @@ class qformat_qtex extends qformat_default{
             // end up inside the file.
             //$OUTPUT->notification(get_string('questionsincludeimages', 'qformat_qtex'));
 
-            $zip_tempname = tempnam('', 'ZIP').'.zip';
+            $systempdir = sys_get_temp_dir();
+            $zip_tempname = tempnam($systempdir, 'ZIP').'.zip';
             $zip = new ZipArchive();
             if (!$zip->open($zip_tempname, ZipArchive::CREATE)){
                 $this->error(get_string('cannotopenzip', 'qformat_qtex'));
