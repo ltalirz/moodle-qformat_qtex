@@ -43,7 +43,7 @@ else
     echo "Unknown format $argFormatFrom, using xml."
 fi
 
-COOKIE_FILE="/tmp/cookies.txt"
+COOKIE_FILE=$(mktemp)
 LOGIN_URL="$argUrlToMoodle/login/index.php"
 UPLOAD_URL="$argUrlToMoodle/repository/repository_ajax.php?action=upload"
 IMPORT_URL="$argUrlToMoodle/question/import.php"
@@ -205,4 +205,5 @@ exportQuestions $category $sesskey $formatTo > $argOutputFile
 
 # TODO: logout, i. e. invalidate the session.
 
+rm $COOKIE_FILE
 
