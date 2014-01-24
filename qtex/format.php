@@ -1257,14 +1257,14 @@ class qformat_qtex extends qformat_default{
                     $file = new stdClass();
                     $file->content = $image['content'];
                     $file->encoding = 'base64';
-                    $file->name = $imagename;
+                    $file->name = str_replace('/', '_', $imagename);
 
                     $files[$imagecount] = $file;
 
                     // Embed image into string
                     $thatimageregexp = $this->create_tex_rgxp(array('image'), self::FLAG_MACRO_MATCH, 0, self::FLAG_NO_IDENTIFIER);
                     $thatimageregexp .= '\{'.preg_quote($imagename, '/').'}';
-                    $repstring = "\n".'<img src="@@PLUGINFILE@@/'. $imagename 
+                    $repstring = "\n".'<img src="@@PLUGINFILE@@/'. str_replace('/', '_', $imagename) 
                                      .'" alt="'. $imagename .'" align="center" width="100%">';
 
                     $string = preg_replace('/'.$thatimageregexp.'/s', $repstring, $string);
