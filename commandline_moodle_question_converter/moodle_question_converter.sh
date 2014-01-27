@@ -45,6 +45,7 @@ fi
 
 COOKIE_FILE=$(mktemp)
 LOGIN_URL="$argUrlToMoodle/login/index.php"
+LOGOUT_URL="$argUrlToMoodle/login/logout.php"
 UPLOAD_URL="$argUrlToMoodle/repository/repository_ajax.php?action=upload"
 IMPORT_URL="$argUrlToMoodle/question/import.php"
 EXPORT_URL="$argUrlToMoodle/question/export.php"
@@ -68,6 +69,15 @@ function login {
         sesskey=${BASH_REMATCH[1]}
     fi
     echo "$sesskey"
+}
+
+# Moodle logout.
+# @param 1 sesskey
+function logOut {
+    sesskey=$1
+    local logoutResponse=$(curl --silent --cookie-jar $COOKIE_FILE --location \
+        "${LOGOUT_URL}?sesskey=$sesskey")
+    printf "%s\n" $logoutResponse
 }
 
 # Moodle file upload.
@@ -202,8 +212,6 @@ category="$(addCategory $categoryName $sesskey),2"
 upload $argInputFile $itemid $clientid $sesskey
 importQuestions $category $itemid $sesskey $formatFrom
 exportQuestions $category $sesskey $formatTo > $argOutputFile
-
-# TODO: logout, i. e. invalidate the session.
-
+logOut $sesskey
 rm $COOKIE_FILE
 
