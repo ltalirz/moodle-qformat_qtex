@@ -241,6 +241,81 @@ class qformat_qtex_emulator extends qformat_qtex{
         return true;
     }
 
+    /**
+     * Imports image into $this->images
+     *
+     * @param array $files of $file objects with functions
+     * 		get_filename(), get_content()
+     */
+    function writeimages($files = NULL, $encoding = 'base64'){
+        if(isset($files)){
+            foreach ($files as $file) {
+                $includename = get_string('imagefolder', 'qformat_qtex').$file['name'];
+                $this->images[$includename] = base64_decode($file['content']);
+            }
+        }
+
+    }
+
+    protected function writequestion($question){
+    	global $OUTPUT;
+        $identifier = $this->get_identifier($question->qtype);
+
+        // If our get_identifier function knows the question type
+        if($identifier){
+
+            // Call the right specialized function to get the content of the
+            // tex environment.
+            $exportfunction = 'export_'.$identifier;
+            $content = $this->{$exportfunction}($question);
+
+            /*
+            // Keep track of non-embedded images (DEPRECATED)
+            if(!empty($question->image)){
+                // Get file name
+                preg_match('/(.*?)\//', strrev($question->image), $imagenamesrev);
+
+                $image['includename'] = get_string('imagefolder', 'qformat_qtex').strrev($imagenamesrev[1]);
+                $image['filepath'] = $question->image;
+                $this->images[$image['includename']] = $image;
+
+                // Add image in front of content
+                $imagetag = $this->create_macro('image', array($image['includename']));
+                $content = $imagetag.$content;
+
+                unset($image);
+            }
+            */
+
+            $fs = get_file_storage();
+            $contextid = $question->contextid;
+            // Get files used by the questiontext.
+            $question->questiontextfiles = $fs->get_area_files(
+                                                               $contextid, 'question', 'questiontext', $question->questiontextitemid);
+            $this->writeimages($question->questiontextfiles);
+
+            // Get files used by the generalfeedback.
+            $question->generalfeedbackfiles = $fs->get_area_files(
+                                                                  $contextid, 'question', 'generalfeedback', $question->generalfeedbackitemid);
+            if (!empty($question->options->answers)) {
+                foreach ($question->options->answers as $answer) {
+                    $answer->answerfiles = $fs->get_area_files(
+                                                               $contextid, 'question', 'answer', $answer->answeritemid);
+                    $this->writeimages($answer->answerfiles);
+                    $answer->feedbackfiles = $fs->get_area_files(
+                                                                 $contextid, 'question', 'answerfeedback', $answer->feedbackitemid);
+                    $this->writeimages($answer->feedbackfiles);
+                }
+            }
+
+        }
+        // Else we don't know the type
+        else{
+            echo $OUTPUT->notification(get_string('unknownexportformat', 'qformat_qtex', $question->qtype));
+        }
+
+        return $content;
+    }
 }
 
 /**
@@ -280,6 +355,8 @@ function rearrange_multichoice($question){
 			$answers[$i]->answer = $answer['text'];
 			$answers[$i]->answerfiles = $answer['files'];
 			$answers[$i]->answerformat = $answer['format'];
+            $answers[$i]->answeritemid = $answer['itemid'];
+            $answers[$i]->id = $answer['id'];
 		} else {
 			$answers[$i]->answer = $answer;
 		}
@@ -292,6 +369,7 @@ function rearrange_multichoice($question){
 			$answers[$i]->feedback = $feedback['text'];
 			$answers[$i]->feedbackfiles = $feedback['files'];
 			$answers[$i]->feedbackformat = $feedback['format'];
+            $answers[$i]->feedbackitemid = $feedback['itemid'];
 		} else {
 			$answers[$i]->feedback = $feedback;
 		}
@@ -347,6 +425,24 @@ class qformat_xml_emulator extends qformat_xml {
      */
     function readquestions($lines){
         return parent::readquestions($lines);
+    }
+
+    /**
+     * Generte the XML to represent some files.
+     * @param array of store array of stored_file objects.
+     * @return string $string the XML.
+     */
+    function write_files($files) {
+        if (empty($files)) {
+            return '';
+        }
+        $string = '';
+        foreach ($files as $file) {
+            $string .= '<file name="' . $file->name . '" encoding="base64">';
+            $string .= $file->content;
+            $string .= '</file>';
+        }
+        return $string;
     }
 
     /**
@@ -410,23 +506,72 @@ class qformat_xml_emulator extends qformat_xml {
 
 }
 
+$fs = new file_storage;
 
 // Used by format_xml
-function get_file_storage(){
-    return new file_storage;
+function get_file_storage() {
+    global $fs;
+
+    return $fs;
 }
 
+$draft_itemid = 1;
+
 function file_get_unused_draft_itemid() {
-    return rand(1, 999999999);
+    global $draft_itemid;
+    return $draft_itemid++;
 }
 
 
 
 class file_storage {
-    function get_area_files($a,$b,$c,$d){
-        return NULL;
+    public $questions;
+    private $createdFiles;
+
+    function __construct() {
+        $this->questions = array();
+        $this->createdFiles = array();
     }
-    public function create_file_from_string($str) {
+
+    function get_area_files($contextid, $mod, $area, $itemid) {
+        if (isset($this->createdFiles[$itemid])) {
+            return $this->createdFiles[$itemid];
+        } else {
+            $questionId = 0;
+            $answerId = 0;
+            if (is_array($itemid)) {
+                $questionId = $itemid[0];
+                $answerId = $itemid[1];
+            } else {
+                $questionId = $itemid;
+            }
+
+            $question = $this->questions[$questionId];
+            if ($area === 'questiontext') {
+                return $question->questiontextfiles;
+            } else if ($area === 'generalfeedback') {
+                return $question->generalfeedbackfiles;
+            } else if ($area === 'answer') {
+                $answer = $question->options->answers[$answerId];
+                return $answer->answerfiles;
+            } else if ($area === 'answerfeedback') {
+                $feedback = $questions->options->answers[$answerId];
+                return $feedback->feedbackfiles;
+            }
+            return array();
+        }
+    }
+
+    function create_file_from_string($filerecord, $str) {
+        $itemid = $filerecord['itemid'];
+        if (!isset($this->createdFiles[$itemid])) {
+            $this->createdFiles[$itemid] = array();
+        }
+        $this->createdFiles[$itemid][] =
+            array(
+                  'name' => $filerecord['filename'],
+                  'encoding' => 'base64',
+                  'content' => base64_encode($str));
     }
 }
 
@@ -510,5 +655,195 @@ class moodle_exception extends Exception {
     }
 }
 
+/**
+ * Given HTML text, make it into plain text using external function
+ *
+ * @param string $html The text to be converted.
+ * @param integer $width Width to wrap the text at. (optional, default 75 which
+ *      is a good value for email. 0 means do not limit line length.)
+ * @param boolean $dolinks By default, any links in the HTML are collected, and
+ *      printed as a list at the end of the HTML. If you don't want that, set this
+ *      argument to false.
+ * @return string plain text equivalent of the HTML.
+ */
+function html_to_text($html, $width = 75, $dolinks = true) {
+
+    global $CFG;
+
+    require_once($CFG->libdir .'/html2text.php');
+
+    $h2t = new html2text($html, false, $dolinks, $width);
+    $result = $h2t->get_text();
+
+    return $result;
+}
+
+/**
+ * Useful functions for writing question types and behaviours.
+ *
+ * @copyright 2010 The Open University
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+abstract class question_utils {
+    /**
+     * Tests to see whether two arrays have the same keys, with the same values
+     * (as compared by ===) for each key. However, the order of the arrays does
+     * not have to be the same.
+     * @param array $array1 the first array.
+     * @param array $array2 the second array.
+     * @return bool whether the two arrays have the same keys with the same
+     *      corresponding values.
+     */
+    public static function arrays_have_same_keys_and_values(array $array1, array $array2) {
+        if (count($array1) != count($array2)) {
+            return false;
+        }
+        foreach ($array1 as $key => $value1) {
+            if (!array_key_exists($key, $array2)) {
+                return false;
+            }
+            if (((string) $value1) !== ((string) $array2[$key])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Tests to see whether two arrays have the same value at a particular key.
+     * This method will return true if:
+     * 1. Neither array contains the key; or
+     * 2. Both arrays contain the key, and the corresponding values compare
+     *      identical when cast to strings and compared with ===.
+     * @param array $array1 the first array.
+     * @param array $array2 the second array.
+     * @param string $key an array key.
+     * @return bool whether the two arrays have the same value (or lack of
+     *      one) for a given key.
+     */
+    public static function arrays_same_at_key(array $array1, array $array2, $key) {
+        if (array_key_exists($key, $array1) && array_key_exists($key, $array2)) {
+            return ((string) $array1[$key]) === ((string) $array2[$key]);
+        }
+        if (!array_key_exists($key, $array1) && !array_key_exists($key, $array2)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Tests to see whether two arrays have the same value at a particular key.
+     * Missing values are replaced by '', and then the values are cast to
+     * strings and compared with ===.
+     * @param array $array1 the first array.
+     * @param array $array2 the second array.
+     * @param string $key an array key.
+     * @return bool whether the two arrays have the same value (or lack of
+     *      one) for a given key.
+     */
+    public static function arrays_same_at_key_missing_is_blank(
+            array $array1, array $array2, $key) {
+        if (array_key_exists($key, $array1)) {
+            $value1 = $array1[$key];
+        } else {
+            $value1 = '';
+        }
+        if (array_key_exists($key, $array2)) {
+            $value2 = $array2[$key];
+        } else {
+            $value2 = '';
+        }
+        return ((string) $value1) === ((string) $value2);
+    }
+
+    /**
+     * Tests to see whether two arrays have the same value at a particular key.
+     * Missing values are replaced by 0, and then the values are cast to
+     * integers and compared with ===.
+     * @param array $array1 the first array.
+     * @param array $array2 the second array.
+     * @param string $key an array key.
+     * @return bool whether the two arrays have the same value (or lack of
+     *      one) for a given key.
+     */
+    public static function arrays_same_at_key_integer(
+            array $array1, array $array2, $key) {
+        if (array_key_exists($key, $array1)) {
+            $value1 = (int) $array1[$key];
+        } else {
+            $value1 = 0;
+        }
+        if (array_key_exists($key, $array2)) {
+            $value2 = (int) $array2[$key];
+        } else {
+            $value2 = 0;
+        }
+        return $value1 === $value2;
+    }
+
+    private static $units     = array('', 'i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii', 'viii', 'ix');
+    private static $tens      = array('', 'x', 'xx', 'xxx', 'xl', 'l', 'lx', 'lxx', 'lxxx', 'xc');
+    private static $hundreds  = array('', 'c', 'cc', 'ccc', 'cd', 'd', 'dc', 'dcc', 'dccc', 'cm');
+    private static $thousands = array('', 'm', 'mm', 'mmm');
+
+    /**
+     * Convert an integer to roman numerals.
+     * @param int $number an integer between 1 and 3999 inclusive. Anything else
+     *      will throw an exception.
+     * @return string the number converted to lower case roman numerals.
+     */
+    public static function int_to_roman($number) {
+        if (!is_integer($number) || $number < 1 || $number > 3999) {
+            throw new coding_exception('Only integers between 0 and 3999 can be ' .
+                    'converted to roman numerals.', $number);
+        }
+
+        return self::$thousands[$number / 1000 % 10] . self::$hundreds[$number / 100 % 10] .
+                self::$tens[$number / 10 % 10] . self::$units[$number % 10];
+    }
+
+    /**
+     * Typically, $mark will have come from optional_param($name, null, PARAM_RAW_TRIMMED).
+     * This method copes with:
+     *  - keeping null or '' input unchanged.
+     *  - nubmers that were typed as either 1.00 or 1,00 form.
+     *
+     * @param string|null $mark raw use input of a mark.
+     * @return float|string|null cleaned mark as a float if possible. Otherwise '' or null.
+     */
+    public static function clean_param_mark($mark) {
+        if ($mark === '' || is_null($mark)) {
+            return $mark;
+        }
+
+        return clean_param(str_replace(',', '.', $mark), PARAM_FLOAT);
+    }
+
+    /**
+     * Get a sumitted variable (from the GET or POST data) that is a mark.
+     * @param string $parname the submitted variable name.
+     * @return float|string|null cleaned mark as a float if possible. Otherwise '' or null.
+     */
+    public static function optional_param_mark($parname) {
+        return self::clean_param_mark(
+                optional_param($parname, null, PARAM_RAW_TRIMMED));
+    }
+
+    /**
+     * Convert part of some question content to plain text.
+     * @param string $text the text.
+     * @param int $format the text format.
+     * @param array $options formatting options. Passed to {@link format_text}.
+     * @return float|string|null cleaned mark as a float if possible. Otherwise '' or null.
+     */
+    public static function to_plain_text($text, $format, $options = array('noclean' => 'true')) {
+        // The following call to html_to_text uses the option that strips out
+        // all URLs, but format_text complains if it finds @@PLUGINFILE@@ tokens.
+        // So, we need to replace @@PLUGINFILE@@ with a real URL, but it doesn't
+        // matter what. We use http://example.com/.
+        $text = str_replace('@@PLUGINFILE@@/', 'http://example.com/', $text);
+        return html_to_text(format_text($text, $format, $options), 0, false);
+    }
+}
 
 ?>

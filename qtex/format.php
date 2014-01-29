@@ -75,13 +75,13 @@ class qformat_qtex extends qformat_default{
     /** Stores array of uploaded files, if zip archive is uploaded. */
     private $includes;
     /** Array of images that belong to the .tex file. */
-    private $images;
+    protected $images;
     /** Renderengine used by Moodle */
     private $renderengine;
     /** Array containing configuration info from file config.php */
     private static $cfg;
     /** This script may also be used in a "stand alone" version */
-    private $standalone;
+    protected $standalone;
     /** Grading scheme object, @see config.php */
     private $gradingscheme;
 
@@ -1316,9 +1316,11 @@ class qformat_qtex extends qformat_default{
         /*if(!empty($this->images)){
             return '.zip';
         }
-        else{*/
+        else{
             return '.tex';
-        //}
+        }
+        */
+        return '.zip';
     }
 
     /**

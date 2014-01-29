@@ -18,7 +18,6 @@ $path_to_moodle_emulator = 'moodle_emulator.php';
 
 $gui_redirect = $_SERVER['SCRIPT_NAME'];
 
-
 if (isset($_POST['sent']) && $_POST['sent']==='yes') {
     // Get me a moodle
     require_once($path_to_moodle_emulator); // Then Moodle Emulator
@@ -79,6 +78,18 @@ if (isset($_POST['sent']) && $_POST['sent']==='yes') {
     $lines = $qimport->readdata($qimport->filename);
 
     $questions = $qimport->readquestions($lines);
+    $questionId = 0;
+    foreach ($questions as $question) {
+        $question->id = $questionId;
+        foreach ($question->answer as $i => $answer) {
+            $question->answer[$i]['id'] = array($questionId, $i);
+        }
+        foreach ($question->feedback as $i => $feedback) {
+            $question->feedback[$i]['id'] = array($questionId, $i);
+        }
+        $questionId++;
+    }
+    $fs->questions = $questions;
     // Regretfully, the questions don't pop out of the database as they
     // come in. Thus we have to do some cosmetics before passing them
     // back again.
@@ -114,7 +125,7 @@ if (isset($_POST['sent']) && $_POST['sent']==='yes') {
     header('Content-Disposition: attachment; filename='.$targetfilename.';');
 
 
-    if($qexport->export_file_extension() == '.zip'){
+    if($qexport->export_file_extension() === '.zip'){
         header('Content-type: application/zip');
     }
     else{
