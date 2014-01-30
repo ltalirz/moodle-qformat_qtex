@@ -21,6 +21,15 @@ $path_to_qtex_strings = $path_to_plugin.'lang/en/qformat_qtex.php';
 
 $CFG = new stdClass;
 $CFG->libdir = 'lib';                   // Used by xml format
+$CFG->dataroot = '.';
+
+const FORMAT_MOODLE = 'FORMAT_MOODLE';
+const FORMAT_HTML = 'FORMAT_HTML';
+const FORMAT_WIKI = 'FORMAT_WIKI';
+const FORMAT_MARKDOWN = 'FORMAT_MARKDOWN';
+const FORMAT_PLAIN = 'FORMAT_PLAIN';
+const RANDOM = 'RANDOM';
+const PARAM_TEXT = 'PARAM_TEXT';
 
 ///////////////////////////////////////////////////////////////////////////////
 ////////////////     End of configuration              ////////////////////////
@@ -64,15 +73,15 @@ function get_string($identifier, $module = '', $a = ''){
 }
 
 class core_renderer {
-	// Used to notify, mostly about irregularities, but not only.
-	// Turning it on can provide insight into process of import (but will also
-	// cause import to fail, since this causes headers to be sent).
-	function notification($string){
-		global $CFG;
-	
-		if($CFG->notify) return "<p><b>Note:</b> $string</p>";
-		else return "";
-	}	
+    // Used to notify, mostly about irregularities, but not only.
+    // Turning it on can provide insight into process of import (but will also
+    // cause import to fail, since this causes headers to be sent).
+    function notification($string){
+        global $CFG;
+    
+        if($CFG->notify) return "<p><b>Note:</b> $string</p>";
+        else return "";
+    }   
 }
 
 
@@ -100,7 +109,7 @@ function match_grade_options($options, $fraction, $mode){
 
 // Used to find out which TeX filter is active
 function get_list_of_plugins($d){
-	global $CFG;
+    global $CFG;
     if ($d == 'filter') return $CFG->textfilters;
     else echo "Error: get_list_of_plugins called with unfamiliar parameter $d";
 }
@@ -149,7 +158,7 @@ class qformat_qtex_emulator extends qformat_qtex{
         //    error( get_string('cannotcreatepath','quiz',$export_dir) );
         //}
         //$path = $CFG->dataroot.'/'.$this->question_get_export_dir();
-        $path = $CFG->dataroot.'/export';
+        //$path = $CFG->dataroot.'/export';
 
         // get the questions (from database) in this category
         // only get q's with no parents (no cloze subquestions specifically)
@@ -206,14 +215,14 @@ class qformat_qtex_emulator extends qformat_qtex{
             $count++;
             // CHANGE: No echo in stand alone
             if(!$this->standalone) echo "<hr /><p><b>$count</b>. ".$this->format_question_text($question)."</p>";
-            if (question_has_capability_on($question, 'view', $question->category)){
+            if (question_has_capability_on($question, 'view', (is_object($question) && property_exists($question, 'category')) ? $question->category : '')){
                 $expout .= $this->writequestion( $question ) . "\n";
             }
         }
 
         // continue path for following error checks
         $course = $this->course;
-        $continuepath = "$CFG->wwwroot/question/export.php?courseid=$course->id";
+        $continuepath = '';//"$CFG->wwwroot/question/export.php?courseid=$course->id";
 
         // did we actually process anything
         if ($count==0) {
@@ -224,7 +233,7 @@ class qformat_qtex_emulator extends qformat_qtex{
         $expout = $this->presave_process( $expout );
 
         // write file
-        $filepath = $path."/".$this->filename . $this->export_file_extension();
+        //$filepath = $path."/".$this->filename . $this->export_file_extension();
 
         // CHANGE: In standalone mode, we simply return $expout
         if($this->standalone) return $expout;
@@ -245,7 +254,7 @@ class qformat_qtex_emulator extends qformat_qtex{
      * Imports image into $this->images
      *
      * @param array $files of $file objects with functions
-     * 		get_filename(), get_content()
+     *          get_filename(), get_content()
      */
     function writeimages($files = NULL, $encoding = 'base64'){
         if(isset($files)){
@@ -258,7 +267,7 @@ class qformat_qtex_emulator extends qformat_qtex{
     }
 
     protected function writequestion($question){
-    	global $OUTPUT;
+        global $OUTPUT;
         $identifier = $this->get_identifier($question->qtype);
 
         // If our get_identifier function knows the question type
@@ -291,12 +300,12 @@ class qformat_qtex_emulator extends qformat_qtex{
             $contextid = $question->contextid;
             // Get files used by the questiontext.
             $question->questiontextfiles = $fs->get_area_files(
-                                                               $contextid, 'question', 'questiontext', $question->questiontextitemid);
+                                                               $contextid, 'question', 'questiontext', (is_object($question) && property_exists($question, 'questiontextitemid')) ? $question->questiontextitemid : '');
             $this->writeimages($question->questiontextfiles);
 
             // Get files used by the generalfeedback.
             $question->generalfeedbackfiles = $fs->get_area_files(
-                                                                  $contextid, 'question', 'generalfeedback', $question->generalfeedbackitemid);
+                                                                  $contextid, 'question', 'generalfeedback', (is_object($question) && property_exists($question, 'generalfeedbackitemid')) ? $question->generalfeedbackitemid : '');
             if (!empty($question->options->answers)) {
                 foreach ($question->options->answers as $answer) {
                     $answer->answerfiles = $fs->get_area_files(
@@ -326,11 +335,11 @@ class qformat_qtex_emulator extends qformat_qtex{
  * @return array Processed array, ready to be handled by writequestions()
  */
 function process_for_export($questions){
-	foreach($questions as $question){
-		if($question->qtype == 'multichoice') $question = rearrange_multichoice($question);
-	}
+    foreach($questions as $question){
+        if($question->qtype == 'multichoice') $question = rearrange_multichoice($question);
+    }
 
-	return $questions;
+    return $questions;
 }
 
 /**
@@ -342,52 +351,58 @@ function process_for_export($questions){
  * @see http://docs.moodle.org/dev/Question_data_structures
  */
 function rearrange_multichoice($question){
-	// We go from a structure
-	// $question->answer, $question->feedback, $question->fraction   to
-	// $question->options->answers, where each answer object has
-	// $answer->answer, $answer->fraction, $answer->feedback
+    // We go from a structure
+    // $question->answer, $question->feedback, $question->fraction   to
+    // $question->options->answers, where each answer object has
+    // $answer->answer, $answer->fraction, $answer->feedback
 
-	// Handling answer text and fraction
-	foreach($question->answer as $i => $answer){
-		$answers[$i] = new stdClass();
+    // Handling answer text and fraction
+    foreach($question->answer as $i => $answer){
+        $answers[$i] = new stdClass();
 
-		if(is_array($answer)){
-			$answers[$i]->answer = $answer['text'];
-			$answers[$i]->answerfiles = $answer['files'];
-			$answers[$i]->answerformat = $answer['format'];
-            $answers[$i]->answeritemid = $answer['itemid'];
+        if(is_array($answer)){
+            $answers[$i]->answer = $answer['text'];
+            $answers[$i]->answerfiles = isset($answer['files']) ? $answer['files'] : array();
+            $answers[$i]->answerformat = $answer['format'];
+            $answers[$i]->answeritemid = isset($answer['itemid']) ? $answer['itemid'] : '';
             $answers[$i]->id = $answer['id'];
-		} else {
-			$answers[$i]->answer = $answer;
-		}
-		$answers[$i]->fraction = $question->fraction[$i];
-	}
+        } else {
+            $answers[$i]->answer = $answer;
+        }
+        $answers[$i]->fraction = $question->fraction[$i];
+    }
 
-	// Handling answer feedbacks
-	foreach($question->feedback as $i => $feedback){
-		if(is_array($feedback)){
-			$answers[$i]->feedback = $feedback['text'];
-			$answers[$i]->feedbackfiles = $feedback['files'];
-			$answers[$i]->feedbackformat = $feedback['format'];
-            $answers[$i]->feedbackitemid = $feedback['itemid'];
-		} else {
-			$answers[$i]->feedback = $feedback;
-		}
-	}
+    // Handling answer feedbacks
+    foreach($question->feedback as $i => $feedback){
+        if(is_array($feedback)){
+            $answers[$i]->feedback = $feedback['text'];
+            $answers[$i]->feedbackfiles = isset($feedback['files']) ? $feedback['files'] : array();
+            $answers[$i]->feedbackformat = $feedback['format'];
+            $answers[$i]->feedbackitemid = isset($feedback['itemid']) ? $feedback['itemid'] : '';
+        } else {
+            $answers[$i]->feedback = $feedback;
+        }
+    }
 
-	$question->options = new stdClass();
-	$question->options->answers = $answers;
-	unset($question->answer);
-	
-	// Multichoice has a few more options...
-	$question->options->single = $question->single;
-	unset($question->single);
-	$question->options->answernumbering = $question->answernumbering;
-	unset($question->answernumbering);
-	$question->options->shuffleanswers = $question->shuffleanswers;
-	unset($question->shuffleanswers);
-	
-	return $question;
+    $question->options = new stdClass();
+    $question->options->answers = $answers;
+    $question->options->correctfeedback = '';
+    $question->options->correctfeedbackformat = '';
+    $question->options->incorrectfeedback = '';
+    $question->options->incorrectfeedbackformat = '';
+    $question->options->partiallycorrectfeedback = '';
+    $question->options->partiallycorrectfeedbackformat = '';
+    unset($question->answer);
+    
+    // Multichoice has a few more options...
+    $question->options->single = $question->single;
+    unset($question->single);
+    $question->options->answernumbering = $question->answernumbering;
+    unset($question->answernumbering);
+    $question->options->shuffleanswers = $question->shuffleanswers;
+    unset($question->shuffleanswers);
+    
+    return $question;
 }
 
 // /**
@@ -398,7 +413,7 @@ function rearrange_multichoice($question){
 //  * @return string The processed string.
 //  */
 // function postprocess($string){
-// 	return stripslashes($string);
+//      return stripslashes($string);
 // }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -460,6 +475,8 @@ class qformat_xml_emulator extends qformat_xml {
             $questions = $this->questions;
         }
 
+        $count = 0;
+        $expout = '';
         foreach($questions as $question) {
 
             // do not export hidden questions
@@ -496,7 +513,7 @@ class qformat_xml_emulator extends qformat_xml {
         
         // did we actually process anything
         if ($count==0) {
-        	print_error('noquestions', 'question', $continuepath);
+            print_error('noquestions', 'question', $continuepath);
         }
         
         // final pre-process on exported data
@@ -504,6 +521,9 @@ class qformat_xml_emulator extends qformat_xml {
         return $expout;
     }
 
+}
+
+function debugging() {
 }
 
 $fs = new file_storage;
@@ -534,7 +554,11 @@ class file_storage {
     }
 
     function get_area_files($contextid, $mod, $area, $itemid) {
-        if (isset($this->createdFiles[$itemid])) {
+        if (!$itemid) {
+            return array();
+        }
+
+        if (!is_array($itemid) && isset($this->createdFiles[$itemid])) {
             return $this->createdFiles[$itemid];
         } else {
             $questionId = 0;
@@ -548,14 +572,20 @@ class file_storage {
 
             $question = $this->questions[$questionId];
             if ($area === 'questiontext') {
-                return $question->questiontextfiles;
+                if (is_object($question) &&
+                        property_exists($question, 'questiontextfiles')) {
+                    return $question->questiontextfiles;
+                }
             } else if ($area === 'generalfeedback') {
-                return $question->generalfeedbackfiles;
+                if (is_object($question) &&
+                        property_exists($question, 'generalfeedbackfiles')) {
+                    return $question->generalfeedbackfiles;
+                }
             } else if ($area === 'answer') {
                 $answer = $question->options->answers[$answerId];
                 return $answer->answerfiles;
             } else if ($area === 'answerfeedback') {
-                $feedback = $questions->options->answers[$answerId];
+                $feedback = $question->options->answers[$answerId];
                 return $feedback->feedbackfiles;
             }
             return array();

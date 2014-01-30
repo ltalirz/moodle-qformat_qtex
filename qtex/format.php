@@ -825,7 +825,7 @@ class qformat_qtex extends qformat_default{
             // of grades. We built in functionality to get the next nearest
             // allowed grade.
             $grades = get_grade_options();
-            $newfraction = match_grade_options($grades->gradeoptionsfull, $fraction, 'nearest');
+            $newfraction = match_grade_options((is_object($grades) && property_exists($grades, 'gradeoptionsfull')) ? $grades->gradeoptionsfull : '', $fraction, 'nearest');
 
             // Since PHP's floats are badly implemented, one can not compare
             // them on equality. We have to convert them to strings.
@@ -893,6 +893,8 @@ class qformat_qtex extends qformat_default{
     	$qobject->qtype = 'multichoice';
     	$qobject->single = false;
     	 
+        $econtent = $ematch['content'];
+
         // Even in multichoice answers one may trigger single choice
         if($this->tex_rgxp_match(array('multianswer'), $econtent, self::FLAG_SINGLE_MATCH, -1)) $qobject->single = false;
         else $qobject->single = true;
@@ -1064,13 +1066,15 @@ class qformat_qtex extends qformat_default{
         // Now start creating the regular expression.
 
         // We create the part for the commands
+        $idregexp = array();
         foreach($tempcommands as $id => $idcommands){
+            if (!isset($idregexp[$id])) $idregexp[$id] = '';
             if($getidentifier) $idregexp[$id] = '(?<'.$id.'>';
             $idregexp[$id] .= implode('|', $idcommands);
             if($getidentifier) $idregexp[$id] .= ')';
         }
         $commandregexp = implode('|', $idregexp);
-        $regexp .= '\\\\(?:'.$commandregexp.')'.$macroterminator;
+        $regexp = '\\\\(?:'.$commandregexp.')'.$macroterminator;
 
         // Now we start matching parameters
 
@@ -1444,12 +1448,12 @@ class qformat_qtex extends qformat_default{
         $econtent = $this->create_macro($this->get_identifier($question->qtype), array($question->questiontext), $question->name);
 
         // Shuffle answers?
-        if($question->shuffleanswers == '0'){
+        if(((is_object($question) && property_exists($question, 'shuffleanswers')) ? $question->shuffleanswers : '') == '0'){
             $econtent .= $this->create_macro('shuffleanswers', array('false'));
         }
 
         // Multiple correct answers?
-        if($question->single == false || $question->single == 'false'){
+        if(is_object($question) && property_exists($question, 'single') && ($question->single == false || $question->single == 'false')){
             $econtent .= $this->create_macro('multianswer');
             // We need to know this for handling the answer fractions
             $single = false;
@@ -1527,7 +1531,7 @@ class qformat_qtex extends qformat_default{
         // We remove variables like $course$/thecategory
         $question->category = preg_replace('/\$(?:.*?)\$\/?/s', '', $question->category);
 
-        $tex .= $this->create_macro($this->get_identifier($question->qtype), array($question->category), $question->name);
+        $tex .= $this->create_macro($this->get_identifier($question->qtype), array($question->category), (is_object($question) && property_exists($question, 'name')) ? $question->name : '');
         $tex .= self::$cfg['NL'];
 
         return $tex;

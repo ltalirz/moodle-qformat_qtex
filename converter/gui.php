@@ -41,12 +41,11 @@ if (isset($_POST['sent']) && $_POST['sent']==='yes') {
     $direction = $_POST['conversion'];
     switch($_POST['renderengine']){
         case 'tex': $CFG->textfilters = array('tex'); break;
-        // TODO: Handle Jsmath properly
-        case 'jsmath': $CFG->textfilters = array('tex'); break;
+        case 'jsmath': $CFG->textfilters = array('jsmath'); break;
         case 'mathjax': $CFG->textfilters = array('mathjax'); break;
     }
     $CFG->gradingscheme = $_POST['gradingscheme'];
-    
+
     $CFG->notify = (isset($_POST['errorhandling'])) ? true : false;
 
     // If we shall translate from LaTeX to MoodleXML
@@ -81,11 +80,21 @@ if (isset($_POST['sent']) && $_POST['sent']==='yes') {
     $questionId = 0;
     foreach ($questions as $question) {
         $question->id = $questionId;
-        foreach ($question->answer as $i => $answer) {
-            $question->answer[$i]['id'] = array($questionId, $i);
+        if (is_object($question) && !property_exists($question, 'contextid')) {
+            $question->contextid = '';
         }
-        foreach ($question->feedback as $i => $feedback) {
-            $question->feedback[$i]['id'] = array($questionId, $i);
+        if (is_object($question) && !property_exists($question, 'hidden')) {
+            $question->hidden = '';
+        }
+        if (is_object($question) && property_exists($question, 'answer')) {
+            foreach ($question->answer as $i => $answer) {
+                $question->answer[$i]['id'] = array($questionId, $i);
+            }
+        }
+        if (is_object($question) && property_exists($question, 'feedback')) {
+            foreach ($question->feedback as $i => $feedback) {
+                $question->feedback[$i]['id'] = array($questionId, $i);
+            }
         }
         $questionId++;
     }
@@ -147,7 +156,9 @@ else{
  * @param int $flag If value is 1, some error occured during the import process and $errormessage is displayed above the form
  * @param string $errormessage Error message describing error in conversion process
  */
-function print_form($flag, $errormessage){
+function print_form($flag, $errormessage) {
+    global $gui_redirect;
+
     $html = "
 <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">
 <html xmlns=\"http://www.w3.org/1999/xhtml\">
@@ -161,7 +172,7 @@ function print_form($flag, $errormessage){
     }
     $html .= "
 This script converts between QuestionTeX and Moodle XML.<br><br>
-<form enctype='multipart/form-data' action='$gui_filename' method='POST'>
+<form enctype='multipart/form-data' action='$gui_redirect' method='POST'>
    <input type='hidden' name='sent' value='yes'>
    <input type='hidden' name='MAX_FILE_SIZE' value='10000000' />
 <table>
@@ -169,9 +180,9 @@ This script converts between QuestionTeX and Moodle XML.<br><br>
 		<td><font size=-1>Desired conversion</font></td>
 		<td>
 		 <select name='conversion'>
-          <option value='t2x'".($_POST['conversion']=='t2x' ? ' selected' : '').">QuestionTeX to Moodle XML</option>
-          <option value='x2t'".($_POST['conversion']=='x2t' ? ' selected' : '').">Moodle XML to QuestionTeX</option>".
-    //<option value='t2t'".($_POST['conversion']=='t2t' ? ' selected' : '').">LaTeX macro update</option>
+          <option value='t2x'".(isset($_POST['conversion']) && $_POST['conversion']==='t2x' ? ' selected' : '').">QuestionTeX to Moodle XML</option>
+          <option value='x2t'".(isset($_POST['conversion']) && $_POST['conversion']==='x2t' ? ' selected' : '').">Moodle XML to QuestionTeX</option>".
+    //<option value='t2t'".(isset($_POST['conversion']) && $_POST['conversion']==='t2t' ? ' selected' : '').">LaTeX macro update</option>
          "</select>
 	    <td><font size=-1> </td>
 	</tr>
@@ -179,9 +190,9 @@ This script converts between QuestionTeX and Moodle XML.<br><br>
 		<td><font size=-1>Render engine</font></td>
 		<td>
 		 <select name='renderengine'>
-          <option value='tex'".($_POST['renderengine']=='tex' ? ' selected' : '').">TeX or MimeTeX plugin</option>
-          <option value='jsmath'".($_POST['renderengine']=='jsmath' ? ' selected' : '').">JsMath plugin</option>
-          <option value='mathjax'".($_POST['renderengine']=='mathjax' ? ' selected' : '').">MathJax plugin</option>
+          <option value='tex'".(isset($_POST['renderengine']) && $_POST['renderengine']==='tex' ? ' selected' : '').">TeX or MimeTeX plugin</option>
+          <option value='jsmath'".(isset($_POST['renderengine']) && $_POST['renderengine']==='jsmath' ? ' selected' : '').">JsMath plugin</option>
+          <option value='mathjax'".(isset($_POST['renderengine']) && $_POST['renderengine']==='mathjax' ? ' selected' : '').">MathJax plugin</option>
          </select>
 	    <td><font size=-1> The text filter used by Moodle to display formulae</td>
 	</tr>
@@ -189,30 +200,30 @@ This script converts between QuestionTeX and Moodle XML.<br><br>
 		<td><font size=-1>Grading scheme</font></td>
 		<td>
 		 <select name='gradingscheme'>
-          <option value='default'".($_POST['gradingscheme']=='default' ? ' selected' : '').">default scheme</option>
-          <option value='akveld'".($_POST['gradingscheme']=='akveld' ? ' selected' : '').">Meike Akveld 11-2013</option>
-          <option value='akveld-exam'".($_POST['gradingscheme']=='akveld-exam' ? ' selected' : '').">Meike Akveld 2-2014</option>         </select>
+          <option value='default'".(isset($_POST['gradingscheme']) && $_POST['gradingscheme']==='default' ? ' selected' : '').">default scheme</option>
+          <option value='akveld'".(isset($_POST['gradingscheme']) && $_POST['gradingscheme']==='akveld' ? ' selected' : '').">Meike Akveld 11-2013</option>
+          <option value='akveld-exam'".(isset($_POST['gradingscheme']) && $_POST['gradingscheme']==='akveld-exam' ? ' selected' : '').">Meike Akveld 2-2014</option>         </select>
 	    <td><font size=-1> The scheme employed to grade the answers.</td>
 	</tr>
           		<tr>
 		<td><font size=-1>Type of input</font></td>
 		<td>
 		 <select name='filetype'>
-          <option value='auto'".($_POST['filetype']=='auto' ? ' selected' : '').">autodetect</option>
-          <option value='tex'".($_POST['filetype']=='tex' ? ' selected' : '').">TeX</option>
-          <option value='xml'".($_POST['filetype']=='xml' ? ' selected' : '').">XML</option>
-          <option value='zip'".($_POST['filetype']=='zip' ? ' selected' : '').">ZIP</option>
+          <option value='auto'".(isset($_POST['filetype']) && $_POST['filetype']==='auto' ? ' selected' : '').">autodetect</option>
+          <option value='tex'".(isset($_POST['filetype']) && $_POST['filetype']==='tex' ? ' selected' : '').">TeX</option>
+          <option value='xml'".(isset($_POST['filetype']) && $_POST['filetype']==='xml' ? ' selected' : '').">XML</option>
+          <option value='zip'".(isset($_POST['filetype']) && $_POST['filetype']==='zip' ? ' selected' : '').">ZIP</option>
          </select>
 		<td><font size=-1> ZIP may be used to provide TeX with images</td>
 	</tr>
 	<tr>
 		<td><font size=-1>Input file<font color=red>*</font></td>
-		<td><input type='file' name='input' value='".$_FILES['input']['name']."'></td>
+		<td><input type='file' name='input' value='".(isset($_FILES['input']['name']) ? $_FILES['input']['name'] : '')."'></td>
 		<td><font size=-1> </td>
 	</tr>
 	<tr>
 		<td><font size=-1>Target file</td>
-		<td><input type='Text' name='target' maxlength='30' value='".$_POST['target']."'></td>
+		<td><input type='Text' name='target' maxlength='30' value='".(isset($_POST['target']) ? $_POST['target'] : '')."'></td>
 		<td><font size=-1> </td>
 	</tr>
 		<tr>
