@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+<!-- question: 0  -->
+  <question type="category">
+    <category>
+        <text>QuestionTeX import</text>
+
+    </category>
+  </question>
+
+<!-- question: 1  -->
+  <question type="multichoice">
+    <name>
+      <text>001 Die unten stehende Figur wird beschrieben durc</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text>Die unten stehende Figur wird beschrieben durch $$ \dots $$</text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden></hidden>
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="unknown">
+      <text></text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="unknown">
+      <text></text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="unknown">
+      <text></text>
+    </incorrectfeedback>
+    <answer fraction="100" format="moodle_auto_format">
+      <text> $$\left\{ (x,y) \in \mathbb{R} ^2 \,\big|\, |x| + |y| \le 1 \right\}$$.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$\left\{ (x,y) \in \mathbb{R} ^2 \,\big|\, |x+y| \le 1\right\}$$.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$\left\{ (x,y) \in \mathbb{R} ^2 \,\big|\, \mbox{max} \{ |x|, |y| \} \le 1\right\}$$.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$\left\{ (x,y) \in \mathbb{R} ^2 \,\big|\, \mbox{min} \{ |x|, |y| \} \le 1\right\}$$.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+  </question>
+
+<!-- question: 2  -->
+  <question type="multichoice">
+    <name>
+      <text>002  Die Punktemenge  z in mathbbC  big  z  mboxRe</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text> Die Punktemenge $$\{ z \in \mathbb{C} \, \big| \, |z| = \mbox{Re} (z) +1 \}$$ ist $$ \dots $$</text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden></hidden>
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="unknown">
+      <text></text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="unknown">
+      <text></text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="unknown">
+      <text></text>
+    </incorrectfeedback>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> eine Gerade.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> eine Ellipse.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="100" format="moodle_auto_format">
+      <text> eine Parabel.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> eine Hyperbel.</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+  </question>
+
+<!-- question: 3  -->
+  <question type="multichoice">
+    <name>
+      <text>003  Bestimmen Sie die Form der allgemeinen Lsung </text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[ Bestimmen Sie die Form der allgemeinen Lösung der Differentialgleichung <p style='text-align: center' class='formula'>$$
+y''(x) + 16 y(x) = e^{3x}.
+$$</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden></hidden>
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="unknown">
+      <text></text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="unknown">
+      <text></text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="unknown">
+      <text></text>
+    </incorrectfeedback>
+    <answer fraction="100" format="moodle_auto_format">
+      <text> $$y(x) = c_1 \cos (4x) + c_2 \sin (4x) + \frac{1}{25} e ^{3x}$$ für $$c_1, c_2 \in \mathbb{R}$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$y(x) = c_1 e^{4x} + c_2 e^{-4x} + \frac{1}{25} e ^{3x}$$ für $$c_1, c_2 \in \mathbb{R}$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$y(x) = c_1 \cos (4x) + c_2 \sin (4x) + \frac{1}{5} e ^{3x}$$ für $$c_1, c_2 \in \mathbb{R}$$ </text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$y(x) = c_1 \cos (4x) + c_2 \sin (4x) + \frac{1}{25} e ^{4x}$$ für $$c_1, c_2 \in \mathbb{R}$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text> $$y(x) = c_1 e^{4x} + c_2 e^{-4x} + \frac{1}{5} e ^{3x}$$ für $$c_1, c_2 \in \mathbb{R}$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+  </question>
+
+</quiz>
