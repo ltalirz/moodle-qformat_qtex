@@ -14,7 +14,7 @@ curl --silent --header "Content-Type: multipart/form-data" \
 
 #printf "%s\n" "$OUTPUT"
 
-DIFF=`diff output.zip expected_output.zip`
+DIFF=`zipcmp output.zip expected_output.zip`
 
 if [ "$DIFF" == "" ]
 then
