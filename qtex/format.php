@@ -26,19 +26,20 @@
  *
  * @package    qformat
  * @subpackage qtex
- * @copyright  2013 Project LEMUREN, ETH Zurich
+ * @copyright  2014 Project LEMUREN, ETH Zurich
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
 if (!class_exists('qformat_default')) {
-	// This is ugly, but this class is also (ab)used by mod/lesson, which defines
-	// a different base class in mod/lesson/format.php. Thefore, we can only
-	// include the proper base class conditionally like this. (We have to include
-	// the base class like this, otherwise it breaks third-party question types.)
-	// This may be reviewd, and a better fix found one day.
-	require_once($CFG->dirroot . '/question/format.php');
+    // This is ugly, but this class is also (ab)used by mod/lesson,
+    // which defines a different base class in mod/lesson/format.php.
+    // Thefore, we can only include the proper base class conditionally
+    // like this. (We have to include the base class like this, otherwise
+    // it breaks third-party question types.)
+    // This may be reviewd, and a better fix found one day.
+    require_once($CFG->dirroot . '/question/format.php');
 }
 
 /**
@@ -50,8 +51,8 @@ if (!class_exists('qformat_default')) {
  *   - Description
  *
  * For more information visit www.lemuren.math.ethz.ch
- * 
- * @copyright  2013 Project LEMUREN, ETH Zurich
+ *
+ * @copyright  2014 Project LEMUREN, ETH Zurich
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  * @uses       config.php
@@ -67,7 +68,7 @@ class qformat_qtex extends qformat_default{
     public function provide_export() {
         return true;
     }
-    
+
     ///////////////////////////////////////////////////////////////////////////
     ///////////    Variables and initialization process     ///////////////////
     ///////////////////////////////////////////////////////////////////////////
@@ -87,31 +88,29 @@ class qformat_qtex extends qformat_default{
 
     /**
      * Finds allowed mime types for file import.
-     * 
-     * We need to allow both .tex and .zip extension.
-     * 
+     *
+     * Currently, we only support zip files.
+     *
      * @return array of allowed mime types
      */
     public function mime_types() {
-    	$t = array(/*mimeinfo('type', '.tex'),*/
-    	           mimeinfo('type', '.zip'));
-    	return $t;
+        return array(mimeinfo('type', '.zip'));
     }
-    
+
     /**
      * Perform simple check, whether to accept user-provided file for import.
-     * 
+     *
      * Overvwritten, since we need to search in list of MIME types.
      * @see qformat_default::can_import_file()
      */
-    public function can_import_file($file){
-    	if (in_array($file->get_mimetype(), $this->mime_types())){
-    		return true;
-    	} else {
-    		return false;
-    	}
+    public function can_import_file($file) {
+        if (in_array($file->get_mimetype(), $this->mime_types())) {
+            return true;
+        } else {
+            return false;
+        }
     }
-    
+
     /**
      * Initializes all variables.
      *
@@ -121,19 +120,21 @@ class qformat_qtex extends qformat_default{
      * In order to avoid calling everything twice, the initialization proccess
      * is moved into the preprocessing phase.
      */
-    public function qformat_qtex_initialize(){
+    public function qformat_qtex_initialize() {
         // Read configuration from file.
         // Make sure we look only in this directory.
-        if( (require(dirname(__FILE__) . '/config.php')) ){
+        if( (require(dirname(__FILE__) . '/config.php')) ) {
             self::$cfg = $cfg;
-        }
-        else{
+        } else{
             $this->error(get_string('configmissing', 'qformat_qtex'));
         }
 
         // Stand alone mode is turned on by defining a flag
-        if(defined('TEXFORMAT_STANDALONE')) $this->standalone = true;
-        else $this->standalone = false;
+        if(defined('TEXFORMAT_STANDALONE')) {
+            $this->standalone = true;
+        } else {
+            $this->standalone = false;
+        }
 
         $this->includes = NULL;
         $this->images = NULL;
@@ -149,42 +150,52 @@ class qformat_qtex extends qformat_default{
     /**
      * Sets $this->renderengine to Moodle's render engine.
      */
-    public function tex_get_render_engine(){
+    public function tex_get_render_engine() {
         global $CFG;
         global $OUTPUT;
 
         $filters = get_list_of_plugins('filter');
         // TODO: Check whether filter is also active and not just available
-        if (in_array('mathjax', $filters)){
-        	return self::FLAG_FILTER_MATHJAX;
-        } elseif (in_array('tex', $filters)){
+        if (in_array('mathjax', $filters)) {
+            return self::FLAG_FILTER_MATHJAX;
+        } elseif (in_array('tex', $filters)) {
             return self::FLAG_FILTER_TEX;
-        } elseif (in_array('jsmath', $filters)){
-        	return self::FLAG_FILTER_JSMATH;
-        } else{
-            echo $OUTPUT->notification(get_string('norenderenginefound', 'qformat_qtex'));
+        } elseif (in_array('jsmath', $filters)) {
+            return self::FLAG_FILTER_JSMATH;
+        } else {
+            echo $OUTPUT->notification(get_string('norenderenginefound',
+                                                  'qformat_qtex'));
             return self::FLAG_FILTER_TEX;
         }
 
     }
-    
+
     /**
      * Sets $this->gradingscheme to object of appropriate class
      * @see config.php for grading scheme classes
      */
-    public function tex_get_grading_scheme(){
-    	global $CFG;
-    	
-    	if($this->standalone && isset($CFG->gradingscheme)){
-    		switch($CFG->gradingscheme){
-    			case 'default'     : return new DefaultGradingScheme(); break;
-    			case 'akveld'      : return new AkveldGradingScheme(); break;
-    			case 'akveld-exam' : return new AkveldGradingSchemeExam(); break;
-    			default       : $this->error(get_string('unknowngradingscheme', 'qformat_qtex'));
-    		}
-    	} else{
-    		return new DefaultGradingScheme();
-    	}
+    public function tex_get_grading_scheme() {
+        global $CFG;
+
+        if($this->standalone && isset($CFG->gradingscheme)) {
+            switch($CFG->gradingscheme){
+                case 'default':
+                    return new DefaultGradingScheme();
+                    break;
+                case 'akveld':
+                    return new AkveldGradingScheme();
+                    break;
+                case 'akveld-exam':
+                    return new AkveldGradingSchemeExam();
+                    break;
+                default:
+                    $this->error(get_string('unknowngradingscheme',
+                                            'qformat_qtex'));
+                    break;
+            }
+        } else{
+            return new DefaultGradingScheme();
+        }
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -219,24 +230,24 @@ class qformat_qtex extends qformat_default{
      * @param string $filename Path to the uploaded file.
      * @return string The .tex file as a string
      */
-    protected function readdata($filename){
+    protected function readdata($filename) {
 
         if (!is_readable($filename)) {
             return false;
         }
 
-        // Get filetype of input file
+        // Get filetype of input file, using the file extension.
         $inputfiletype = substr(strrchr($this->realfilename,"."), 1);
         $inputfiletype = strtolower($inputfiletype);
 
         // If we have a zip file (with pictures)
-        if($inputfiletype == 'zip'){
-
+        if ($inputfiletype === 'zip') {
             // Open zip archive
             $zip = new ZipArchive();
             $zipOpen = $zip->open($filename);
-            if ($zipOpen !== true){
-                $this->error(get_string('cannotopenzip', 'qformat_qtex', $zipOpen));
+            if ($zipOpen !== true) {
+                $this->error(get_string('cannotopenzip',
+                                        'qformat_qtex', $zipOpen));
             }
 
             // Create a list of the paths to the files contained in the zip
@@ -245,6 +256,8 @@ class qformat_qtex extends qformat_default{
             }
 
             // Search the parameter file and set the parameters.
+            // This is needed by the experimental converter that uses
+            // a complete Moodle installation as the converions backend.
             $paramFile = '';
             for ($i=0; $i < count($zippedfilenames); $i++) {
                 if (preg_match('/(.*?\.json\z)/i',
@@ -293,21 +306,28 @@ class qformat_qtex extends qformat_default{
             // Find the tex file to translate (apart from the reserved ones,
             // only one tex file should be contained in the zip file)
             $texfilecounter = 0;
-            $texfilematches = $this->preg_match_batch('/(.*?\.tex\z)/i', $zippedfilenames, self::PREG_DISCARD_EMPTY_MATCHES);
-            foreach ($texfilematches as $texfilematch){
-                if(!preg_match('/.*?'.implode('|', self::$cfg['RESERVED_NAMES']).'.*?/i', $texfilematch[0])){
+            $texfilematches =
+                $this->preg_match_batch('/(.*?\.tex\z)/i',
+                                        $zippedfilenames,
+                                        self::PREG_DISCARD_EMPTY_MATCHES);
+            foreach ($texfilematches as $texfilematch) {
+                if(!preg_match('/.*?' .
+                               implode('|', self::$cfg['RESERVED_NAMES']) .
+                               '.*?/i',
+                               $texfilematch[0])){
                     $texfileguesses[$texfilecounter] = $texfilematch[0];
                     ++$texfilecounter;
                 }
             }
             // No .tex file found
-            if($texfilecounter == 0){
+            if($texfilecounter === 0){
                 $this->error(get_string('notexfound', 'qformat_qtex'));
             }
             // Too many
-            elseif($texfilecounter > 1){
+            else if ($texfilecounter > 1) {
                 $multipletexs = implode(', ', $texfileguesses);
-                $this->error(get_string('multipletex', 'qformat_qtex', $multipletexs));
+                $this->error(get_string('multipletex',
+                                        'qformat_qtex', $multipletexs));
             }
             // Just right.
             else{
@@ -321,25 +341,28 @@ class qformat_qtex extends qformat_default{
             if(preg_match('/.*?(\/.*)/', strrev($texfilename), $superfolders)){
                 $superfolder = strrev($superfolders[1]);
                 foreach ($zippedfilenames as $i => $filename){
-                    $zippedfilenames[$i] = preg_replace('/'.preg_quote($superfolder,'/').'/', '', $filename);
+                    $zippedfilenames[$i] =
+                        preg_replace('/'.preg_quote($superfolder,'/').'/',
+                                     '', $filename);
                 }
             }
 
-            // Now generate an array holding all the possible includes of the tex file
+            // Now generate an array holding all
+            // the possible includes of the tex file.
             foreach ($zippedfilenames as $i => $filename){
                 $includes[$filename] = $zip->getFromIndex($i);
             }
             $this->includes = $includes;
             $zip->close();
         }
-
         // Otherwise assume tex-input
-        else if ($inputfiletype == 'tex'){
+        else if ($inputfiletype === 'tex'){
             $texfile = file_get_contents($filename);
         }
         // Else, we don't know the filetype
         else{
-            $this->error(get_string('unknownfiletype', 'qformat_qtex', $inputfiletype));
+            $this->error(get_string('unknownfiletype', 'qformat_qtex',
+                                    $inputfiletype));
         }
 
         return $texfile;
@@ -351,15 +374,15 @@ class qformat_qtex extends qformat_default{
      * @param string $tex The uploaded TeX file in a string
      * @return string The parsed result
      */
-    function import_process_latex($tex){
+    function import_process_latex($tex) {
 
         // TODO: Decide whether to use latex for parsing or not
 
         // Get contents of macro file and put them into the tex file
-        if(empty(self::$cfg['MACRO_FILE'])){
+        if (empty(self::$cfg['MACRO_FILE'])) {
             $macrofilename = dirname(__FILE__).'/'.self::$cfg['MACRO_FILENAME'];
 
-            if(file_exists($macrofilename)){
+            if (file_exists($macrofilename)) {
                 self::$cfg['MACRO_FILE'] = file_get_contents($macrofilename);
 
                 // Remark: Use preg_replace only, if the replacement string
@@ -368,21 +391,20 @@ class qformat_qtex extends qformat_default{
                 $inputregexp = self::create_tex_rgxp(array('input'));
                 preg_match('/'.$inputregexp.'/s', $tex, $matches);
                 $inputstring = $matches[0];
-                $tex = str_replace($inputstring, self::$cfg['MACRO_FILE'], $tex);
-            }
-            else{
+                $tex = str_replace($inputstring,
+                                   self::$cfg['MACRO_FILE'], $tex);
+            } else {
                 $this->error(get_string('macrosmissing', 'qformat_qtex'));
             }
         }
 
         // Check for availability of LaTeX distribution
-        if(empty(self::$cfg['PATH_TO_LATEX'])){
+        if (empty(self::$cfg['PATH_TO_LATEX'])) {
             global $CFG;
 
-            if(!empty($CFG->filter_tex_pathlatex)){
+            if (!empty($CFG->filter_tex_pathlatex)) {
                 self::$cfg['PATH_TO_LATEX'] = $CFG->filter_tex_pathlatex;
-            }
-            else{
+            } else {
                 $this->error(get_string('latexdistromissing', 'qformat_qtex'));
             }
 
@@ -390,10 +412,13 @@ class qformat_qtex extends qformat_default{
 
         // Create temporary directory
         $systempdir = sys_get_temp_dir();
-        $tempfilepath = tempnam($systempdir, "QTEX"); // Automatically creates file
+        // Automatically creates file
+        $tempfilepath = tempnam($systempdir, "QTEX");
         unlink($tempfilepath);
         $tempdir = $tempfilepath;
-        if(!mkdir($tempdir)) $this->error(get_string('tempdir', 'qformat_qtex'));
+        if (!mkdir($tempdir)) {
+            $this->error(get_string('tempdir', 'qformat_qtex'));
+        }
 
         // Create temporary tex file
         $jobname = 'temp';
@@ -411,7 +436,8 @@ class qformat_qtex extends qformat_default{
          chdir($tempdir);
          $this->execute($command, $output, $returncode);
          if($returncode){
-            $this->error(get_string('latexcompilation', 'qformat_qtex', implode("\n",$output)));
+            $this->error(get_string('latexcompilation',
+                                    'qformat_qtex', implode("\n",$output)));
          }
 
          // Read parsed file and remove temporary files
@@ -420,7 +446,8 @@ class qformat_qtex extends qformat_default{
          // Must delete all files before using rmdir. CHILD_FIRST ensures
          // that children always come before parents (=> rmdir ok)
          $iterator = new RecursiveDirectoryIterator($tempdir);
-         foreach (new RecursiveIteratorIterator($iterator, RecursiveIteratorIterator::CHILD_FIRST) as $file){
+         foreach (new RecursiveIteratorIterator($iterator,
+                            RecursiveIteratorIterator::CHILD_FIRST) as $file) {
             if ($file->isDir()) {
                 rmdir($file->getPathname());
             } else {
@@ -428,7 +455,9 @@ class qformat_qtex extends qformat_default{
             }
          }
          unset($iterator);  // Needed for permission to delete
-         if(!rmdir($tempdir)) $this->error(get_string('tempdir', 'qformat_qtex'));
+         if(!rmdir($tempdir)) {
+             $this->error(get_string('tempdir', 'qformat_qtex'));
+         }
 
          return $parsed;
     }
@@ -439,13 +468,13 @@ class qformat_qtex extends qformat_default{
      * @param string $path Some filepath
      * @return string Formatted filepath
      */
-    function clean_path($path){
+    function clean_path($path) {
         $path = trim($path);
         // In Windows, paths containing spaces must be quoted.
         // Works also in Linux, so do it in both cases.
         if(strpos($path, " ")){
             // Add enclosing quotes if not yet present
-            if(!(substr($path, 0, 1) == '"' && substr($path, -1) == '"')){
+            if(!(substr($path, 0, 1) === '"' && substr($path, -1) === '"')){
                 $path = '"'.$path.'"';
             }
         }
@@ -460,7 +489,7 @@ class qformat_qtex extends qformat_default{
      * @param &int $returncode Reference to return code
      * @return int The return code, i.e. 0 for success, rest for error
      */
-    function execute($command, &$output, &$returncode){
+    function execute($command, &$output, &$returncode) {
         // If we are running under Windows
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             // The old problem with spaces in paths.
@@ -483,8 +512,8 @@ class qformat_qtex extends qformat_default{
      * @param string $texfile The uploaded .tex file as a string
      * @return array Array of question objects
      */
-    protected function readquestions($texfile){
-        if(self::$cfg['GO_VIA_LEM'] == true){
+    protected function readquestions($texfile) {
+        if(self::$cfg['GO_VIA_LEM'] === true){
             $parsed = $this->import_process_latex($texfile);
         }
         // TODO: Adapt code from here on to process lem output
@@ -495,7 +524,7 @@ class qformat_qtex extends qformat_default{
 
         // Array to hold the questions
         $questions = array();
-        $questionindex = 0; 
+        $questionindex = 0;
         $questioncount = 0; // categories should not count as questions
 
         // Handle category
@@ -505,15 +534,23 @@ class qformat_qtex extends qformat_default{
         }
 
         // Now store the environment content in $texenvironments
-        $environmentregexp = $this->create_tex_rgxp(array_keys(self::$cfg['ENVIRONMENTS']), self::FLAG_ENVIRONMENT_MATCH, 1, self::FLAG_GET_IDENTIFIER);
-        preg_match_all('/'.$environmentregexp.'/sx', $tex, $texenvironments, PREG_SET_ORDER);
+        $environmentregexp =
+            $this->create_tex_rgxp(array_keys(self::$cfg['ENVIRONMENTS']),
+                                   self::FLAG_ENVIRONMENT_MATCH, 1,
+                                   self::FLAG_GET_IDENTIFIER);
+        preg_match_all('/'.$environmentregexp.'/sx', $tex,
+                       $texenvironments, PREG_SET_ORDER);
 
         // For each tex environment perform the following operations
-        for($texenvironmentcount = 0; isset($texenvironments[$texenvironmentcount]); $texenvironmentcount++){
-            $qobject = $this->readquestion($texenvironments[$texenvironmentcount], $questioncount + 1);
+        for ($texenvironmentcount = 0;
+                 isset($texenvironments[$texenvironmentcount]);
+                 $texenvironmentcount++) {
+            $qobject =
+                $this->readquestion($texenvironments[$texenvironmentcount],
+                                    $questioncount + 1);
 
             // Add question to quiz and increase corresponding count
-            if(isset($qobject)){
+            if (isset($qobject)) {
                 $questions[$questionindex] = $qobject;
                 ++$questionindex;
                 ++$questioncount;
@@ -533,7 +570,7 @@ class qformat_qtex extends qformat_default{
      * @param string $tex The uploaded TeX-file in a string
      * @return string The processed TeX-file in a string
      */
-    function import_prepare_for_display($tex){
+    function import_prepare_for_display($tex) {
 
         // Remove full line commentaries and line break. Missing 's' option
         // prevents dot from matching newline. 'm' option makes start and end
@@ -541,74 +578,96 @@ class qformat_qtex extends qformat_default{
         $tex = preg_replace('/^%.*$\r?\n/m','',$tex);
         // Remove other commantaries, leave line break
         $tex = preg_replace('/(?<!\\\\)%(.*)/','',$tex);
-        
+
         // Replace user-defined LaTeX macros (TODO: still beta stadium)
-        preg_match('/(.*?)\\\\begin{document}(.*?)\\\\end{document}/sx', $tex, $documents);
+        preg_match('/(.*?)\\\\begin{document}(.*?)\\\\end{document}/sx',
+                   $tex, $documents);
         $head = $documents[1];
         // We discard, what's not in the document-environment
         $tex = $documents[2];
-        // Store user defined macros in 'obligatory1' and what they do in 'obligatory2'
-        $udefinedregexp = $this->create_tex_rgxp(array('newcommand', 'renewcommand'), self::FLAG_MACRO_MATCH, 2);
-        preg_match_all('/'.$udefinedregexp.'/s', $head, $udefinedmatches, PREG_SET_ORDER);
-        foreach($udefinedmatches as $match){
-        	// We have to remove the backslash, since we want to pass it to create_rgxp
+        // Store user defined macros in 'obligatory1' and what they
+        // do in 'obligatory2'.
+        $udefinedregexp = $this->create_tex_rgxp(array('newcommand',
+                                                       'renewcommand'),
+                                                 self::FLAG_MACRO_MATCH, 2);
+        preg_match_all('/'.$udefinedregexp.'/s',
+                       $head, $udefinedmatches, PREG_SET_ORDER);
+        foreach ($udefinedmatches as $match) {
+            // We have to remove the backslash, since we want
+            // to pass it to create_rgxp.
             $umacro = substr($match['obligatory1'], 1);
-            $umacroregexp = $this->create_tex_rgxp(array($umacro), self::FLAG_MACRO_MATCH, -1);
-            $urepl  = $match['obligatory2'];        
-            
+            $umacroregexp =
+                $this->create_tex_rgxp(array($umacro),
+                                       self::FLAG_MACRO_MATCH, -1);
+            $urepl  = $match['obligatory2'];
+
             $tex = preg_replace('/'.$umacroregexp.'/', $urepl, $tex);
         }
 
-        
-        // In XML, the characters <,>,& have to be replaced by their html entities.
+
+        // In XML, the characters <,>,& have
+        // to be replaced by their html entities.
         // I assume that this process does not destroy any of the macros
         // related to questions.
         $tex = htmlspecialchars($tex, ENT_NOQUOTES);
-        
-        // In LaTeX, inline equations are enclosed by $ $. We now make sure that all
+
+        // In LaTeX, inline equations are enclosed by $ $. We now make sure that
         // all block-style equations are enclosed by $$ $$.
         $tex = preg_replace('/\\\\\[(.*?)\\\\\]/sx','\$\$\\1\$\$', $tex);
-        $tex = preg_replace('/(\\\\begin\{eqnarray\*?}.*?\\\\end\{eqnarray\*?})/sx','\$\$\\1\$\$', $tex);
-              
+        $tex =
+          preg_replace('/(\\\\begin\{eqnarray\*?}.*?\\\\end\{eqnarray\*?})/sx',
+                       '\$\$\\1\$\$', $tex);
+
         // Now, since formulae and plain text are are displayed by different
         // render engines, they have to be treated differently.
         // Text is stored in even array items, formulae in uneven array items.
-        preg_match_all('/((?:.*?)(?:\${2}|\${1}|\Z))/sx', $tex, $sectors, PREG_PATTERN_ORDER);
+        preg_match_all('/((?:.*?)(?:\${2}|\${1}|\Z))/sx',
+                       $tex, $sectors, PREG_PATTERN_ORDER);
 
         // In non-formula text, we have to replace LaTeX commands by their HTML
         // representation, while formulae are treated by the respective render
         // engine
-        for($i=0; isset($sectors[1][$i]); ++$i){
-            if($i % 2 == 0) $sectors[1][$i] = $this->import_prepare_text($sectors[1][$i]);
-            else $sectors[1][$i] = $this->import_prepare_formula($sectors[1][$i]);
+        for ($i=0; isset($sectors[1][$i]); ++$i) {
+            if($i % 2 === 0) {
+                $sectors[1][$i] = $this->import_prepare_text($sectors[1][$i]);
+            } else {
+                $sectors[1][$i] =
+                    $this->import_prepare_formula($sectors[1][$i]);
+            }
         }
         $tex = implode('', $sectors[1]);
-        
+
         // Finally, we have to perform some adjustments depending on the filter
         // used by Moodle.
-        if($this->renderengine == self::FLAG_FILTER_TEX ||
-           $this->renderengine == self::FLAG_FILTER_JSMATH) {
-        	// TeX and JsMath filters have no built-in way for displaying equations inline
-        	// and in block-style. We therefore put block-style equations
-        	// ( $$ $$, \[ \], in eqnarrays, etc.) into paragraphs by hand.
-        	 
-        	$pformula = '<p style=\'text-align: center\' class=\'formula\'>';
-        	
-        	if($this->renderengine == self::FLAG_FILTER_JSMATH){
-        		$tex = preg_replace('/\${2}([^\$]*?)\${2}/sx', $pformula.'\\\\(\\1\\\\)</p>', $tex);
-        		$tex = preg_replace('/\$([^\$]*?)\$/sx', '\\\\(\\1\\\\)', $tex);
-        	} elseif ($this->renderengine == self::FLAG_FILTER_TEX) {
-        		$tex = preg_replace('/\${2}([^\$]*?)\${2}/sx', $pformula.'\$\$\\1\$\$</p>', $tex);
-        		// A single $ is one that is neither preceded nor followed by another $:
-        		$tex = preg_replace('/([^\$])\$([^\$]+?)\$/sx', '\\1\$\$\\2\$\$', $tex);
-        	}
-        } elseif ($this->renderengine == self::FLAG_FILTER_MATHJAX) {
-        	// MathJax uses \( \) for inline formulae
-        	// A single $ is one that is neither preceded nor followed by another $:
-        	$tex = preg_replace('/([^\$])\$([^\$]+?)\$/sx','\\1\(\\2\)', $tex);
-        	// and $$ $$ for block-formatted ones (nothing to be done here)
+        if ($this->renderengine === self::FLAG_FILTER_TEX ||
+            $this->renderengine === self::FLAG_FILTER_JSMATH) {
+            // TeX and JsMath filters have no built-in way for displaying
+            // equations inline
+            // and in block-style. We therefore put block-style equations
+            // ( $$ $$, \[ \], in eqnarrays, etc.) into paragraphs by hand.
+
+            $pformula = '<p style=\'text-align: center\' class=\'formula\'>';
+
+            if ($this->renderengine === self::FLAG_FILTER_JSMATH) {
+                $tex = preg_replace('/\${2}([^\$]*?)\${2}/sx',
+                                    $pformula.'\\\\(\\1\\\\)</p>', $tex);
+                $tex = preg_replace('/\$([^\$]*?)\$/sx', '\\\\(\\1\\\\)', $tex);
+            } else if ($this->renderengine === self::FLAG_FILTER_TEX) {
+                $tex = preg_replace('/\${2}([^\$]*?)\${2}/sx',
+                                    $pformula.'\$\$\\1\$\$</p>', $tex);
+                // A single $ is one that is neither
+                // preceded nor followed by another $:
+                $tex = preg_replace('/([^\$])\$([^\$]+?)\$/sx',
+                                    '\\1\$\$\\2\$\$', $tex);
+            }
+        } else if ($this->renderengine === self::FLAG_FILTER_MATHJAX) {
+            // MathJax uses \( \) for inline formulae
+            // A single $ is one that is neither
+            // preceded nor followed by another $:
+            $tex = preg_replace('/([^\$])\$([^\$]+?)\$/sx','\\1\(\\2\)', $tex);
+            // and $$ $$ for block-formatted ones (nothing to be done here)
         }
-        
+
         return $tex;
     }
 
@@ -618,23 +677,37 @@ class qformat_qtex extends qformat_default{
      * @param string $text Some TeX-formatted text.
      * @return string The processed text.
      */
-    function import_prepare_text($text){
+    function import_prepare_text($text) {
 
-        $text = preg_replace('/^\r?\n(?:^\r?\n)+/m', '\\\\\\\\', $text); // Replace successional empty lines by \\ (m-option lets ^ match after newlines)
-        $text = preg_replace('/\r?\n/', ' ', $text); // Then replace left over normal line breaks just by a free space
-        $text = preg_replace('/\\\\\\\\/', '<br/>', $text); // Finally, implement the remaining \\
+        // Replace successional empty lines by \\
+        // (m-option lets ^ match after newlines)
+        $text = preg_replace('/^\r?\n(?:^\r?\n)+/m', '\\\\\\\\', $text);
+        // Then replace left over normal line breaks just by a free space
+        $text = preg_replace('/\r?\n/', ' ', $text);
+        // Finally, implement the remaining \               \
+        $text = preg_replace('/\\\\\\\\/', '<br/>', $text);
 
-        $text = preg_replace('/~/', ' ', $text); // Replace non-breaking spaces by space
+        // Replace non-breaking spaces by space
+        $text = preg_replace('/~/', ' ', $text);
         $text = preg_replace('/--/','-', $text);
-        $text = preg_replace('/\\\\,/','', $text); // Replace thin spaces when not in math mode
-        $text = preg_replace('/\\\\ /','', $text); // Replace thin spaces when not in math mode
+
+        // Replace thin spaces when not in math mode
+        $text = preg_replace('/\\\\,/','', $text);
+        // Replace thin spaces when not in math mode
+        $text = preg_replace('/\\\\ /','', $text);
+
         $text = preg_replace('/\\\\emph\{(.*?)}/s','<i>\\1</i>', $text);
         $text = preg_replace('/\\\\textit\{(.*?)}/s','<i>\\1</i>', $text);
         $text = preg_replace('/\\\\textbf\{(.*?)}/s','<b>\\1</b>', $text);
-        $text = preg_replace('/\\\\bf/s','', $text); // bf toggles bold font (normally somewhere enclosed by {}, but we ignore it here
-        $text = preg_replace('/\\\\\((.*?)\)/s','<i>\\1</i>', $text); // \(...\) is another way of italic
+
+        // bf toggles bold font (normally somewhere enclosed by {},
+        // but we ignore it here
+        $text = preg_replace('/\\\\bf/s','', $text);
+        // \(...\) is another way of italic
+        $text = preg_replace('/\\\\\((.*?)\)/s','<i>\\1</i>', $text);
         $text = preg_replace('/\\\\underline\{(.*?)}/s','<u>\\1</u>', $text);
-        $text = preg_replace('/\\\\(\{|\})/s','\\1', $text); // Remove escaping from curly brackets
+        // Remove escaping from curly brackets
+        $text = preg_replace('/\\\\(\{|\})/s','\\1', $text);
         $text = preg_replace('/\\\\vskip\S*/s','', $text);
 
         // Replace both \"o and "o by a Unicode ö
@@ -647,7 +720,8 @@ class qformat_qtex extends qformat_default{
         $text = preg_replace('/(\\\\"s|"s)/','ß', $text);
 
         // Handle some special symbols
-        $text = preg_replace('/\\\\Big(\W{1})/','<font size=\'+1\'>\\1</font> ', $text);
+        $text = preg_replace('/\\\\Big(\W{1})/',
+                             '<font size=\'+1\'>\\1</font> ', $text);
         $text = preg_replace('/\\\\textbackslash/','&#92;', $text);
         $text = preg_replace('/\\\\ldots/','...', $text);
         $text = preg_replace('/\\\\dots/','...', $text);
@@ -661,7 +735,7 @@ class qformat_qtex extends qformat_default{
      * @param string $formula
      * @return string Processed formula.
      */
-    function import_prepare_formula($formula){
+    function import_prepare_formula($formula) {
 
         // Destroy certain Moodle Emoticons
         $formula = preg_replace('/\(y\)/s', '({}y)', $formula);
@@ -671,7 +745,8 @@ class qformat_qtex extends qformat_default{
         $formula = preg_replace('/:\(/s', ':{}(', $formula);
         $formula = preg_replace('/\^-\)/s', '^{}-)', $formula);
 
-        // Replace "o by \"o, since the Moodle TeX-render-engine doesn't understand "o
+        // Replace "o by \"o, since the Moodle
+        // TeX-render-engine doesn't understand "o
         $formula = preg_replace('/(?<!\\\\)"/','\\\\"', $formula);
 
         // Handle some formatting commands
@@ -692,47 +767,70 @@ class qformat_qtex extends qformat_default{
      * @param string $tex TeXfile that possibly contains includes
      *    (already processed by import_prepare_for_display()).
      */
-    function import_get_images($tex){
-    	global $OUTPUT;
+    function import_get_images($tex) {
+        global $OUTPUT;
 
-        // First, we have to know whether images are included in the tex file. If yes, create a list.
-        $imageregexp = $this->create_tex_rgxp(array('image'), self::FLAG_MACRO_MATCH);
-        preg_match_all('/'.$imageregexp.'/s', $tex, $teximagematches, PREG_SET_ORDER);
+        // First, we have to know whether images are included
+        // in the tex file. If yes, create a list.
+        $imageregexp =
+            $this->create_tex_rgxp(array('image'), self::FLAG_MACRO_MATCH);
+        preg_match_all('/'.$imageregexp.'/s', $tex,
+                       $teximagematches, PREG_SET_ORDER);
         foreach ($teximagematches as $i => $teximagematch) {
             $teximages[$i] = $teximagematch['obligatory1'];
         }
 
         // If there are any images included in the tex file
-        if(isset($teximages)){
+        if (isset($teximages)) {
             $includes =& $this->includes;
             // If includes have been provided
-            if(!empty($includes)){
+            if (!empty($includes)) {
                 foreach ($teximages as $teximage) {
-                    // Search for each latex-image-name $teximage in the provided files.
-                    // Remark: In LaTeX, images may (or rather should) be included without a file extension.
-                    // That means, we must search for $teximage, followed by 'end of string' or '.'
-                    $providedmatches = $this->preg_match_batch('/('.preg_quote($teximage, '/').'(?:\.|\z).*)/i', array_keys($includes), self::PREG_DISCARD_EMPTY_MATCHES);
+                    // Search for each latex-image-name
+                    // $teximage in the provided files.
+                    // Remark: In LaTeX, images may (or rather should)
+                    // be included without a file extension.
+                    // That means, we must search for $teximage,
+                    // followed by 'end of string' or '.'
+                    $providedmatches =
+                        $this->preg_match_batch(
+                              '/('.preg_quote($teximage, '/').'(?:\.|\z).*)/i',
+                              array_keys($includes),
+                              self::PREG_DISCARD_EMPTY_MATCHES);
 
                     // If image is found in includes,
-                    if(isset($providedmatches[0][1])) {
+                    if (isset($providedmatches[0][1])) {
                         $providedname = $providedmatches[0][1];
 
                         // Do a check on file extension
                         $providedtype = substr(strrchr($providedname,"."), 1);
-                        $allowedtypes = $this->preg_match_batch('/'.preg_quote($providedtype, '/').'/i', self::$cfg['IMAGE_FORMATS'], self::PREG_DISCARD_EMPTY_MATCHES);
-                        if(!isset($allowedtypes[0][0])) echo $OUTPUT->notification(get_string('unsupportedimagetype', 'qformat_qtex', $providedname));
+                        $allowedtypes =
+                            $this->preg_match_batch(
+                                        '/'.preg_quote($providedtype, '/').'/i',
+                                        self::$cfg['IMAGE_FORMATS'],
+                                        self::PREG_DISCARD_EMPTY_MATCHES);
+                        if (!isset($allowedtypes[0][0])) {
+                            echo $OUTPUT->notification(
+                                             get_string('unsupportedimagetype',
+                                             'qformat_qtex', $providedname));
+                        }
 
                         // Add it to the image list
-                        $images[$teximage]['content'] = base64_encode($includes[$providedname]);
+                        $images[$teximage]['content'] =
+                            base64_encode($includes[$providedname]);
                         $images[$teximage]['type'] = $providedtype;
 
+                    } else {
+                        echo $OUTPUT->notification(get_string('imagemissing',
+                                                              'qformat_qtex',
+                                                              $teximage));
                     }
-                    else echo $OUTPUT->notification(get_string('imagemissing', 'qformat_qtex', $teximage));
                 }
             }
             // If no images are provided, we complain
-            else{
-                echo $OUTPUT->notification(get_string('allimagesmissing', 'qformat_qtex'));
+            else {
+                echo $OUTPUT->notification(get_string('allimagesmissing',
+                                                      'qformat_qtex'));
             }
 
             // Put images into $this
@@ -751,19 +849,26 @@ class qformat_qtex extends qformat_default{
      * @return object The question object to insert into Moodle or NULL, if
      *      type of question unknown.
      */
-    protected function readquestion($ematch, $questioncount){
-    	global $OUTPUT;
+    protected function readquestion($ematch, $questioncount) {
+        global $OUTPUT;
 
         // Figure out, whether we know this question type
-        if(!empty($ematch['multichoice'])) $qtype = 'multichoice';
+        if (!empty($ematch['multichoice'])) {
+            $qtype = 'multichoice';
         // If we have a single-choice question here
-        elseif(!empty($ematch['singlechoice'])) $qtype = 'singlechoice';
+        } else if (!empty($ematch['singlechoice'])) {
+            $qtype = 'singlechoice';
         // If we have a remark here
-        elseif(!empty($ematch['description'])) $qtype = 'description';
+        } else if (!empty($ematch['description'])) {
+            $qtype = 'description';
         // Else we do not know what we have here
-        else echo $OUTPUT->notification(get_string('unknownenvironment', 'qformat_qtex', $ematch['identifier']));
+        } else {
+            echo $OUTPUT->notification(get_string('unknownenvironment',
+                                                  'qformat_qtex',
+                                                  $ematch['identifier']));
+        }
 
-        if(isset($qtype)){
+        if (isset($qtype)) {
             $qobject = $this->defaultquestion();
 
             // Get question text plus files
@@ -776,11 +881,14 @@ class qformat_qtex extends qformat_default{
             if(!empty($ematch['optional'])) $name = $ematch['optional'];
             // If not set, we take the beginning of the question.
             else {
-            	// Moodle sorts questions alphabetically, so putting a number in front
-            	// helps to retain the order.
-            	$name  = sprintf('%03d',$questioncount).' '.$qobject->questiontext;
+                // Moodle sorts questions alphabetically,
+                // so putting a number in front
+                // helps to retain the order.
+                $name  =
+                    sprintf('%03d',$questioncount).' '.$qobject->questiontext;
             }
-            // We have to clean the names (Moodle does not allow special characters)
+            // We have to clean the names (Moodle does not allow
+            // special characters)
             $name = preg_replace('/[^a-z_\.0-9\s]*/i', '', $name);
             $qobject->name = substr($name, 0, self::$cfg['QNAME_LENGTH']);
 
@@ -802,8 +910,8 @@ class qformat_qtex extends qformat_default{
      * @param array $qobject The question object, passed for additional info
      * @return object The answer object created from this information
      */
-    function import_answer($amatch, $qobject){
-    	global $OUTPUT;
+    function import_answer($amatch, $qobject) {
+        global $OUTPUT;
         $aobject = new stdclass;
 
         // Get credit points for answer from optional parameter
@@ -813,7 +921,9 @@ class qformat_qtex extends qformat_default{
             if(preg_match('/[^\+\-\.\d]+/', $amatch['optional'])){
                 $notification->question = $qobject->name;
                 $notification->fraction = $amatch['optional'];
-                echo $OUTPUT->notification(get_string('badpercentage', 'qformat_qtex', $notification));
+                echo $OUTPUT->notification(get_string('badpercentage',
+                                                      'qformat_qtex',
+                                                      $notification));
 
             }
 
@@ -825,27 +935,35 @@ class qformat_qtex extends qformat_default{
             // of grades. We built in functionality to get the next nearest
             // allowed grade.
             $grades = get_grade_options();
-            $newfraction = match_grade_options((is_object($grades) && property_exists($grades, 'gradeoptionsfull')) ? $grades->gradeoptionsfull : '', $fraction, 'nearest');
+            $newfraction = match_grade_options((is_object($grades)
+                                               && property_exists($grades,
+                                                           'gradeoptionsfull'))
+                                               ?
+                                               $grades->gradeoptionsfull
+                                               :
+                                               '', $fraction, 'nearest');
 
             // Since PHP's floats are badly implemented, one can not compare
             // them on equality. We have to convert them to strings.
-            if((string) $fraction != (string) $newfraction){
+            if ((string) $fraction !== (string) $newfraction) {
                 $notification->original = $original;
                 $notification->new = $newfraction * 100;
                 $notification->question = $qobject->name;
-                echo $OUTPUT->notification(get_string('changedpercentage', 'qformat_qtex', $notification));
+                echo $OUTPUT->notification(get_string('changedpercentage',
+                                                      'qformat_qtex',
+                                                      $notification));
             }
             $aobject->fraction = $newfraction;
         }
         // If not specified, check whether answer is true
         // For grading schemes, @see config.php
-        elseif(!empty($amatch['true'])){
+        else if (!empty($amatch['true'])) {
             $aobject->fraction = 'FRACTION_TRUE';
         }
         // Else, the answer is wrong.
         // For grading schemes, @see config.php
-        else{
-        	$aobject->fraction = 'FRACTION_FALSE';
+        else {
+            $aobject->fraction = 'FRACTION_FALSE';
         }
 
         // Get answertext
@@ -858,7 +976,9 @@ class qformat_qtex extends qformat_default{
 
         // Get feedback (false, if no feedback)
         $aobject->feedback = array();
-        $feedback = $this->import_tex_string($this->tex_rgxp_match(array('feedback'), $amatch['tail']));
+        $feedback = $this->import_tex_string($this->tex_rgxp_match(
+                                                            array('feedback'),
+                                                            $amatch['tail']));
         $aobject->feedback['text'] = $feedback['text'];
         $aobject->feedback['files'] = $feedback['files'];
         $aobject->feedback['format'] = $feedback['format'];
@@ -875,10 +995,10 @@ class qformat_qtex extends qformat_default{
      * @return object The question object created from this information.
      */
     function import_singlechoice($ematch, $qobject){
-    	$qobject->qtype = 'multichoice';
-    	$qobject->single = true;
+        $qobject->qtype = 'multichoice';
+        $qobject->single = true;
 
-    	return $this->import_anychoice($ematch, $qobject);
+        return $this->import_anychoice($ematch, $qobject);
     }
 
     /**
@@ -889,19 +1009,23 @@ class qformat_qtex extends qformat_default{
      *      preprocessed by $this->readquestion.
      * @return object The question object created from this information.
      */
-    function import_multichoice($ematch, $qobject){
-    	$qobject->qtype = 'multichoice';
-    	$qobject->single = false;
-    	 
+    function import_multichoice($ematch, $qobject) {
+        $qobject->qtype = 'multichoice';
+        $qobject->single = false;
+
         $econtent = $ematch['content'];
 
         // Even in multichoice answers one may trigger single choice
-        if($this->tex_rgxp_match(array('multianswer'), $econtent, self::FLAG_SINGLE_MATCH, -1)) $qobject->single = false;
-        else $qobject->single = true;
-        
-    	return $this->import_anychoice($ematch, $qobject);
+        if ($this->tex_rgxp_match(array('multianswer'), $econtent,
+                                  self::FLAG_SINGLE_MATCH, -1)) {
+            $qobject->single = false;
+        } else {
+            $qobject->single = true;
+        }
+
+        return $this->import_anychoice($ematch, $qobject);
     }
-    	 
+
     /**
      * Writes multi/single choice question from a string into a question object.
      *
@@ -910,33 +1034,49 @@ class qformat_qtex extends qformat_default{
      *      preprocessed by $this->readquestion.
      * @return object The question object created from this information.
      */
-    function import_anychoice($ematch, $qobject){
-    	global $OUTPUT;
+    function import_anychoice($ematch, $qobject) {
+        global $OUTPUT;
         $econtent = $ematch['content'];
 
         // Forbid shuffling of answers for this particular question?
-        if($shuffle = $this->tex_rgxp_match(array('shuffleanswers'), $econtent, self::FLAG_SINGLE_MATCH, 1)){
-            if($shuffle == "false") $qobject->shuffleanswers = false;
-            else $qobject->shuffleanswers = true;
+        if ($shuffle = $this->tex_rgxp_match(array('shuffleanswers'), $econtent,
+                                             self::FLAG_SINGLE_MATCH, 1)) {
+            if ($shuffle === 'false') {
+                $qobject->shuffleanswers = false;
+            } else {
+                $qobject->shuffleanswers = true;
+            }
         }
         else $qobject->shuffleanswers = true;
 
         // Get explanation
-        $generalfeedback = $this->import_tex_string($this->tex_rgxp_match(array('explanation'), $econtent));
+        $generalfeedback =
+            $this->import_tex_string($this->tex_rgxp_match(array('explanation'),
+                                                           $econtent));
         $qobject->generalfeedback = $generalfeedback['text'];
         $qobject->generalfeedbackfiles = $generalfeedback['files'];
         $qobject->generalfeedbackformat = $generalfeedback['format'];
 
         // Make a list of answer-macros
-        $answerregexp = $this->create_tex_rgxp(array('true', 'false'), self::FLAG_MACRO_MATCH, 1, self::FLAG_GET_IDENTIFIER);
-        // And a list of macros after that we may stop searching for a feedback (\z means "end of string").
-        // Since we are appending here, we must explicitly prohibit parameter matching the second time
-        $stopmacros = array('true', 'false', 'explanation', 'question', 'description');
-        $answerregexp .= '(?<tail>.*?)(?='.$this->create_tex_rgxp($stopmacros, self::FLAG_MACRO_MATCH, -1, self::FLAG_NO_IDENTIFIER).'|\z)';
-        preg_match_all('/'.$answerregexp.'/sx', $econtent, $texanswers, PREG_SET_ORDER);
+        $answerregexp = $this->create_tex_rgxp(array('true', 'false'),
+                                               self::FLAG_MACRO_MATCH, 1,
+                                               self::FLAG_GET_IDENTIFIER);
+        // And a list of macros after that we may stop
+        //searching for a feedback (\z means "end of string").
+        // Since we are appending here, we must explicitly
+        // prohibit parameter matching the second time
+        $stopmacros = array('true', 'false', 'explanation',
+                            'question', 'description');
+        $answerregexp .= '(?<tail>.*?)(?='.$this->create_tex_rgxp($stopmacros,
+                                               self::FLAG_MACRO_MATCH,
+                                               -1,
+                                               self::FLAG_NO_IDENTIFIER).'|\z)';
+        preg_match_all('/'.$answerregexp.'/sx',
+                       $econtent, $texanswers, PREG_SET_ORDER);
 
         // For each answer perform the following operations
-        for($answercount = 0; isset($texanswers[$answercount]); $answercount++){
+        for ($answercount = 0; isset($texanswers[$answercount]);
+                 $answercount++) {
             $amatch = $texanswers[$answercount];
 
             $aobject = $this->import_answer($amatch, $qobject);
@@ -947,12 +1087,14 @@ class qformat_qtex extends qformat_default{
 
             unset($aobject);
         }
-        if(empty($qobject->answer)) {
-        	$notification = new stdClass();
-        	$notification->question = $qobject->name;
-        	echo $OUTPUT->notification(get_string('noanswers', 'qformat_qtex', $notification));
-        } 
-        
+        if (empty($qobject->answer)) {
+            $notification = new stdClass();
+            $notification->question = $qobject->name;
+            echo $OUTPUT->notification(get_string('noanswers',
+                                                  'qformat_qtex',
+                                                  $notification));
+        }
+
         $qobject = $this->gradingscheme->grade($qobject);
 
         return $qobject;
@@ -964,7 +1106,7 @@ class qformat_qtex extends qformat_default{
      * @param array $ematch The preg_match from a 'remark' environment
      * @return object The question object created from this information.
      */
-    function import_description($ematch, $qobject){
+    function import_description($ematch, $qobject) {
         $qobject->qtype = 'description';
 
         return $qobject;
@@ -980,17 +1122,18 @@ class qformat_qtex extends qformat_default{
     function import_category($tex) {
         $category = new stdClass;
         $category->qtype = 'category';
-        
+
         $texcategory = $this->tex_rgxp_match(array('title'), $tex);
-        if( empty($texcategory) || !(self::$cfg['CATEGORY_FROM_TITLE']) ){
-        	$category->category = self::$cfg['DEFAULT_CATEGORY'];
+        if ( empty($texcategory) || !(self::$cfg['CATEGORY_FROM_TITLE']) ){
+            $category->category = self::$cfg['DEFAULT_CATEGORY'];
         } else {
-        	//$texcategory = get_string('importcategory', 'qformat_qtex');
-        	$category->category = self::$cfg['DEFAULT_CATEGORY'];
+            //$texcategory = get_string('importcategory', 'qformat_qtex');
+            $category->category = self::$cfg['DEFAULT_CATEGORY'];
         }
 
-      	// Moodle does not like all characters as categories
-       	$category->category = preg_replace('/[^a-z_\.0-9\s]*/i', '', $category->category);
+        // Moodle does not like all characters as categories
+        $category->category =
+            preg_replace('/[^a-z_\.0-9\s]*/i', '', $category->category);
 
         return $category;
     }
@@ -1034,31 +1177,34 @@ class qformat_qtex extends qformat_default{
 
      *  @return string The regexp string
      */
-    function create_tex_rgxp(
-    $identifiers = NULL,
-    $mode = self::FLAG_MACRO_MATCH,
-    $paramcount = 1,
-    $getidentifier = self::FLAG_NO_IDENTIFIER){
+    function create_tex_rgxp($identifiers = NULL,
+                             $mode = self::FLAG_MACRO_MATCH,
+                             $paramcount = 1,
+                             $getidentifier = self::FLAG_NO_IDENTIFIER) {
 
         // According to http://en.wikibooks.org/wiki/LaTeX/Basics,
         // LaTeX commands may consist of letters only.
         $macroterminator = '(?=[^a-zA-Z])';
-        $commands = array_merge(self::$cfg['MACROS'], self::$cfg['ENVIRONMENTS']);
+        $commands = array_merge(self::$cfg['MACROS'],
+                                self::$cfg['ENVIRONMENTS']);
 
         // Preg_quote input, if we have any identifiers to match
         if(isset($identifiers)){
             foreach($identifiers as $identifier){
-                // If we read from the config, store preq_quoted stuff in $tempcommands
+                // If we read from the config,
+                //store preq_quoted stuff in $tempcommands
                 if(isset($commands[$identifier])){
                     $i = 0;
                     foreach($commands[$identifier] as $command){
-                        $tempcommands[$identifier][$i] = preg_quote($command, '/');
+                        $tempcommands[$identifier][$i] =
+                            preg_quote($command, '/');
                         ++$i;
                     }
                 }
                 // Else store single preq_quoted command in $tempcommands[0]
                 else{
-                    $tempcommands[$identifier][0] = preg_quote($identifier, '/');
+                    $tempcommands[$identifier][0] =
+                        preg_quote($identifier, '/');
                 }
             }
         }
@@ -1067,29 +1213,44 @@ class qformat_qtex extends qformat_default{
 
         // We create the part for the commands
         $idregexp = array();
-        foreach($tempcommands as $id => $idcommands){
-            if (!isset($idregexp[$id])) $idregexp[$id] = '';
-            if($getidentifier) $idregexp[$id] = '(?<'.$id.'>';
+        foreach ($tempcommands as $id => $idcommands) {
+            if (!isset($idregexp[$id])) {
+                $idregexp[$id] = '';
+            }
+            if ($getidentifier) {
+                $idregexp[$id] = '(?<'.$id.'>';
+            }
             $idregexp[$id] .= implode('|', $idcommands);
-            if($getidentifier) $idregexp[$id] .= ')';
+            if ($getidentifier) {
+                $idregexp[$id] .= ')';
+            }
         }
         $commandregexp = implode('|', $idregexp);
         $regexp = '\\\\(?:'.$commandregexp.')'.$macroterminator;
 
         // Now we start matching parameters
 
-        // For $paramcount == -1, no parameters are matched, not even optional
-        if($paramcount != -1){
+        // For $paramcount === -1, no parameters are matched, not even optional
+        if($paramcount !== -1){
             // Try to capture optional parameter
-            // Could also be done in a balanced way, but I think this would really be "mit Kanonen auf Spatzen schiessen".
+            // Could also be done in a balanced way, but I think
+            // this would really be "mit Kanonen auf Spatzen schiessen".
             $regexp .= '\s*(?:\[(?<optional>[^]]*)])?';
 
             // Get defined number of obligatory parameters
             for($currparam = 1; $currparam <= $paramcount; ++$currparam){
                 // Regexp to match the content of balanced brackets
-                // Remark: The closing bracket at the end doesn't have to be checked for escaping. If it matches after the first path, it can not be
-                // escaped since this path checks for it and if it matches after the second path, the preceding symbol must be '}'.
-                $regexp .= '\s*(?<rec'.$currparam.'> (?<![^\\\\]\\\\)\{ (?<obligatory'.$currparam.'> (?> (?> [^{}] | (?<=[^\\\\]\\\\)[{}] )+ | (?&rec'.$currparam.'))*  )})';
+                // Remark: The closing bracket at the end doesn't have
+                // to be checked for escaping. If it matches after the
+                //first path, it can not be
+                // escaped since this path checks for it and if it
+                //matches after the second path, the preceding symbol
+                //must be '}'.
+                $regexp .=
+                    '\s*(?<rec'.$currparam.'> (?<![^\\\\]\\\\)\{ (?<obligatory'.
+                    $currparam .
+                    '> (?> (?> [^{}] | (?<=[^\\\\]\\\\)[{}] )+ | (?&rec' .
+                    $currparam.'))*  )})';
             }
             // Remove whitespaces (I put them in only for better readability)
             $regexp = str_replace(" ", "", $regexp);
@@ -1099,10 +1260,13 @@ class qformat_qtex extends qformat_default{
 
         // Environment mode: Match until next environment tag or end of file
         // Note: Due to this strategy, it doesn't really matter, whether the
-        //       'environment' tag actually *is* an environment with 
+        //       'environment' tag actually *is* an environment with
         //        \begin{env}...\end{env} or whether it's just a tag \env{...}
-        if($mode == self::FLAG_ENVIRONMENT_MATCH){
-            $envstop = self::create_tex_rgxp(array_keys(self::$cfg['ENVIRONMENTS']), self::FLAG_MACRO_MATCH, -1, self::FLAG_NO_IDENTIFIER);
+        if ($mode === self::FLAG_ENVIRONMENT_MATCH) {
+            $envstop =
+                self::create_tex_rgxp(array_keys(self::$cfg['ENVIRONMENTS']),
+                                      self::FLAG_MACRO_MATCH, -1,
+                                      self::FLAG_NO_IDENTIFIER);
             $regexp .= "(?<content>.*?)(?=$envstop|\z)";
         }
 
@@ -1122,7 +1286,8 @@ class qformat_qtex extends qformat_default{
      *
      * @uses $this->create_tex_rgxp()
      *
-     * @param array $identifiers An array of all TeX identifiers are of interest.
+     * @param array $identifiers An array of all TeX identifiers
+     *                           are of interest.
      * @param string $subject The subject, supposedly containing the macro.
      * @param int $return Should we return:
      *   - FLAG_SINGLE_MATCH (default): The parameter defined by $param (by
@@ -1142,40 +1307,45 @@ class qformat_qtex extends qformat_default{
      *   - FLAG_ENVIRONMENT_MATCH: A TeX environment
      * @return The preg_match containing matched data.
      */
-    function tex_rgxp_match(
-    $identifiers = NULL,
-    $subject = '',
-    $return = self::FLAG_SINGLE_MATCH,
-    $param = 1,
-    $getidentifier = false,
-    $mode = self::FLAG_MACRO_MATCH){
+    function tex_rgxp_match($identifiers = NULL,
+                            $subject = '',
+                            $return = self::FLAG_SINGLE_MATCH,
+                            $param = 1,
+                            $getidentifier = false,
+                            $mode = self::FLAG_MACRO_MATCH) {
 
-        $rgxp = $this->create_tex_rgxp($identifiers, $mode, $param, $getidentifier);
+        $rgxp = $this->create_tex_rgxp($identifiers, $mode,
+                                       $param, $getidentifier);
 
         // If command is found somewhere...
-        if(preg_match('/.*?'.$rgxp.'/sx', $subject, $matches)){
+        if (preg_match('/.*?'.$rgxp.'/sx', $subject, $matches)) {
 
             // If we want to return array of matches
-            if($return == self::FLAG_MATCHES_ARRAY){
+            if ($return === self::FLAG_MATCHES_ARRAY) {
                 return $matches;
             }
-
             // If we want to return a string only
-            elseif($return == self::FLAG_SINGLE_MATCH){
+            else if ($return === self::FLAG_SINGLE_MATCH) {
                 // Return nth obligatory parameter
-                if($param > 0) return $matches['obligatory'.$param];
+                if ($param > 0) {
+                    return $matches['obligatory'.$param];
+                }
                 // Or optional parameter (may not be set)
-                elseif($param == 0){
-                    if(isset($matches['optional'])) return $matches['optional'];
-                    else return false;
+                else if($param === 0){
+                    if (isset($matches['optional'])) {
+                        return $matches['optional'];
+                    } else {
+                        return false;
+                    }
                 }
                 // Or true
-                elseif($param == -1) return true;
+                else if ($param === -1) {
+                    return true;
+                }
             }
         }
-
         // If command is not found, return false
-        else{
+        else {
             return false;
         }
     }
@@ -1190,24 +1360,22 @@ class qformat_qtex extends qformat_default{
      * @param int $flag Determines, whether to discard empty matches
      * @return array The array of matches
      */
-    function preg_match_batch($expr, $batch=array() , $flag = 0)
-    {
+    function preg_match_batch($expr, $batch = array() , $flag = 0) {
         $matches = array();
         $i=0;
 
         // If empty matches should be discarded
-        if($flag == self::PREG_DISCARD_EMPTY_MATCHES){
-            foreach( $batch as $str ){
-                if(preg_match($expr, $str, $found)){
+        if ($flag === self::PREG_DISCARD_EMPTY_MATCHES) {
+            foreach ($batch as $str) {
+                if (preg_match($expr, $str, $found)) {
                     $matches[$i] = $found;
                     ++$i;
                 }
             }
         }
-
         // If empty matches should not be discarded
-        else{
-            foreach( $batch as $str ){
+        else {
+            foreach ($batch as $str) {
                 preg_match($expr, $str, $found);
                 $matches[$i] = $found;
                 ++$i;
@@ -1228,28 +1396,30 @@ class qformat_qtex extends qformat_default{
      *
      * @param string $string Some TeX string
      * @param bool $mayimage Should string be checked for images?
-     * 		(on by default).
+     *          (on by default).
      * @return array
-     * 		$array['text'] holds processed $string
-     * 		$array['format'] holds integer indicating the text format
-     * 		$array['files'] holds needed files (images)
+     *          $array['text'] holds processed $string
+     *          $array['format'] holds integer indicating the text format
+     *          $array['files'] holds needed files (images)
      */
-    function import_tex_string($string, $mayimage = self::FLAG_IMAGE){
-    	global $OUTPUT;
+    function import_tex_string($string, $mayimage = self::FLAG_IMAGE) {
+        global $OUTPUT;
 
         // Insert image to string, if applicable
         // (necessary escaping must be done in here)
         $files = array();
-        if($mayimage == self::FLAG_IMAGE){
+        if($mayimage === self::FLAG_IMAGE){
 
             // Create regexp to find images
             $imageregexp = $this->create_tex_rgxp(array('image'));
 
             // Search string
-            preg_match_all('/'.$imageregexp.'/s', $string, $imagenames, PREG_SET_ORDER);
+            preg_match_all('/'.$imageregexp.'/s',
+                           $string, $imagenames, PREG_SET_ORDER);
 
             // For each included image perform the following operations
-            for($imagecount = 0; isset($imagenames[$imagecount]); $imagecount++){
+            for($imagecount = 0; isset($imagenames[$imagecount]);
+                    $imagecount++){
                 $imagename = $imagenames[$imagecount]['obligatory1'];
 
                 // If we found an image, it should be in the list
@@ -1266,15 +1436,22 @@ class qformat_qtex extends qformat_default{
                     $files[$imagecount] = $file;
 
                     // Embed image into string
-                    $thatimageregexp = $this->create_tex_rgxp(array('image'), self::FLAG_MACRO_MATCH, 0, self::FLAG_NO_IDENTIFIER);
+                    $thatimageregexp = $this->create_tex_rgxp(array('image'),
+                                     self::FLAG_MACRO_MATCH, 0,
+                                     self::FLAG_NO_IDENTIFIER);
                     $thatimageregexp .= '\{'.preg_quote($imagename, '/').'}';
-                    $repstring = "\n".'<img src="@@PLUGINFILE@@/'. str_replace('/', '_', $imagename) 
-                                     .'" alt="'. $imagename .'" align="center" width="100%">';
+                    $repstring = "\n".'<img src="@@PLUGINFILE@@/'.
+                        str_replace('/', '_', $imagename) .
+                        '" alt="'. $imagename .'" align="center" width="100%">';
 
-                    $string = preg_replace('/'.$thatimageregexp.'/s', $repstring, $string);
+                    $string =
+                        preg_replace('/'.$thatimageregexp.'/s',
+                                     $repstring, $string);
                 }
                 else {
-                	echo $OUTPUT->notification(get_string('imagemissing', 'qformat_qtex', $imagename));
+                    echo $OUTPUT->notification(get_string('imagemissing',
+                                                          'qformat_qtex',
+                                                          $imagename));
                 }
             }
         }
@@ -1298,7 +1475,7 @@ class qformat_qtex extends qformat_default{
     /**
      * Initializes all variables.
      */
-    function exportpreprocess(){
+    function exportpreprocess() {
         // Initialize the format ("constructor")
         $this->qformat_qtex_initialize();
 
@@ -1312,18 +1489,12 @@ class qformat_qtex extends qformat_default{
      * If images are involved, we should give back a zip archive.
      * For some stupid reason, the Moodle 2 export function creates a new
      * qformat instance to call this function, so this function does not
-     * work anymore.
+     * work anymore. Thus, we currently always return a zip file, also if
+     * there are no images involved.
      *
      * @return string The file extension.
      */
     function export_file_extension() {
-        /*if(!empty($this->images)){
-            return '.zip';
-        }
-        else{
-            return '.tex';
-        }
-        */
         return '.zip';
     }
 
@@ -1334,7 +1505,7 @@ class qformat_qtex extends qformat_default{
      * @return string Identifier of corresponding LaTeX environment
      */
     function get_identifier($qtype) {
-    	switch($qtype) {
+        switch($qtype) {
             case 'multichoice':
                 $identifier = 'multichoice';
                 break;
@@ -1357,8 +1528,8 @@ class qformat_qtex extends qformat_default{
      * @param object $question A question object fresh from the moodle database
      * @param string The tex code corresponding to this question
      */
-    protected function writequestion($question){
-    	global $OUTPUT;
+    protected function writequestion($question) {
+        global $OUTPUT;
         $identifier = $this->get_identifier($question->qtype);
 
         // If our get_identifier function knows the question type
@@ -1369,49 +1540,60 @@ class qformat_qtex extends qformat_default{
             $exportfunction = 'export_'.$identifier;
             $content = $this->{$exportfunction}($question);
 
-            /*
             // Keep track of non-embedded images (DEPRECATED)
-            if(!empty($question->image)){
+            if (!empty($question->image)) {
                 // Get file name
-                preg_match('/(.*?)\//', strrev($question->image), $imagenamesrev);
+                preg_match('/(.*?)\//',
+                           strrev($question->image), $imagenamesrev);
 
-                $image['includename'] = get_string('imagefolder', 'qformat_qtex').strrev($imagenamesrev[1]);
+                $image['includename'] =
+                    get_string('imagefolder', 'qformat_qtex') .
+                    strrev($imagenamesrev[1]);
                 $image['filepath'] = $question->image;
                 $this->images[$image['includename']] = $image;
 
                 // Add image in front of content
-                $imagetag = $this->create_macro('image', array($image['includename']));
+                $imagetag = $this->create_macro('image',
+                                                array($image['includename']));
                 $content = $imagetag.$content;
 
                 unset($image);
             }
-            */
 
             $fs = get_file_storage();
             $contextid = $question->contextid;
             // Get files used by the questiontext.
-            $question->questiontextfiles = $fs->get_area_files(
-                                                               $contextid, 'question', 'questiontext', $question->id);
+            $question->questiontextfiles = $fs->get_area_files($contextid,
+                                                               'question',
+                                                               'questiontext',
+                                                               $question->id);
             $this->writeimages($question->questiontextfiles);
 
             // Get files used by the generalfeedback.
-            $question->generalfeedbackfiles = $fs->get_area_files(
-                                                                  $contextid, 'question', 'generalfeedback', $question->id);
+            $question->generalfeedbackfiles =
+                $fs->get_area_files($contextid,
+                                    'question',
+                                    'generalfeedback',
+                                    $question->id);
             if (!empty($question->options->answers)) {
                 foreach ($question->options->answers as $answer) {
-                    $answer->answerfiles = $fs->get_area_files(
-                                                               $contextid, 'question', 'answer', $answer->id);
+                    $answer->answerfiles =
+                        $fs->get_area_files($contextid,
+                                            'question', 'answer', $answer->id);
                     $this->writeimages($answer->answerfiles);
-                    $answer->feedbackfiles = $fs->get_area_files(
-                                                                 $contextid, 'question', 'answerfeedback', $answer->id);
+                    $answer->feedbackfiles =
+                        $fs->get_area_files($contextid, 'question',
+                                            'answerfeedback', $answer->id);
                     $this->writeimages($answer->feedbackfiles);
                 }
             }
 
         }
         // Else we don't know the type
-        else{
-            echo $OUTPUT->notification(get_string('unknownexportformat', 'qformat_qtex', $question->qtype));
+        else {
+            echo $OUTPUT->notification(get_string('unknownexportformat',
+                                                  'qformat_qtex',
+                                                  $question->qtype));
         }
 
         return $content;
@@ -1421,20 +1603,21 @@ class qformat_qtex extends qformat_default{
      * Imports image into $this->images
      *
      * @param array $files of $file objects with functions
-     * 		get_filename(), get_content()
+     *          get_filename(), get_content()
      */
-    function writeimages($files = NULL, $encoding = 'base64'){
-        if(isset($files)){
+    function writeimages($files = NULL, $encoding = 'base64') {
+        if (isset($files)) {
             foreach ($files as $file) {
                 if ($file->is_directory()) {
                     continue;
                 }
 
-                $includename = get_string('imagefolder', 'qformat_qtex').$file->get_filename();
+                $includename =
+                    get_string('imagefolder', 'qformat_qtex') .
+                    $file->get_filename();
                 $this->images[$includename] = $file->get_content();
             }
         }
-
     }
 
     /**
@@ -1443,60 +1626,71 @@ class qformat_qtex extends qformat_default{
      * @param object $question A question object from the Moodle data base
      * @return string The corresponding TeX string
      */
-    function export_multichoice($question){
+    function export_multichoice($question) {
 
-        $econtent = $this->create_macro($this->get_identifier($question->qtype), array($question->questiontext), $question->name);
+        $econtent = $this->create_macro($this->get_identifier($question->qtype),
+                                        array($question->questiontext),
+                                        $question->name);
 
         // Shuffle answers?
-        if(((is_object($question) && property_exists($question, 'shuffleanswers')) ? $question->shuffleanswers : '') == '0'){
+        if (((is_object($question) &&
+                 property_exists($question, 'shuffleanswers'))
+                 ?
+                 $question->shuffleanswers
+                 :
+                 '') === '0') {
             $econtent .= $this->create_macro('shuffleanswers', array('false'));
         }
 
         // Multiple correct answers?
-        if(is_object($question) && property_exists($question, 'single') && ($question->single == false || $question->single == 'false')){
+        if (is_object($question) &&
+               property_exists($question, 'single') &&
+               ($question->single === false || $question->single === 'false')) {
             $econtent .= $this->create_macro('multianswer');
             // We need to know this for handling the answer fractions
             $single = false;
-        }
-        else{
+        } else {
             $single = true;
         }
 
         // Handle answers. For export, the Moodle geniuses invented sth new:
         // $question->options->answers, where each answer object has
         // $answer->answer, $answer->fraction, $answer->feedback
-        foreach($question->options->answers as $aobject){
-
+        foreach ($question->options->answers as $aobject) {
             // Handle percentage
             // We don't check, if fractions add up to 100. Could be done
             $percentage = floatval($aobject->fraction) * 100;
-            if($percentage > 0){
+            if ($percentage > 0) {
                 $identifier = 'true';
-            }
-            else{
+            } else {
                 $identifier = 'false';
             }
 
             // If we have a single-answer question, we dont specify a percentage
-            if($single){
-                $econtent .= $this->create_macro($identifier, array($aobject->answer));
+            if ($single) {
+                $econtent .=
+                    $this->create_macro($identifier, array($aobject->answer));
             }
             // If we have a multi-answer question, we do...
-            else{
-                $econtent .= $this->create_macro($identifier, array($aobject->answer), $percentage);
+            else {
+                $econtent .=
+                    $this->create_macro($identifier,
+                                        array($aobject->answer), $percentage);
             }
             // Handle answer images
             $this->writeimages($aobject->answerfiles);
 
             // Get feedback
-            if(!empty($aobject->feedback)){
-                $econtent .= $this->create_macro('feedback', array($aobject->feedback));
+            if (!empty($aobject->feedback)) {
+                $econtent .= $this->create_macro('feedback',
+                                                 array($aobject->feedback));
             }
         }
 
         // At the end of the question, get general feedback
-        if(!empty($question->generalfeedback)){
-            $econtent .= $this->create_macro('explanation', array($question->generalfeedback));
+        if (!empty($question->generalfeedback)) {
+            $econtent .= $this->create_macro('explanation',
+                                             array($question->generalfeedback));
 
             // Handle general feedback images
             $this->writeimages($aobject->feedbackfiles);
@@ -1511,9 +1705,10 @@ class qformat_qtex extends qformat_default{
      * @param object $question A question object from the Moodle data base
      * @return string The corresponding TeX string
      */
-    function export_description($question){
-
-        $econtent = $this->create_macro($this->get_identifier($question->qtype), array($question->questiontext), $question->name);
+    function export_description($question) {
+        $econtent = $this->create_macro($this->get_identifier($question->qtype),
+                                        array($question->questiontext),
+                                        $question->name);
 
         return $econtent;
     }
@@ -1529,9 +1724,15 @@ class qformat_qtex extends qformat_default{
         $tex = self::$cfg['NL'];
 
         // We remove variables like $course$/thecategory
-        $question->category = preg_replace('/\$(?:.*?)\$\/?/s', '', $question->category);
+        $question->category =
+            preg_replace('/\$(?:.*?)\$\/?/s', '', $question->category);
 
-        $tex .= $this->create_macro($this->get_identifier($question->qtype), array($question->category), (is_object($question) && property_exists($question, 'name')) ? $question->name : '');
+        $tex .=
+            $this->create_macro($this->get_identifier($question->qtype),
+                                array($question->category),
+                                (is_object($question) &&
+                                 property_exists($question, 'name'))
+                                ? $question->name : '');
         $tex .= self::$cfg['NL'];
 
         return $tex;
@@ -1548,14 +1749,14 @@ class qformat_qtex extends qformat_default{
      * @param string optional Optional parameter
      * @return string TeX code ready to put into TeX file
      */
-    function create_macro($identifier, $obligatories = '', $optional = ''){
+    function create_macro($identifier, $obligatories = '', $optional = '') {
 
         // Get macro name
-        $commands = array_merge(self::$cfg['MACROS'], self::$cfg['ENVIRONMENTS']);
-        if(isset($commands[$identifier])){
+        $commands = array_merge(self::$cfg['MACROS'],
+                                self::$cfg['ENVIRONMENTS']);
+        if (isset($commands[$identifier])) {
             $macroname = $commands[$identifier][0];
-        }
-        else{
+        } else {
             $macroname = $identifier;
         }
 
@@ -1565,8 +1766,8 @@ class qformat_qtex extends qformat_default{
             $texcode .= '['.$optional.']';
         }
 
-        if(!empty($obligatories)){
-            foreach($obligatories as $obligatory){
+        if (!empty($obligatories)) {
+            foreach ($obligatories as $obligatory) {
                 // Handle images etc.
                 //$obligatory = $this->export_tex_string($obligatory);
 
@@ -1591,21 +1792,22 @@ class qformat_qtex extends qformat_default{
      * @param string optional
      * @return string TeX code ready to put into TeX file
      */
-    function create_environment($identifier, $environmentcontent = '', $obligatories = '', $optional = ''){
+    function create_environment($identifier,
+                                $environmentcontent = '',
+                                $obligatories = '', $optional = ''){
         // Get environment name
-        if(isset(self::$cfg['ENVIRONMENTS'][$identifier])){
+        if (isset(self::$cfg['ENVIRONMENTS'][$identifier])) {
             $environmentname = self::$cfg['ENVIRONMENTS'][$identifier][0];
-        }
-        else{
+        } else {
             $environmentname = $identifier;
         }
         $texcode = '\\begin{'.$environmentname.'}';
 
-        if(!empty($optional)){
+        if (!empty($optional)) {
             $texcode .= '['.$optional.']';
         }
 
-        if(!empty($obligatories)){
+        if (!empty($obligatories)) {
             foreach($obligatories as $obligatory){
                 $texcode .= '{'.$obligatory.'}';
             }
@@ -1633,7 +1835,7 @@ class qformat_qtex extends qformat_default{
      * @return string The content of the file to be downloaded
      *      (either TeX code or a zip file if images are included).
      */
-    protected function presave_process($content){
+    protected function presave_process($content) {
         // Handle images
         $content = $this->export_extract_images($content);
 
@@ -1641,42 +1843,34 @@ class qformat_qtex extends qformat_default{
         // document environment.
         $texfile = $this->export_prepare_for_display($content);
 
-        // If images have been included, we will return a zip file
-        //if(!empty($this->images)){
+        // Create a zip file for download
 
-            // Create a zip file for download
+        // For some reason, in Moodle 2 the notification below would
+        // end up inside the file.
+        //$OUTPUT->notification(get_string('questionsincludeimages',
+        //                                 'qformat_qtex'));
 
-            // For some reason, in Moodle 2 the notification below would
-            // end up inside the file.
-            //$OUTPUT->notification(get_string('questionsincludeimages', 'qformat_qtex'));
+        $systempdir = sys_get_temp_dir();
+        $zip_tempname = tempnam($systempdir, 'ZIP').'.zip';
+        $zip = new ZipArchive();
+        if (!$zip->open($zip_tempname, ZipArchive::CREATE)){
+            $this->error(get_string('cannotopenzip', 'qformat_qtex'));
+        }
+        // Add tex file
+        $zip->addFromString(self::$cfg['QUIZ_FILENAME'], $texfile);
 
-            $systempdir = sys_get_temp_dir();
-            $zip_tempname = tempnam($systempdir, 'ZIP').'.zip';
-            $zip = new ZipArchive();
-            if (!$zip->open($zip_tempname, ZipArchive::CREATE)){
-                $this->error(get_string('cannotopenzip', 'qformat_qtex'));
-            }
-            // Add tex file
-            $zip->addFromString(self::$cfg['QUIZ_FILENAME'], $texfile);
+        // Add image files
+        // Get the proper prefix to file paths
+        global $CFG;
+        $pathprefix = $CFG->dataroot.'/'.$this->course->id.'/';
 
-            // Add image files
-            // Get the proper prefix to file paths
-            global $CFG;
-            $pathprefix = $CFG->dataroot.'/'.$this->course->id.'/';
+        // Iterate through $this->images.
+        foreach ($this->images as $includename => $image) {
+            $zip->addFromString($includename, $image);
+        }
 
-            // Iterate through $this->images.
-            foreach($this->images as $includename => $image){
-
-                $zip->addFromString($includename, $image);
-            }
-
-            $zip->close();
-            return file_get_contents($zip_tempname);
-            //}
-        // If no images are included, we return a texfile
-        //else{
-        //    return $texfile;
-        //}
+        $zip->close();
+        return file_get_contents($zip_tempname);
     }
 
     /**
@@ -1691,52 +1885,61 @@ class qformat_qtex extends qformat_default{
      * @return string A processed tex code, where embedded images have been
      *      replaced by \includegraphics statements
      */
-    function export_extract_images($content){
-    	global $OUTPUT;
+    function export_extract_images($content) {
+        global $OUTPUT;
 
         // Find img tags
         preg_match_all('/<img(.*?)>/is', $content, $imgs, PREG_SET_ORDER);
         $extractedcount = 0;
 
-        for($imgcount = 0; isset($imgs[$imgcount]); ++$imgcount){
+        for ($imgcount = 0; isset($imgs[$imgcount]); ++$imgcount) {
             $img = $imgs[$imgcount];
 
             // Extract source of image
-            if(preg_match('/.*?src=(?:\'|")([^>]*?)(?:\'|")/is', $img[1], $sources)){
+            if (preg_match('/.*?src=(?:\'|")([^>]*?)(?:\'|")/is',
+                          $img[1], $sources)) {
                 $source = trim($sources[1]);
 
                 // An img tag may hold an embedded image.
                 // Those will be loaded into $this->images
-                if(preg_match('/data:image\/(?<type>.*?);(?<encoding>.*?),(?<data>.*)/is', $source, $embeddings)){
+                if (preg_match('/data:image\/(?<type>.*?);(?<encoding>.*?),' .
+                               '(?<data>.*)/is', $source, $embeddings)){
                     $embeddings['data'] = trim($embeddings['data']);
                     $embeddings['type'] = trim($embeddings['type']);
 
                     // We only know, how to handle base64 encoded data
-                    if(preg_match('/base64/is', $embeddings['encoding'])){
-                        $image['includename'] = get_string('imagefolder', 'qformat_qtex').($extractedcount+1).'.'.$embeddings['type'];
+                    if (preg_match('/base64/is', $embeddings['encoding'])) {
+                        $image['includename'] = get_string('imagefolder',
+                                                           'qformat_qtex') .
+                            ($extractedcount+1).'.'.$embeddings['type'];
 
                         // Insert image into array
-                        $this->images[$image['includename']] = base64_decode($embeddings['data']);
-                    }
-                    else{
-                        echo $OUTPUT->notification(get_string('embederror', 'qformat_qtex'));
+                        $this->images[$image['includename']] =
+                            base64_decode($embeddings['data']);
+                    } else {
+                        echo $OUTPUT->notification(get_string('embederror',
+                                                              'qformat_qtex'));
                     }
                 }
-
                 // Or it may hold a path to an image (which should be imported
                 // elsewhere).
-                else{
-                    $image['includename'] = get_string('imagefolder', 'qformat_qtex').basename($source);
+                else {
+                    $image['includename'] = get_string('imagefolder',
+                                                       'qformat_qtex') .
+                        basename($source);
                     $image['filepath'] = $source;
                 }
 
                 // Replace img tag by include statement
-                if(isset($image)){
+                if (isset($image)) {
                     $extractedcount++;
 
                     $pattern = preg_quote($img[0], '/');
-                    $replacement = $this->create_macro('image', array($image['includename']));
-                    $content = preg_replace('/'.$pattern.'/is',  $replacement, $content);
+                    $replacement =
+                        $this->create_macro('image',
+                                            array($image['includename']));
+                    $content = preg_replace('/'.$pattern.'/is',
+                                            $replacement, $content);
 
                     unset($image);
                 }
@@ -1752,7 +1955,7 @@ class qformat_qtex extends qformat_default{
      * @param string $texcode TeX code containing all the questions for export
      * @return string A real LaTeX document containing those questions.
      */
-    function export_prepare_for_display($texcode){
+    function export_prepare_for_display($texcode) {
 
         // Clean from XML remains (represent special entities in LaTeX, etc)
         $texcode = $this->export_prepare_xml($texcode);
@@ -1779,29 +1982,39 @@ class qformat_qtex extends qformat_default{
      * @param string $dirty String containing XML entities
      * @return string Cleaned XML code
      */
-    function export_prepare_xml($dirty){
+    function export_prepare_xml($dirty) {
 
         // No need for XML-entities anymore
-        // Remark: Due to inconsistent replacing in earlier questions (before my time), sometimes instead of &lt; appears &amp;lt; . We have to fix that first.
+        // Remark: Due to inconsistent replacing in earlier questions
+        // (before my time), sometimes instead of &lt;
+        // appears &amp;lt; . We have to fix that first.
         $dirty = preg_replace('/\&amp;/i', '&', $dirty);
-        // Replace certain special characters without representation in ASCII charset by their LaTeX-representation
+        // Replace certain special characters without
+        // representation in ASCII charset by their LaTeX-representation
         $dirty = preg_replace('/\&#8730;/i', '$\sqrt{}$', $dirty);
         $dirty = preg_replace('/\&gamma;/i', '$\gamma$', $dirty);
-        $dirty = preg_replace('/\&#92;/i', '\\textbackslash ', $dirty); // &#92; stands for a text backslash
+        // &#92; stands for a text backslash
+        $dirty = preg_replace('/\&#92;/i', '\\textbackslash ', $dirty);
         // Replace other XML-entities
         $dirty = html_entity_decode($dirty, ENT_QUOTES);
 
-
-        $dirty = preg_replace('/<br[\s\/]*?>/i', '\\\\\\\\', $dirty);   // Implement <br> and <br/>
+        // Implement <br> and <br/>
+        $dirty = preg_replace('/<br[\s\/]*?>/i', '\\\\\\\\', $dirty);
 
         // Handle text formatting
         $dirty = preg_replace('/<i>(.*?)<\/i>/six', '\\\\emph{\\1}', $dirty);
-        $dirty = preg_replace('/<span\s*?style=(?:\"|\')\s*?font-style\s*?:\s*?italic\s*?;(?:\"|\')>(.*?)<\/span>/is', '\\\\emph{\\1}', $dirty);
+        $dirty = preg_replace('/<span\s*?style=(?:\"|\')\s*?font-style\s*?:' .
+                              '\s*?italic\s*?;(?:\"|\')>(.*?)<\/span>/is',
+                              '\\\\emph{\\1}', $dirty);
         $dirty = preg_replace('/<b>(.*?)<\/b>/six', '\\\\textbf{\\1}', $dirty);
-        $dirty = preg_replace('/<span\s*?style=(?:\"|\')\s*?font-weight\s*?:\s*?bold\s*?;(?:\"|\')>(.*?)<\/span>/is', '\\\\textbf{\\1}', $dirty);
+        $dirty = preg_replace('/<span\s*?style=(?:\"|\')\s*?font-weight\s*?:' .
+                              '\s*?bold\s*?;(?:\"|\')>(.*?)<\/span>/is',
+                              '\\\\textbf{\\1}', $dirty);
 
-        // Handle hyperlinks (simply replace them by their destination, needs to be corrected by hand most probably)
-        $dirty = preg_replace('/<a[^>]*?href=(?:\"|\')(.*?)(?:\"|\')[^>]*?>.*?<\/a>/is', '\\\\emph{\\1}', $dirty);
+        // Handle hyperlinks (simply replace them by their
+        // destination, needs to be corrected by hand most probably)
+        $dirty = preg_replace('/<a[^>]*?href=(?:\"|\')(.*?)(?:\"|\')[^>]*?>' .
+                              '.*?<\/a>/is', '\\\\emph{\\1}', $dirty);
 
         // Handle Umlaute. Here we may simply use str_replace
         $dirty = str_replace('ö', '\\"o', $dirty);
@@ -1814,7 +2027,7 @@ class qformat_qtex extends qformat_default{
 
 
         // For JsMath replace the brackets by $$
-        if($this->renderengine == self::FLAG_FILTER_JSMATH){
+        if ($this->renderengine === self::FLAG_FILTER_JSMATH) {
             $dirty = preg_replace('/\\\\\((.*?)\\\\\)/', '\$\$\\1\$\$', $dirty);
         }
 
@@ -1822,7 +2035,8 @@ class qformat_qtex extends qformat_default{
         $dirty = preg_replace('/\${2}/', '$', $dirty);
 
         // Then we add a $ for special paragraphs
-        $dirty = preg_replace('/<p[^>]*?class=\'formula\'>(.*?)<\/p>/', '\$\\1\$', $dirty);
+        $dirty = preg_replace('/<p[^>]*?class=\'formula\'>(.*?)<\/p>/',
+                              '\$\\1\$', $dirty);
         $dirty = preg_replace('/<p.*?>(.*?)<\/p>/', '\\1', $dirty);
 
         return $dirty;
