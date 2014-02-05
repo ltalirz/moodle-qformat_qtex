@@ -1,4 +1,14 @@
-20.01.2013
+05.02.2014
+==========
+- Tried to improve readability.
+- Did a lot of coding style changes.
+
+31.01.2014
+==========
+- Now emulating the file API in the standalone converter.
+- Added new tests for the converter.
+
+20.01.2014
 ==========
 - Added a commandline based Moodle question converter.
   It is written in `bash` and makes use of `curl`.
@@ -11,7 +21,7 @@
   not need to emulate Moodle. A disadvantage is the overhead
   of importing it into the Moodle database, uploading the images and so on.
 
-18.01.2013
+18.01.2014
 ==========
 - Fixes in the export file handling.
   Now images can be exported using the qtex format.
