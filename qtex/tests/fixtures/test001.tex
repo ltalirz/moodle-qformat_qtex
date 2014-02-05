@@ -1,0 +1,41 @@
+\documentclass[12pt]{article}
+\input{macros_nemesis}
+\usepackage{float}
+\usepackage{enumerate}
+\usepackage{amsmath, amssymb}
+
+\usepackage{color}
+\usepackage{graphicx}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+
+\begin{document}
+
+\question{Die unten stehende Figur wird beschrieben durch $ \dots $}
+\true{ $\left\{ (x,y) \in \R ^2 \,\big|\, |x| + |y| \le 1 \right\}$.}
+\false{ $\left\{ (x,y) \in \R ^2 \,\big|\, |x+y| \le 1\right\}$.}
+\false{ $\left\{ (x,y) \in \R ^2 \,\big|\, \mbox{max} \{ |x|, |y| \} \le 1\right\}$.}
+\false{ $\left\{ (x,y) \in \R ^2 \,\big|\, \mbox{min} \{ |x|, |y| \} \le 1\right\}$.}
+
+
+\question{ Die Punktemenge $\{ z \in \C \, \big| \, |z| = \mbox{Re} (z) +1 \}$ ist $ \dots $}
+\false{ eine Gerade.}
+\false{ eine Ellipse.}
+\true{ eine Parabel.}
+\false{ eine Hyperbel.}
+
+\question{ Bestimmen Sie die Form der allgemeinen L\"osung der Differentialgleichung
+$$
+y''(x) + 16 y(x) = e^{3x}.
+$$}
+
+\true{ $y(x) = c_1 \cos (4x) + c_2 \sin (4x) + \frac{1}{25} e ^{3x}$ f\"ur $c_1, c_2 \in \R$}
+\false{ $y(x) = c_1 e^{4x} + c_2 e^{-4x} + \frac{1}{25} e ^{3x}$ f\"ur $c_1, c_2 \in \R$}
+\false{ $y(x) = c_1 \cos (4x) + c_2 \sin (4x) + \frac{1}{5} e ^{3x}$ f\"ur $c_1, c_2 \in \R$ }
+\false{ $y(x) = c_1 \cos (4x) + c_2 \sin (4x) + \frac{1}{25} e ^{4x}$ f\"ur $c_1, c_2 \in \R$}
+\false{ $y(x) = c_1 e^{4x} + c_2 e^{-4x} + \frac{1}{5} e ^{3x}$ f\"ur $c_1, c_2 \in \R$}
+
+\end{document}

@@ -2,6 +2,7 @@
 ==========
 - Tried to improve readability.
 - Did a lot of coding style changes.
+- Added unit tests for the QuestionTex plugin.
 
 31.01.2014
 ==========

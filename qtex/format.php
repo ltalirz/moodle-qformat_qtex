@@ -512,7 +512,7 @@ class qformat_qtex extends qformat_default{
      * @param string $texfile The uploaded .tex file as a string
      * @return array Array of question objects
      */
-    protected function readquestions($texfile) {
+    public function readquestions($texfile) {
         if(self::$cfg['GO_VIA_LEM'] === true){
             $parsed = $this->import_process_latex($texfile);
         }
@@ -1528,7 +1528,7 @@ class qformat_qtex extends qformat_default{
      * @param object $question A question object fresh from the moodle database
      * @param string The tex code corresponding to this question
      */
-    protected function writequestion($question) {
+    public function writequestion($question) {
         global $OUTPUT;
         $identifier = $this->get_identifier($question->qtype);
 
