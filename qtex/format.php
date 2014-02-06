@@ -79,12 +79,19 @@ class qformat_qtex extends qformat_default{
     protected $images;
     /** Renderengine used by Moodle */
     private $renderengine;
+    public function set_renderengine($renderengine) {
+        $this->renderengine = $renderengine;
+    }
+
     /** Array containing configuration info from file config.php */
     private static $cfg;
     /** This script may also be used in a "stand alone" version */
     protected $standalone;
     /** Grading scheme object, @see config.php */
     private $gradingscheme;
+    public function set_gradingscheme($gradingscheme) {
+        $this->gradingscheme = $gradingscheme;
+    }
 
     /**
      * Finds allowed mime types for file import.
@@ -121,12 +128,14 @@ class qformat_qtex extends qformat_default{
      * is moved into the preprocessing phase.
      */
     public function qformat_qtex_initialize() {
-        // Read configuration from file.
-        // Make sure we look only in this directory.
-        if( (require(dirname(__FILE__) . '/config.php')) ) {
-            self::$cfg = $cfg;
-        } else{
-            $this->error(get_string('configmissing', 'qformat_qtex'));
+        if (!self::$cfg) {
+            // Read configuration from file.
+            // Make sure we look only in this directory.
+            if ( (require(dirname(__FILE__) . '/config.php')) ) {
+                self::$cfg = $cfg;
+            } else {
+                $this->error(get_string('configmissing', 'qformat_qtex'));
+            }
         }
 
         // Stand alone mode is turned on by defining a flag
