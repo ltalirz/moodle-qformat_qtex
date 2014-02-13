@@ -26,6 +26,7 @@
  *
  * @package    qformat
  * @subpackage qtex
+ * @author     Leopold Talirz, Patrick Spettel, Simon Knellwolf
  * @copyright  2014 Project LEMUREN, ETH Zurich
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -56,6 +57,7 @@ if (!class_exists('qformat_default')) {
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  * @uses       config.php
+ * @uses       grading.php
  * @uses       format.php (included by ../../import.php)
  * @uses       questionlib.php (included by ../../import.php)
  */
@@ -87,7 +89,7 @@ class qformat_qtex extends qformat_default{
     private static $cfg;
     /** This script may also be used in a "stand alone" version */
     protected $standalone;
-    /** Grading scheme object, @see config.php */
+    /** Grading scheme object, @see grading.php */
     private $gradingscheme;
     public function set_gradingscheme($gradingscheme) {
         $this->gradingscheme = $gradingscheme;
@@ -137,7 +139,14 @@ class qformat_qtex extends qformat_default{
                 $this->error(get_string('configmissing', 'qformat_qtex'));
             }
         }
-
+        
+        // Read grading info form file
+        // Make sure we look only in this directory.
+        if ( ! (require(dirname(__FILE__) . '/grading.php')) ) {
+        	$this->error(get_string('gradingmissing', 'qformat_qtex'));
+        }
+        
+        
         // Stand alone mode is turned on by defining a flag
         if(defined('TEXFORMAT_STANDALONE')) {
             $this->standalone = true;

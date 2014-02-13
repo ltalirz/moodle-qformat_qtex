@@ -16,13 +16,13 @@
 
 /**
  * Version information for the QuestionTeX format plugin.
-*
-* @package    qformat
-* @subpackage qtex
-* @author     Leopold Talirz, Simon Knellwolf
-* @copyright  2013 Project LEMUREN, ETH Zurich
-* @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
-*/
+ *
+ * @package    qformat
+ * @subpackage qtex
+ * @author     Leopold Talirz
+ * @copyright  2014 Project LEMUREN, ETH Zurich
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 
 defined('MOODLE_INTERNAL') || die();
 

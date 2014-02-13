@@ -15,12 +15,15 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'qformat_qtex', language 'en', branch 'MOODLE_20_STABLE'
+ * Strings for component 'qformat_qtex', language 'en'
  *
- * @package   qformat_qtex
- * @copyright 2011 Leopold Talirz
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    qformat
+ * @subpackage qtex
+ * @author     Leopold Talirz
+ * @copyright  2014 Project LEMUREN, ETH Zurich
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 $string['pluginname'] = 'QuestionTeX format';
 $string['pluginname_help'] = 'QuestionTeX is a collection of LaTeX-macros that enables authors to create multiple-choice tests.';
 $string['pluginname_link'] = 'qformat/qtex';
@@ -54,8 +57,7 @@ $string['questionsincludeimages'] = 'The selected questions include images. A zi
 $string['embederror'] = 'Error while parsing embedded image';
 $string['notreadable'] = 'The filepath {$a} could not be read and can thus not be included in export.';
 // The preamble put into an exported quiz
-$string['preamble'] = '% QuestionTeX Template
-% Version of 8.5.2009
+$string['preamble'] = '% QuestionTeX 
 
 % User Information
 % ================
@@ -74,4 +76,5 @@ $string['imagefolder'] = 'images/';
 $string['wrongidentifier'] = 'The identifier {$a} is unknown.';
 $string['norenderenginefound'] = 'No text filter for math detected. Assuming standard TeX filter.';
 $string['unknowngradingscheme'] = 'The specified grading scheme cannot be found.';
-$string['configmissing'] = 'The TeX-Format configuration file can not be accessed.';
+$string['configmissing'] = 'The configuration file config.php of the QuestionTeX format cannot be accessed.';
+$string['gradingmissing'] = 'The file grading.php containing the grading schemes cannot be accessed.';
