@@ -266,7 +266,7 @@ class qformat_qtex_emulator extends qformat_qtex{
 
     }
 
-    protected function writequestion($question){
+    public function writequestion($question){
         global $OUTPUT;
         $identifier = $this->get_identifier($question->qtype);
 
