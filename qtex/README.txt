@@ -15,6 +15,9 @@ export from Moodle to QuestionTeX).
 
 This plugin has been written in the LEMUREN project at ETH Zurich.
 
+The latest source code of the plugin (and more) is hosted on 
+  https://github.com/leoteo/moodle-qformat_qtex 
+
 For further information contact nemesis@math.ethz.ch
 
 
