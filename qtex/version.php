@@ -27,7 +27,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'qformat_qtex';
-$plugin->version   = 2013090400;
-$plugin->requires  = 2013051400;
+$plugin->version   = 2014021500;
+$plugin->requires  = 2011070110; // This is Moodle 2.1
 $plugin->release   = '0.1';
 $plugin->maturity  = MATURITY_ALPHA;

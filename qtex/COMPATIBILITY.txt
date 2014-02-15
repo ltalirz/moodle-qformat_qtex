@@ -1,0 +1,23 @@
+Compatibility
+-------------
+
+Brief documentation of compatibility with previous Moodle versions.
+
+
+Moodle 2.5
+- Installation via the admin interface is now possible 
+
+Moodle 2.2
+- QuestionTeX import seems to work
+- Manual installation only. After copying the qtex directory, visit 
+    Site administration -> Plugins -> Plugins overview
+
+Moodle 2.1
+- QuestionTeX import seems to work
+- expects ancient file structure for plugins, 
+  so import dialogue and help are messed up
+- Manual installation only. After copying the qtex directory, visit 
+    Site administration -> Plugins -> Plugins overview
+
+Moodle 2.0
+- not supported

@@ -35,8 +35,8 @@ Prerequisites:
 - A working Moodle installation
 - For the convenient installation through the Moodle admin interface, the web
   server needs write permissions to the $moodle_root/question/format directory.
-  For manual installation, copy the folder "qtex" to $moodle_root/question/format.
-  Then, in the admin panel purge the Plugin list 
+  For manual installation (or if your Moodle version is < 2.5), copy the folder "qtex" to $moodle_root/question/format.
+  Then, in the admin panel purge the Plugin list on
     Site Administration -> Plugins -> Caching -> Configuration
 - A configured and enabled TeX Notation filter is required to render the formulae.
   See http://docs.moodle.org/25/en/TeX_notation_filter for instructions.
