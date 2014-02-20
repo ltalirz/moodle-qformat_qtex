@@ -1,103 +1,251 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
+<!-- question: 0  -->
+  <question type="category">
+    <category>
+        <text>QuestionTeX import</text>
+
+    </category>
+  </question>
+
+<!-- question: 1  -->
   <question type="multichoice">
     <name>
-      <text>Q1</text>
+      <text>001    Gegeben seien folgende Vektoren      beginc</text>
     </name>
     <questiontext format="moodle_auto_format">
-      <text> Die Punktemenge $$\{ z \in \mathbb{C} \, \big| \, |z| = \mbox{Re} (z) +1 \}$$ ist $$ \dots $$</text>
-    </questiontext>
+      <text><![CDATA[   Gegeben seien folgende Vektoren      \begin{center}         
+<img src="@@PLUGINFILE@@/p1a" alt="p1a" align="center" width="100%">   \end{center}      Welcher der Vektoren $$\vec u, \vec v, \vec w$$ und $$\vec z$$ stellt den Vektor $$\vec b - \vec a$$ dar?]]></text>
+<file name="p1a" encoding="base64">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</file>    </questiontext>
     <generalfeedback format="moodle_auto_format">
-      <text>0</text>
+      <text></text>
     </generalfeedback>
-    <defaultgrade>1.0000000</defaultgrade>
+    <defaultgrade>1</defaultgrade>
     <penalty>0.3333333</penalty>
-    <hidden>0</hidden>
+    <hidden></hidden>
     <single>true</single>
     <shuffleanswers>true</shuffleanswers>
     <answernumbering>abc</answernumbering>
-    <correctfeedback format="moodle_auto_format">
+    <correctfeedback format="unknown">
       <text></text>
     </correctfeedback>
-    <partiallycorrectfeedback format="moodle_auto_format">
+    <partiallycorrectfeedback format="unknown">
       <text></text>
     </partiallycorrectfeedback>
-    <incorrectfeedback format="moodle_auto_format">
+    <incorrectfeedback format="unknown">
       <text></text>
     </incorrectfeedback>
     <answer fraction="0" format="moodle_auto_format">
-      <text>eine Gerade.</text>
+      <text>$$\vec u$$</text>
       <feedback format="moodle_auto_format">
-        <text></text>
-      </feedback>
+        <text><![CDATA[Nein, dieser Vektor stellt den Vektor $$\vec a - \vec b$$ dar. Es ist $$\vec a - \vec b = \vec a + (- \vec b)$$   und damit     \begin{center}         
+<img src="@@PLUGINFILE@@/p1b" alt="p1b" align="center" width="100%">   \end{center}  ]]></text>
+<file name="p1b" encoding="base64">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</file>      </feedback>
     </answer>
     <answer fraction="0" format="moodle_auto_format">
-      <text>eine Ellipse.</text>
+      <text>$$\vec v$$</text>
       <feedback format="moodle_auto_format">
-        <text></text>
-      </feedback>
+        <text><![CDATA[Nein, dies ist die Summe der beiden Vektoren $$\vec a + \vec b$$:   \begin{center}         
+<img src="@@PLUGINFILE@@/p1c" alt="p1c" align="center" width="100%">   \end{center} ]]></text>
+<file name="p1c" encoding="base64">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</file>      </feedback>
     </answer>
     <answer fraction="100" format="moodle_auto_format">
-      <text>eine Parabel.</text>
+      <text>$$\vec w$$</text>
+      <feedback format="moodle_auto_format">
+        <text><![CDATA[Richtig. Es ist $$\vec b - \vec a = (-\vec a) + \vec b$$   und damit    \begin{center}         
+<img src="@@PLUGINFILE@@/p1d" alt="p1d" align="center" width="100%">   \end{center}    ]]></text>
+<file name="p1d" encoding="base64">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</file>      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text>$$\vec z$$</text>
+      <feedback format="moodle_auto_format">
+        <text><![CDATA[Nein, dies stellt den Vektor $$-(\vec a+ \vec b)$$ dar:   \begin{center}         
+<img src="@@PLUGINFILE@@/p1e" alt="p1e" align="center" width="100%">   \end{center}   ]]></text>
+<file name="p1e" encoding="base64">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</file>      </feedback>
+    </answer>
+  </question>
+
+<!-- question: 2  -->
+  <question type="multichoice">
+    <name>
+      <text>002 Welche der folgenden Aussagen sind korrekt</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text>Welche der folgenden Aussagen sind korrekt?</text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[Die imaginäre Einheit $$i$$ erfüllt $$i^2 = -1$$,             und daraus folgen $$i^3 = i^2 \cdot i = (-1)\cdot i = -i$$             und $$i^4 = (i^2)^2 = (-1)^2 = 1$$. Multipliziere in $$\frac 1i = -i$$ mit dem              Nenner, um zu sehen, dass diese Gleichung auch korrekt ist.              Aus $$i^4 = 1$$ folgt weiter 		<p style='text-align: center' class='formula'>$$
+                i^{17} = i^{4 \cdot 4 + 1} = (i^4)^4 \cdot i = 1^4 \cdot i = i,
+                $$</p>             d.h. alle Antworten sind richtig. ]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden></hidden>
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="unknown">
+      <text></text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="unknown">
+      <text></text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="unknown">
+      <text></text>
+    </incorrectfeedback>
+    <answer fraction="25" format="moodle_auto_format">
+      <text>$$i^2 = -1$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="25" format="moodle_auto_format">
+      <text>$$\frac 1i = -i$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="25" format="moodle_auto_format">
+      <text>$$i^3 = -i$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="25" format="moodle_auto_format">
+      <text>$$i^{17} = i$$</text>
       <feedback format="moodle_auto_format">
         <text></text>
       </feedback>
     </answer>
     <answer fraction="0" format="moodle_auto_format">
-      <text>eine Hyperbel.</text>
+      <text>Keine.</text>
       <feedback format="moodle_auto_format">
         <text></text>
       </feedback>
     </answer>
   </question>
+
+<!-- question: 3  -->
   <question type="multichoice">
     <name>
-      <text>Q2</text>
+      <text>003 Doppeltlogarithmische Auftragung einer Kurve h</text>
     </name>
     <questiontext format="moodle_auto_format">
-      <text> Die Punktemenge $$\{ z \in \mathbb{C} \, \big| \, |z| = \mbox{Re} (z) +1 \}$$ ist $$ \dots $$</text>
-    </questiontext>
+      <text><![CDATA[Doppeltlogarithmische Auftragung einer Kurve heisst, dass    beide Achsen logarithmisch geteilt sind: Statt $$x$$ und $$y$$ sind   $$\xi = \log_ax$$ und $$\eta = \log_ay$$ aufgetragen, wobei hier $$a = 10$$ ist gewählt ist. \smallskip      \noindent Eine Kurve mit Messdaten habe in doppeltlogarithmischer Auftragung die Form einer Geraden durch den Punkt   $$\xi_0=3$$, $$\eta_0=2$$ mit Steigung $$\frac{2}{3}$$.   \begin{center}    
+<img src="@@PLUGINFILE@@/loglogplot" alt="loglogplot" align="center" width="100%">     \end{center}   Welche Funktion $$f$$ mit $$y=f(x)$$ stellt diese Kurve dar?]]></text>
+<file name="loglogplot" encoding="base64">iVBORw0KGgoAAAANSUhEUgAAAWgAAADYCAAAAADjMybIAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAAAEgAAABIAEbJaz4AAAeMSURBVHja7d2/b+M2FAfw+5O6FzigyHCXpTh0yFB4cRaNvUmcMhUGdFuHLtoKjs6kKUC1aPAYCP0H+C/oX1Aj/1BEmRQp8z3Gib4EbJ9ueHr6hKApWU/81KJFaZ/eOoGlNEBHaoCO1AAdqQE6UgN0pAboSA3QkRqgIzUD9Nebb6vvwtDWlq21/rnW3rrXnbA0W8RRyLXwDrm2bdInORlxtbq7+eyAvrH9UaRlS+qfUnvrXg9zI45CytY7pLRt0ifpjKhBGqBvbXssLFuF/llob93rx9yIo5BF6x2ysG3SJ+mMqEEaoL/IShnbzrK10z932lv3ypWaF3EUcqe8Q+5sm/RJOiLW8hcH9L3tT6ssW0r/VNpb93qaG3EUUrXeIZVtkz5JZ0QN0gAtyPeo5kZ0QyuviKxJOiNqkIB+O+jfycfonVLzIrrH6J1XRNYknWP0bw5o9Giiw8bQcSXQGDowdHysHg1oQAMa0PgyxJdhu/QeDWhAAxrQ+DLEl2G79B4NaJrDbr4AOgJ0k2V/AJofOs0aDB380LmoW8w62GcdaVJh1sHfo0tRtZh1sEOXosT0jh9aJeUgGqCZoJXItYiAZoGuRT6KCGgG6CZLmxbQ3NAvp4HNeURAU0PnojFFxAkL7QnLn0lliogTFqokD/8qRWGLiKGDDvp0fgJoVmgltlMRAU2TZNVNnAHNneTLxNkVEdDhSfYTZ0CzJplnjUdEQAcmmQvlFRHQQUmWQnlGBHRAkuX+ijMNNE7BrSGLROJOJVNE2iT35yczImLouCjJ5nB+Amhe6G7iPDcioGcn2TMDmhU675kBzQi9EeqyiICek+ThxiNAM0MPLuwDmg9aibINOGxA+yWp9Av7gOaBPjEDmhX6ZeIcftiAdiU5OD8BNCP0/sYjQHND50JNhQQ0DXQpnskOG9DWJEtRukICOhxamZgBTQ1d9RPnWNC/Pvz9+N/SfjOsk3RukpMR/33858H1oO4F9uh6cOMR3WFj6Bgnua8/iQ+9tNsNNkmFB6Pw9+g8URcmiaFjRpIv5ycXJ4mhwzvJvxKJZyoNP3l6tBIyKEkMHV5Jdhf2w5IEtEeSTZoHJ4kx2plknaZP4UlijHYl2f1+QpAkho7pJA8X9gHNDL1NRsEwRnOM0bK/Y5/zKWGLH6Ofuwv7dEli6DAnqbQ79gHNBK2SnDpJQJ9vNllGnyS+DM8207RmfAINvgyPm4OJM2mSGDq0zdONR4BmhZZCGSMCmhS6FNISEdCE0M9a/QmgmaC1B0tdJ/RHmN7V6YY9SUzvBnfsX3WPfu/Qw8IIQPNBa4URgOaC1gu3Ac0EPS7cBjQL9HnhNqAZoE2F29cN/S7n0VWyMUTEPNoRcW6PbjJz4fZ19+h3B22eOAOaGHqqcBvQdNCThduApoIupwu3AU0DbagoBjQ9tEfhNqDDob0KtwEdCt3feARoTujmuHAgoFmhm/R0x/47h77yax2b5GkiJK51zIpo79Hdhf2pkO+pR18x9LZfChrQjNDdg6VcIQEdDP2sLQUNaCbo8VLQgGaBbs6WggY0A/R+4gxobugmy+rWOySgL4XuC7cBzQm9GdSfAJoNenu88QjQrNCvNx4BmhH6eXDjEaDZoPWloAHNdAxKbLT/AjTLMXQrRughAc1wDIcbjwDNfQzH+7sWAf2GD+reJJXzpyzCR2Yy/pR11Q/qfi3cXkaPfiPoYeH2MqDf5FfwKpHxnuQYYei40l/BDw+WUq0l5Aft0dGhT4URgGaFNhVuLwM67hi9SWtDfIzRxJ1FW2ptaT06HnSeKEv8RUDHGjrkYf0TY3wMHWSdpRw8kfU8/iJ6dAzoY2EEoHmh+6WgAc0JPVgKetnQvF+Gdfo6ceZ7Shi+DLXC7YX3aEboUeE2oHmgt+PCbUBzQJsqipcNzfJlKLsV7bwj4svwws5yeCKrf8Rl9GhyaGvhNqAp9zhRuA1ouj1OFm4DmmyP+b7+BNDMs440qeiL7jHrGP9pS2fh9sJ7NA30qTAC0KzQpVfhNqAD96hEGXYMgPbZY+VduA3ogD02WRp+DIB27bG7v4vgGJYBHTCP3t/fRTBFxTx68k97XDECPbplHTr6FSMAzQk9WDEC0HzQ2ooRgOaC1gu3Ac0EPS7cBjQLdFd/Qn8MgB5tmQq3AU0PfbzxCNC80H39CaA5ocvX+hNAXwbtc61DJpLzMgKudRz/odefoEebI4YOHcfCCEDzQjfn9SeApoceLLUGaEbofFAYAWg2aH0paEAzQeejpaABzQJ9WjEC0KzQpWEpaECTQ59WtAM0K3RfuA1oTuhB4Tag+aCnloIGNB20XrgNaCbofHopaECHQt+bmQP2+EQP/eQVkTVJZ8R7B/SqPZyf0O3xkR760Ssia5LOiCsH9G1rWQq6sGwV+mehvXWvH7ZjsEUchSxa75CFbZM+SWfEWwf0z8JSUSwtW1L/lNpb93qwHYMt4iikbL1DStsmfZLOiK4Hdf908231XRja2rK11j/X2lv3uhOWZos4CrkW3iHXtk36JCcjrlZ3N58d0GgcDdCRGqAjNUBHaoCO1AAdqQE6UgN0pPY/ETumKW8aEDQAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTQtMDItMjBUMTc6MjU6MzIrMDE6MDB5xb79AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE0LTAyLTIwVDE3OjI1OjMyKzAxOjAwCJgGQQAAAB90RVh0cHM6SGlSZXNCb3VuZGluZ0JveAAzNjB4MjE2KzArMEwijQ8AAAAcdEVYdHBzOkxldmVsAEFkb2JlLTMuMCBFUFNGLTMuMAqbcLvjAAAAAElFTkSuQmCC</file>    </questiontext>
     <generalfeedback format="moodle_auto_format">
-      <text>0</text>
+      <text>   Da die Gerade $$\eta = \frac{2}{3}\,\xi + q$$ den Punkt $$(3,2)$$   enthält, ist $$q=0$$. Aus $$\xi = \log_ax$$ und $$\eta = \log_by$$ folgt   somit $$\displaystyle{
+    \log_ay = \frac{2}{3}\log_ax = \log_ax^{\frac{2}{3}}
+  }$$,   also $$\displaystyle{y=x^{\frac{2}{3}}}$$. </text>
     </generalfeedback>
-    <defaultgrade>1.0000000</defaultgrade>
+    <defaultgrade>1</defaultgrade>
     <penalty>0.3333333</penalty>
-    <hidden>0</hidden>
+    <hidden></hidden>
     <single>true</single>
     <shuffleanswers>true</shuffleanswers>
     <answernumbering>abc</answernumbering>
-    <correctfeedback format="moodle_auto_format">
+    <correctfeedback format="unknown">
       <text></text>
     </correctfeedback>
-    <partiallycorrectfeedback format="moodle_auto_format">
+    <partiallycorrectfeedback format="unknown">
       <text></text>
     </partiallycorrectfeedback>
-    <incorrectfeedback format="moodle_auto_format">
+    <incorrectfeedback format="unknown">
       <text></text>
     </incorrectfeedback>
-    <answer fraction="0" format="moodle_auto_format">
-      <text>eine Gerade.</text>
-      <feedback format="moodle_auto_format">
-        <text></text>
-      </feedback>
-    </answer>
-    <answer fraction="0" format="moodle_auto_format">
-      <text>eine Ellipse.</text>
-      <feedback format="moodle_auto_format">
-        <text></text>
-      </feedback>
-    </answer>
     <answer fraction="100" format="moodle_auto_format">
-      <text>eine Parabel.</text>
+      <text>   $$\displaystyle{y=x^{\frac{2}{3}}}$$. </text>
       <feedback format="moodle_auto_format">
         <text></text>
       </feedback>
     </answer>
     <answer fraction="0" format="moodle_auto_format">
-      <text>eine Hyperbel.</text>
+      <text>   $$\displaystyle{y=x^{-\frac{2}{3}}}$$. </text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text>   $$\displaystyle{y=a^{\frac{2x}{3}}}$$.   </text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text>   $$\displaystyle{y=x^{\frac{3}{2}}}$$. </text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text>   $$\displaystyle{y=\log_ax^{\frac{2}{3}}}$$. </text>
       <feedback format="moodle_auto_format">
         <text></text>
       </feedback>
     </answer>
   </question>
+
+<!-- question: 4  -->
+  <question type="multichoice">
+    <name>
+      <text>004 Welche Gerade passt zur Gleichung yx4</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text>Welche Gerade passt zur Gleichung $$y=-x+4$$?</text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden></hidden>
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="unknown">
+      <text></text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="unknown">
+      <text></text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="unknown">
+      <text></text>
+    </incorrectfeedback>
+    <answer fraction="0" format="moodle_auto_format">
+      <text><![CDATA[\hfill<br/>
+<img src="@@PLUGINFILE@@/ger7a" alt="ger7a" align="center" width="100%">]]></text>
+<file name="ger7a" encoding="base64">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</file>      <feedback format="moodle_auto_format">
+        <text>Nein. Diese Gerade hat positve Steigung, aber $$x$$                     negatives Vorzeichen.</text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text><![CDATA[\hfill<br/>
+<img src="@@PLUGINFILE@@/ger7b" alt="ger7b" align="center" width="100%">]]></text>
+<file name="ger7b" encoding="base64">iVBORw0KGgoAAAANSUhEUgAAASwAAAEvCAMAAADINwzpAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAP1BMVEX///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/PZk/PZk/PZkAAAAnJl8hIFEAAAD///+Wl6uVAAAAE3RSTlMAVYi7MxHdIndEzO6qIplmdbSOuLBXJQAAAAFiS0dEAIgFHUgAAAAJcEhZcwAAAEgAAABIAEbJaz4AAASPSURBVHja7d3rcqowFIZhrLbqPrS79f7vdfdchQTyQUhYK+/7uzOueaQSEmfsOiIiIiKb7e72u6477A+1BzHR/cND1x0f7mrPYaPT5fWqOu9qj2Gj4+XUdVxYif3ad/en2kNY6e53d7qvPYSVdpcDF1Zqx8uf2iMY6sIiK7kjt8L0sErscLrnTpja6bLHioiIiKSOtQew1Ln2AJYCSwgsIbCEwBICSwgsIbCEwBICSwgsIbCEwBICSwgsIbCEwBICSwgsIbCEwBICSwgsIbCEwBICSwgsIbCEwBICSwgsIbCEwBICSwgsIbCEwBICSwgsIbCEwBICSwgsIbCEwBICSwgsIbCEwBICSwgsIbCEwBICSwgsIbCEwBICSwgsIbCEwBICSwgsIbCEwBICSwgsIbCEwBICSwgsIbCEwBICSwgsIbCEwBICSwgsIbCEwBICSwgsIbCEwBICSwgsIbCEwBICSwgsIbCEwBICSwgsIbCEwBICSwgsIbCEwBICSwgsIbCEwBICSwgsIbCEwBLaDtbf2gNMtxmsx6faE0y3FSwLVlvBMmG1ESwbVtvAMmK1CSwrVlvAMmO1ASw7VvWxDFlVx7JkVRvLlFVlLFtWdbGMWVXFsmZVE8ucVUUse1b1sAxaVcOyaFULy6RVJSybVnWwjFpVwbJqVQPLrFUFLLtW5bEMWxXHsmxVGkuzOm+sf0Vf7fll6i/KvndiRacz/T/YlcWyblUSy7xVQSz7VuWwHFgVw/JgVQrLhVUhLB9WZbCcWBXB8mJVAsuNVQEsP1brYzmyWh3Lk9XaWK6sVsbyZbUuljOrVbG8Wa2J5c5qRSx/VuthObRaDcuj1VpYLq1WwvJptQ6WU6tVsLxarYHl1moFLL9W+bEcW2XH8myVG8u1VWYs31Z5sZxbZcXybpUTy71VRiz/VvmwGrDKhtWCVS6sJqwyYbVhlQerEassWK1Y5cBqxioDVjtWy7EaslqM1ZLVUqymrBZitWW1DKsxq0VYrVktwWrOagFWe1bzsRq0mo3VotVcrCatZmK1aTUPq1GrWVitWs3BatZqBla7VjpWw1YyVstWKlbTViJW21YaVuNWElbrVgpW81YCFlbpWFilY2HVJWNh9VYaFlbvJWFh9VEKFlafJWBh9dU0FlbfTWJh9dMUFlZXTWBhdd04FlY3jWJhddsYFla9RrCw6hfHwmpQFAurYTEsrAJFsLAKFcbCKlgQC6twISysIgWwsIo1xMIq2gALq3h9LKxG6mFhNdYtFlaj3WBhNd41FlYTXWFhNdUPFlaTfWNhNd0XFlYJfWJhldIHFlZJvWNhldYbFlaJnbFK74xVemes0nvGKrnHl9oT2OnxqdjPuZvv9fMKrMTePtvBSuv9PghWUh9rBrBS+lxfgZXQ11oUrOm+1+1gTfbzjAPWVFfPg2BNdP3sDNZ4N/sMYI12uycD1li9/SuwRurv9YEVb7AvCla04R4yWLEC++1gRQqdTYAVLniOA1aw8JkXWKEi54NgBYqdpYI1LHruDNag+Bk9WP1Gvs8AVq+x735sGes/l8wn+ZluMRUAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTQtMDItMjBUMTc6MjU6MTIrMDE6MDA74LmAAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE0LTAyLTIwVDE3OjI1OjEyKzAxOjAwSr0BPAAAAB90RVh0cHM6SGlSZXNCb3VuZGluZ0JveAAzMDB4MzAzKzArMOT3qikAAAAcdEVYdHBzOkxldmVsAEFkb2JlLTMuMCBFUFNGLTEuMgoDTxHqAAAAIHRFWHRwczpTcG90Q29sb3ItMABUaW1lcy1JdGFsaWMtTUlTT64sMFQAAAAASUVORK5CYII=</file>      <feedback format="moodle_auto_format">
+        <text>Nein. Diese Gerade hat positve Steigung, aber $$x$$                     negatives Vorzeichen.</text>
+      </feedback>
+    </answer>
+    <answer fraction="100" format="moodle_auto_format">
+      <text><![CDATA[\hfill<br/>
+<img src="@@PLUGINFILE@@/ger7c" alt="ger7c" align="center" width="100%">]]></text>
+<file name="ger7c" encoding="base64">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</file>      <feedback format="moodle_auto_format">
+        <text>Richtig. Die Gerade zur Gleichung hat negative                     Steigung und positiven $$y$$-Achsenabschnitt.</text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text><![CDATA[\filbreak \hfill<br/>             
+<img src="@@PLUGINFILE@@/ger7d" alt="ger7d" align="center" width="100%">]]></text>
+<file name="ger7d" encoding="base64">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</file>      <feedback format="moodle_auto_format">
+        <text>Nein. Der $$y$$-Achsenabschnitt dieser Geraden ist                     negativ, aber in der gegebenen Gleichung positiv.</text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="moodle_auto_format">
+      <text>Keine dieser.</text>
+      <feedback format="moodle_auto_format">
+        <text>Nein, eine Gerade passt zur Gleichung.</text>
+      </feedback>
+    </answer>
+  </question>
+
 </quiz>

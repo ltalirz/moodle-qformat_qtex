@@ -176,8 +176,6 @@ class qformat_qtex_test extends question_testcase {
         $importer->set_gradingscheme(new DefaultGradingScheme());
         $qs = $importer->readquestions($tex);
 
-        print_r($qs);
-
         // We expect 1 category and 1 question.
         $this->assertEquals(count($qs), 2);
 
@@ -212,8 +210,6 @@ class qformat_qtex_test extends question_testcase {
         $importer->set_gradingscheme(new DefaultGradingScheme());
         $qs = $importer->readquestions($tex);
 
-        print_r($qs);
-
         // We expect 1 category and 1 question.
         $this->assertEquals(count($qs), 2);
 
@@ -247,8 +243,6 @@ class qformat_qtex_test extends question_testcase {
         $importer->set_renderengine(qformat_qtex::FLAG_FILTER_MATHJAX);
         $importer->set_gradingscheme(new DefaultGradingScheme());
         $qs = $importer->readquestions($tex);
-
-        print_r($qs);
 
         // We expect 1 category and 1 question.
         $this->assertEquals(count($qs), 2);

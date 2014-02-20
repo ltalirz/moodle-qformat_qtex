@@ -1,41 +1,82 @@
-\documentclass[12pt]{article}
+\documentclass[a4paper]{article}
+\usepackage{amssymb, amsmath, graphicx, german,tikz}
 \input{macros_nemesis}
-\usepackage{float}
-\usepackage{enumerate}
-\usepackage{amsmath, amssymb}
-
-\usepackage{color}
-\usepackage{graphicx}
-
-\newcommand{\R}{\mathbb{R}}
-\newcommand{\C}{\mathbb{C}}
-\newcommand{\Z}{\mathbb{Z}}
-\newcommand{\N}{\mathbb{N}}
 
 \begin{document}
 
-\question{Die unten stehende Figur wird beschrieben durch $ \dots $}
-\true{ $\left\{ (x,y) \in \R ^2 \,\big|\, |x| + |y| \le 1 \right\}$.}
-\false{ $\left\{ (x,y) \in \R ^2 \,\big|\, |x+y| \le 1\right\}$.}
-\false{ $\left\{ (x,y) \in \R ^2 \,\big|\, \mbox{max} \{ |x|, |y| \} \le 1\right\}$.}
-\false{ $\left\{ (x,y) \in \R ^2 \,\big|\, \mbox{min} \{ |x|, |y| \} \le 1\right\}$.}
+
+\questionSc{%
+  Gegeben seien folgende Vektoren
+  %% 
+  % 
+  Welcher der Vektoren $\vec u, \vec v, \vec w$ und $\vec z$ stellt den Vektor $\vec b - \vec a$ dar?}
+\false{$\vec u$}
+\feedback{Nein, dieser Vektor stellt den Vektor $\vec a - \vec b$ dar. Es ist $\vec a - \vec b = \vec a + (- \vec b)$
+  und damit 
+
+}
+\false{$\vec v$}
+\feedback{Nein, dies ist die Summe der beiden Vektoren $\vec a + \vec b$:
+}
+\true{$\vec w$}
+\feedback{Richtig. Es ist $\vec b - \vec a = (-\vec a) + \vec b$
+  und damit 
+}
+\false{$\vec z$}
+\feedback{Nein, dies stellt den Vektor $-(\vec a+ \vec b)$ dar:
+  }
 
 
-\question{ Die Punktemenge $\{ z \in \C \, \big| \, |z| = \mbox{Re} (z) +1 \}$ ist $ \dots $}
-\false{ eine Gerade.}
-\false{ eine Ellipse.}
-\true{ eine Parabel.}
-\false{ eine Hyperbel.}
 
-\question{ Bestimmen Sie die Form der allgemeinen L\"osung der Differentialgleichung
-$$
-y''(x) + 16 y(x) = e^{3x}.
-$$}
+\question
+    {Welche der folgenden Aussagen sind korrekt?}
+        \true{$i^2 = -1$}
+        \true{$\frac 1i = -i$}
+        \true{$i^3 = -i$}
+        \true{$i^{17} = i$}
+        \false{Keine.}    
+        \explanation{Die imagin\"are Einheit $i$ erf\"ullt $i^2 = -1$,
+            und daraus folgen $i^3 = i^2 \cdot i = (-1)\cdot i = -i$
+            und $i^4 = (i^2)^2 = (-1)^2 = 1$. Multipliziere in $\frac 1i = -i$ mit dem 
+            Nenner, um zu sehen, dass diese Gleichung auch korrekt ist. 
+            Aus $i^4 = 1$ folgt weiter
+		$$
+                i^{17} = i^{4 \cdot 4 + 1} = (i^4)^4 \cdot i = 1^4 \cdot i = i,
+                $$
+            d.h. alle Antworten sind richtig.
+}
 
-\true{ $y(x) = c_1 \cos (4x) + c_2 \sin (4x) + \frac{1}{25} e ^{3x}$ f\"ur $c_1, c_2 \in \R$}
-\false{ $y(x) = c_1 e^{4x} + c_2 e^{-4x} + \frac{1}{25} e ^{3x}$ f\"ur $c_1, c_2 \in \R$}
-\false{ $y(x) = c_1 \cos (4x) + c_2 \sin (4x) + \frac{1}{5} e ^{3x}$ f\"ur $c_1, c_2 \in \R$ }
-\false{ $y(x) = c_1 \cos (4x) + c_2 \sin (4x) + \frac{1}{25} e ^{4x}$ f\"ur $c_1, c_2 \in \R$}
-\false{ $y(x) = c_1 e^{4x} + c_2 e^{-4x} + \frac{1}{5} e ^{3x}$ f\"ur $c_1, c_2 \in \R$}
+
+\questionSc{Doppeltlogarithmische Auftragung einer Kurve heisst, dass 
+  beide Achsen logarithmisch geteilt sind: Statt $x$ und $y$ sind
+  $\xi = \log_ax$ und $\eta = \log_ay$ aufgetragen, wobei hier $a = 10$ ist gew\"ahlt ist. \smallskip
+  
+  \noindent Eine Kurve mit Messdaten habe in doppeltlogarithmischer Auftragung die Form einer Geraden durch den Punkt
+  $\xi_0=3$, $\eta_0=2$ mit Steigung $\frac{2}{3}$.
+  Welche Funktion $f$ mit $y=f(x)$ stellt diese Kurve dar?}
+\true{%
+  $\displaystyle{y=x^{\frac{2}{3}}}$.
+}%
+\false{%
+  $\displaystyle{y=x^{-\frac{2}{3}}}$.
+}%
+\false{%
+  $\displaystyle{y=a^{\frac{2x}{3}}}$.
+  }
+\false{%
+  $\displaystyle{y=x^{\frac{3}{2}}}$.
+}%
+\false{%
+  $\displaystyle{y=\log_ax^{\frac{2}{3}}}$.
+}%
+\explanation{%
+  Da die Gerade $\eta = \frac{2}{3}\,\xi + q$ den Punkt $(3,2)$
+  enth\"alt, ist $q=0$. Aus $\xi = \log_ax$ und $\eta = \log_by$ folgt
+  somit $\displaystyle{%
+    \log_ay = \frac{2}{3}\log_ax = \log_ax^{\frac{2}{3}}
+  }$,
+  also $\displaystyle{y=x^{\frac{2}{3}}}$.
+}%
 
 \end{document}
+

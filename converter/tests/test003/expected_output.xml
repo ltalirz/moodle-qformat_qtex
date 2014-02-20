@@ -11,13 +11,15 @@
 <!-- question: 1  -->
   <question type="multichoice">
     <name>
-      <text>001 Die unten stehende Figur wird beschrieben durc</text>
+      <text>001 Welche der folgenden Aussagen sind korrekt</text>
     </name>
     <questiontext format="moodle_auto_format">
-      <text>Die unten stehende Figur wird beschrieben durch $$ \dots $$</text>
+      <text>Welche der folgenden Aussagen sind korrekt?</text>
     </questiontext>
     <generalfeedback format="moodle_auto_format">
-      <text></text>
+      <text><![CDATA[Die imaginäre Einheit $$i$$ erfüllt $$i^2 = -1$$,             und daraus folgen $$i^3 = i^2 \cdot i = (-1)\cdot i = -i$$             und $$i^4 = (i^2)^2 = (-1)^2 = 1$$. Multipliziere in $$\frac 1i = -i$$ mit dem              Nenner, um zu sehen, dass diese Gleichung auch korrekt ist.              Aus $$i^4 = 1$$ folgt weiter 		<p style='text-align: center' class='formula'>$$
+                i^{17} = i^{4 \cdot 4 + 1} = (i^4)^4 \cdot i = 1^4 \cdot i = i,
+                $$</p>             d.h. alle Antworten sind richtig. ]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.3333333</penalty>
@@ -34,138 +36,32 @@
     <incorrectfeedback format="unknown">
       <text></text>
     </incorrectfeedback>
-    <answer fraction="100" format="moodle_auto_format">
-      <text> $$\left\{ (x,y) \in \mathbb{R} ^2 \,\big|\, |x| + |y| \le 1 \right\}$$.</text>
+    <answer fraction="25" format="moodle_auto_format">
+      <text>$$i^2 = -1$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="25" format="moodle_auto_format">
+      <text>$$\frac 1i = -i$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="25" format="moodle_auto_format">
+      <text>$$i^3 = -i$$</text>
+      <feedback format="moodle_auto_format">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="25" format="moodle_auto_format">
+      <text>$$i^{17} = i$$</text>
       <feedback format="moodle_auto_format">
         <text></text>
       </feedback>
     </answer>
     <answer fraction="0" format="moodle_auto_format">
-      <text> $$\left\{ (x,y) \in \mathbb{R} ^2 \,\big|\, |x+y| \le 1\right\}$$.</text>
-      <feedback format="moodle_auto_format">
-        <text></text>
-      </feedback>
-    </answer>
-    <answer fraction="0" format="moodle_auto_format">
-      <text> $$\left\{ (x,y) \in \mathbb{R} ^2 \,\big|\, \mbox{max} \{ |x|, |y| \} \le 1\right\}$$.</text>
-      <feedback format="moodle_auto_format">
-        <text></text>
-      </feedback>
-    </answer>
-    <answer fraction="0" format="moodle_auto_format">
-      <text> $$\left\{ (x,y) \in \mathbb{R} ^2 \,\big|\, \mbox{min} \{ |x|, |y| \} \le 1\right\}$$.</text>
-      <feedback format="moodle_auto_format">
-        <text></text>
-      </feedback>
-    </answer>
-  </question>
-
-<!-- question: 2  -->
-  <question type="multichoice">
-    <name>
-      <text>002  Die Punktemenge  z in mathbbC  big  z  mboxRe</text>
-    </name>
-    <questiontext format="moodle_auto_format">
-      <text> Die Punktemenge $$\{ z \in \mathbb{C} \, \big| \, |z| = \mbox{Re} (z) +1 \}$$ ist $$ \dots $$</text>
-    </questiontext>
-    <generalfeedback format="moodle_auto_format">
-      <text></text>
-    </generalfeedback>
-    <defaultgrade>1</defaultgrade>
-    <penalty>0.3333333</penalty>
-    <hidden></hidden>
-    <single>true</single>
-    <shuffleanswers>true</shuffleanswers>
-    <answernumbering>abc</answernumbering>
-    <correctfeedback format="unknown">
-      <text></text>
-    </correctfeedback>
-    <partiallycorrectfeedback format="unknown">
-      <text></text>
-    </partiallycorrectfeedback>
-    <incorrectfeedback format="unknown">
-      <text></text>
-    </incorrectfeedback>
-    <answer fraction="0" format="moodle_auto_format">
-      <text> eine Gerade.</text>
-      <feedback format="moodle_auto_format">
-        <text></text>
-      </feedback>
-    </answer>
-    <answer fraction="0" format="moodle_auto_format">
-      <text> eine Ellipse.</text>
-      <feedback format="moodle_auto_format">
-        <text></text>
-      </feedback>
-    </answer>
-    <answer fraction="100" format="moodle_auto_format">
-      <text> eine Parabel.</text>
-      <feedback format="moodle_auto_format">
-        <text></text>
-      </feedback>
-    </answer>
-    <answer fraction="0" format="moodle_auto_format">
-      <text> eine Hyperbel.</text>
-      <feedback format="moodle_auto_format">
-        <text></text>
-      </feedback>
-    </answer>
-  </question>
-
-<!-- question: 3  -->
-  <question type="multichoice">
-    <name>
-      <text>003  Bestimmen Sie die Form der allgemeinen Lsung </text>
-    </name>
-    <questiontext format="moodle_auto_format">
-      <text><![CDATA[ Bestimmen Sie die Form der allgemeinen Lösung der Differentialgleichung <p style='text-align: center' class='formula'>$$
-y''(x) + 16 y(x) = e^{3x}.
-$$</p>]]></text>
-    </questiontext>
-    <generalfeedback format="moodle_auto_format">
-      <text></text>
-    </generalfeedback>
-    <defaultgrade>1</defaultgrade>
-    <penalty>0.3333333</penalty>
-    <hidden></hidden>
-    <single>true</single>
-    <shuffleanswers>true</shuffleanswers>
-    <answernumbering>abc</answernumbering>
-    <correctfeedback format="unknown">
-      <text></text>
-    </correctfeedback>
-    <partiallycorrectfeedback format="unknown">
-      <text></text>
-    </partiallycorrectfeedback>
-    <incorrectfeedback format="unknown">
-      <text></text>
-    </incorrectfeedback>
-    <answer fraction="100" format="moodle_auto_format">
-      <text> $$y(x) = c_1 \cos (4x) + c_2 \sin (4x) + \frac{1}{25} e ^{3x}$$ für $$c_1, c_2 \in \mathbb{R}$$</text>
-      <feedback format="moodle_auto_format">
-        <text></text>
-      </feedback>
-    </answer>
-    <answer fraction="0" format="moodle_auto_format">
-      <text> $$y(x) = c_1 e^{4x} + c_2 e^{-4x} + \frac{1}{25} e ^{3x}$$ für $$c_1, c_2 \in \mathbb{R}$$</text>
-      <feedback format="moodle_auto_format">
-        <text></text>
-      </feedback>
-    </answer>
-    <answer fraction="0" format="moodle_auto_format">
-      <text> $$y(x) = c_1 \cos (4x) + c_2 \sin (4x) + \frac{1}{5} e ^{3x}$$ für $$c_1, c_2 \in \mathbb{R}$$ </text>
-      <feedback format="moodle_auto_format">
-        <text></text>
-      </feedback>
-    </answer>
-    <answer fraction="0" format="moodle_auto_format">
-      <text> $$y(x) = c_1 \cos (4x) + c_2 \sin (4x) + \frac{1}{25} e ^{4x}$$ für $$c_1, c_2 \in \mathbb{R}$$</text>
-      <feedback format="moodle_auto_format">
-        <text></text>
-      </feedback>
-    </answer>
-    <answer fraction="0" format="moodle_auto_format">
-      <text> $$y(x) = c_1 e^{4x} + c_2 e^{-4x} + \frac{1}{5} e ^{3x}$$ für $$c_1, c_2 \in \mathbb{R}$$</text>
+      <text>Keine.</text>
       <feedback format="moodle_auto_format">
         <text></text>
       </feedback>
