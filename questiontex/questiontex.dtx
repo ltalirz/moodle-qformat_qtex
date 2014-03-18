@@ -1,0 +1,478 @@
+% \iffalse meta-comment
+%
+% Copyright (C) 2014 by Project LEMUREN, ETH Zurich
+% -----------------------------------
+%
+% This file may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.2
+% of this license or (at your option) any later version.
+% The latest version of this license is in:
+%
+%     http://www.latex-project.org/lppl.txt
+%
+% and version 1.2 or later is part of all distributions of LaTeX
+% version 1999/12/01 or later.
+%
+% \fi
+%
+% \iffalse
+%<package>\NeedsTeXFormat{LaTeX2e}
+%<package>\ProvidesPackage{questiontex}
+%<package> [2014/03/17 v0.1 Package for multiple-choice tests]
+%
+%<*driver>
+\documentclass{ltxdoc}
+\usepackage{questiontex}
+\EnableCrossrefs
+\CodelineIndex
+\RecordChanges
+\begin{document}
+  \DocInput{questiontex.dtx}
+\end{document}
+%</driver>
+% \fi
+%
+% \CharacterTable
+%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
+%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
+%   Digits        \0\1\2\3\4\5\6\7\8\9
+%   Exclamation   \!     Double quote  \"     Hash (number) \#
+%   Dollar        \$     Percent       \%     Ampersand     \&
+%   Acute accent  \'     Left paren    \(     Right paren   \)
+%   Asterisk      \*     Plus          \+     Comma         \,
+%   Minus         \-     Point         \.     Solidus       \/
+%   Colon         \:     Semicolon     \;     Less than     \<
+%   Equals        \=     Greater than  \>     Question mark \?
+%   Commercial at \@     Left bracket  \[     Backslash     \\
+%   Right bracket \]     Circumflex    \^     Underscore    \_
+%   Grave accent  \`     Left brace    \{     Vertical bar  \|
+%   Right brace   \}     Tilde         \~}
+%
+%
+% \changes{v0.1}{2014/03/17}{Initial packaged version}
+%
+% \GetFileInfo{questiontex.sty}
+%
+% \DoNotIndex{\#,\$,\%,\&,\@,\\,\{,\},\^,\_,\~,\ }
+% \DoNotIndex{\advance,\begingroup,\catcode,\closein}
+% \DoNotIndex{\closeout,\day,\def,\edef,\else,\empty,\endgroup}
+%
+% \title{The \textsf{questiontex} package\thanks{This document
+% corresponds to \textsf{questiontex}~\fileversion,
+% dated \filedate.}}
+% \author{Project LEMUREN, ETH Zurich \\ \texttt{lemuren@math.ethz.ch}}
+%
+% \maketitle
+%
+% \begin{abstract}
+% Question\TeX\ is a collection of \LaTeX\ macros for writing 
+% multiple-choice tests.
+% \end{abstract}
+%
+% \tableofcontents
+% \pagebreak
+% 
+% \section{Introduction}
+% Question\TeX\ is a collection of \LaTeX\ macros that enables authors to
+% write multiple-choice tests.
+% The \LaTeX\  sources can then be processed in order to
+% \begin{itemize}
+%   \item create a high quality printer's copy with standardized
+%   layout
+%   \item create a standard solution, including additional feedback
+%   \item create an interactive classroom assessment test (CAT)
+%   \item import the questions into the Moodle Learning Management System 
+%   \item \ldots your idea here!
+% \end{itemize}
+% 
+% \noindent A basic multiple choice question may be written as
+% 
+% \begin{center}
+%   \begin{minipage}[b]{0.75\textwidth}
+%     \begin{verbatim}
+%  \question{The square root of two is \ldots}
+%  \false{a rational number.}
+%      \feedback{Try to represent it as a quotient of integers!}
+%  \true{a real number.}
+%  \false{an imaginary number.}
+%     \end{verbatim}
+%   \end{minipage}
+% \end{center}
+% \hfill
+% \vspace{-2em}
+%
+% \noindent and the corresponding standard solution is typeset by \LaTeX\  as
+%
+% \begin{center}
+%   \begin{minipage}[b]{0.75\textwidth}
+%     \question{The square root of two is \ldots}
+%         \false{a rational number.}
+%             \feedback{Try to represent it as a quotient of integers!}
+%         \true{a real number.}
+%       \false{an imaginary number.}
+%   \end{minipage}
+% \end{center}
+% \hfill
+%
+% For an overview of the available macros  
+% check out the \verb|example.tex| that comes with this package. 
+% A more detailed command specification is found in section
+% \ref{seccommand} of this document.
+% 
+% \section{Deployment mechanisms}
+% 
+% \subsection{Creation of a solution}
+% Use \verb|latex| or \verb|pdflatex| to create a standard solution of your
+% test in \verb|.dvi| or \verb|.pdf| format. 
+% The solution indicates, which answers are true.
+% If provided, it also includes feedback on individual answers and/or a
+% general explanation of the question.
+% 
+% \subsection{Creation of a printer's copy}
+% Use the |\hidesolution| macro to hide all solution meta data
+% and produce a printer's copy of your test,
+% ready to be handed out to students.
+% 
+% \subsection{Creation of an interactive online-test}
+% This feature is not fully automated yet, but a user friendly upload mechanism
+% with graphical user interface is coming up soon (2010).
+% At the moment, you can send us an email with your source 
+% and preferred grading rules and we will set up the
+% test on our system.
+% 
+% \subsection{Import of questions into Moodle}
+% A Question\TeX\ plugin for the Moodle Learning Management System
+% is available from \verb|moodle.org/plugins|.
+% It provides a Question\TeX\ import/export format for  multiple
+% choice questions. 
+%
+% After the installation you will be able to upload your
+% Question\TeX\ sources directly to Moodle. In case your sources include
+% image files, you may create a zip archive with all the relevant
+% files and upload the zip instead.
+%
+% \emph{Note:} Since Moodle does not come with a built-in \LaTeX\ distribution, 
+% certain restrictions must be obeyed in order to ensure proper display of your questions
+% in Moodle (detailed information in section \ref{secrestr}).
+% 
+% \section{Command reference}\label{seccommand}
+% All commands are sorted alphabetically.
+% 
+% \subsection{Writing questions}
+% This is a selection of the available commands for writing questions. In
+% order to see some examples for questions, have a look at the 
+% \verb|example.tex| that comes with this package.
+% 
+% \DescribeMacro{\explanation} May be used to outline an approach to the 
+% solution. If present, this command will normally be placed at the very end of
+% a question. When the questions are deployed in a static context, the
+% visibility of the explanation may be controlled by |\hidesolution|.
+% 
+% \DescribeMacro{\false} Contains a wrong answer.\\
+% |\false{Some wrong answer.}|
+% 
+% \DescribeMacro{\feedback} If you want to give a feedback to a specific answer,
+% you may do so by using the feedback-command \emph{after the
+% answer}.\\ This is especially useful, when the questions are deployed
+% in an interactive context, since the feedback to a student will then
+% depend on his or her answers. In a static context the display of feedbacks can
+% be controlled by |\hidesolution|.
+% 
+% \DescribeMacro{\includegraphics} Should be used to include images. \LaTeX\
+% compilation supports the |eps| format, while Pdf\LaTeX\ supports |png|, |jpg|,
+% |tiff| and  |pdf|.\\
+% Images may be included everywhere, where ordinary text can appear, i.e. they
+% may be part an answer, a feedback or the like:\\
+% |\feedback{Correct! \includegraphics[height=1cm]{smiley.png}}|
+% 
+% \DescribeMacro{\intro} Inserts arbitrary text that is not an argument to another
+% command into the quiz.
+% 
+% \DescribeMacro{\keepme} Same as |\intro|.
+% 
+% \DescribeMacro{\question} 
+% Defines the question text.
+% An identifier of the
+% question may be supplied via the optional parameter. The identifier must
+% consist only of letters of the English alphabet and the underscore \_ :\\
+% |\question[Identifier_1]{Now, ain't that easy?}|
+% 
+% \DescribeMacro{\questionSc}
+% Like \verb|\question|, but specifies that this question has exactly
+% one correct answer.
+% This is relevant in interactive contexts, where students may be restricted
+% to selecting a single answer only.
+% 
+% \DescribeMacro{\true} Contains a true answer. A question may have multiple
+% true answers.\\
+% |\true{My true answer}|
+% 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsection{Setting global properties}
+% The following commands define global properties of the quiz. They should
+% appear \emph{before} the first question.
+% 
+% \DescribeMacro{\hidesolution} 
+% Hides all solution-related meta data, 
+% i.\,e., only questions and answers are shown.
+% 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \section{Appendix}
+% 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsection{Restrictions for Moodle import}\label{secrestr}
+% As of today (2014), there are two main display mechanisms in Moodle
+% \begin{enumerate}
+%   \item The browser processes HTML. It does not understand \LaTeX\ at all.
+%   \item Plug-ins like mimeTeX, MathJax or JsMath process
+%     formulae that are enclosed by
+%   certain delimiters and convert them into graphics. They do understand
+%   appreciable parts of \LaTeX\, but not everything.
+% \end{enumerate}
+% 
+% Since plain text and images are processed directly by the browser, while
+% formulae are processed by the plug-in, different rules apply.
+% 
+% \subsubsection{Plain text}
+% Everything that is not part of any type of equation environment (like
+% |$\ldots$|, 'eqnarray`, etc.), is treated as plain text.
+% \emph{Only} the \LaTeX\ commands that are present in the following list, may
+% be used here. The ones in the list are either translated into their respective
+% HTML entities or simply discarded (i.e. deleted).
+% 
+% \begin{itemize}
+%     \item \emph{Translated} are:
+%         \begin{itemize}
+%             \item |\\|, |~|
+%             \item |\emph{...}|, |\textit{...}|, |\textbf{...}|,
+%             |\underline{...}|, |\(...\)|
+%             \item |\begin{center}...\end{center}|
+%             \item |\{|, |\}|, |\textbackslash|
+%             \item umlaute
+%         \end{itemize}
+%      \item \emph{Discarded} are:
+%         \begin{itemize}
+%             \item |\vskip|, |\,|
+%         \end{itemize}
+% \end{itemize}
+% 
+% These lists may be extended on demand. Just send us an email with your request
+% for modification.
+% 
+% \subsubsection{Images}
+% Moodle allows for the types |png|, |jpg|, |gif|, i.e. |eps| and |pdf| may not
+% be used.
+% 
+% \subsubsection{Formulae}
+% This refers to symbols that are enclosed by an equation environment  (like
+% |$\ldots$|, 'eqnarray`, etc.). The restrictions depend on the plug-in that is
+% being used to display formulae. Below, you find the result from our experience
+% with mimeTeX.
+% 
+% \begin{itemize}
+%   \item The definition of new macros is only allowed, if they do not take
+%   parameters (we do not replace \#1 and the like).  Also, this feature is still
+%   in beta stage.
+%   \item Don't use references.
+%   \item Don't use |\makebox|
+% \end{itemize}
+% 
+% %\subsubsection{Grading}
+% %Since there is no possibility to specify grading rules during import into
+% %Moodle, we had to define a standard here:\\
+% %For each question, the full $100\%$ are distributed equally among its true
+% %answers. False answers have fraction $0$.
+% 
+
+% \StopEventually{\PrintIndex}
+%
+% \section{Implementation}
+%
+%    \begin{macrocode}
+\newcommand{\toNemFileNoArg}[1]{}
+\newcommand{\toNemFile}[2]{}
+\newcommand{\generateNemFile}{%
+    \newwrite\nemesisWrite%
+    \immediate\openout\nemesisWrite=\jobname.nem%
+    \newtoks\nemesisToks%
+    \renewcommand{\toNemFileNoArg}[1]{%
+        \immediate\write\nemesisWrite{##1}%
+        \immediate\write\nemesisWrite{0}%
+    }%
+    \renewcommand{\toNemFile}[2]{%
+        \immediate\write\nemesisWrite{##1}%
+        \immediate\write\nemesisWrite{1}%
+        \nemesisToks={##2}%
+        \immediate\write\nemesisWrite{\the\nemesisToks}%
+    }%
+}
+
+\newcommand{\keepme}[1]{\toNemFile{keepme}{#1}{#1}}
+\newcommand{\intro}[1]{\toNemFile{intro}{#1}{#1}}
+
+\newcounter{questionOrdinal}
+\setcounter{questionOrdinal}{0}
+
+\newcounter{answerOrdinal}
+\setcounter{answerOrdinal}{0}
+
+\newcommand{\question}[1]{%
+    \addtocounter{questionOrdinal}{1}%
+    \setcounter{answerOrdinal}{0}%
+    \toNemFile{question}{#1}%
+    \styleQuestion{#1}%
+}
+
+\newcommand{\questionSc}[1]{%
+    \addtocounter{questionOrdinal}{1}%
+    \setcounter{answerOrdinal}{0}%
+    \toNemFile{questionSc}{#1}%
+    \styleQuestionSc{#1}%
+}
+
+\newcommand{\true}[1]{%
+    \addtocounter{answerOrdinal}{1}%
+    \toNemFile{true}{#1}%
+    \styleTrue{#1}%
+}
+
+\newcommand{\false}[1]{%
+    \addtocounter{answerOrdinal}{1}%
+    \toNemFile{false}{#1}%
+    \styleFalse{#1}%
+}
+
+\newcommand{\feedback}[1]{%
+    \toNemFile{feedback}{#1}%
+    \styleFeedback{#1}%
+}
+
+\newcommand{\explanation}[1]{%
+    \toNemFile{explanation}{#1}%
+    \styleExplanation{#1}%
+}
+
+
+\newcommand{\hidesolution}{%
+    \renewcommand{\feedback}[1]{%
+        \toNemFile{feedback}{##1}%
+    }%
+    \renewcommand{\explanation}[1]{%
+        \toNemFile{explanation}{##1}%
+    }%
+    \renewcommand{\styleTrue}{%
+        \styleTrueHidden%
+    }%
+    \renewcommand{\styleFalse}{%
+        \styleFalseHidden%
+    }%
+    \renewcommand{\styleDunno}{%
+        \styleDunnoHidden%
+    }%
+}
+
+
+\newcommand{\styleQuestion}[1]{#1}
+\newcommand{\styleQuestionSc}[1]{#1}
+\newcommand{\styleTrue}[1]{#1}
+\newcommand{\styleFalse}[1]{#1}
+\newcommand{\styleFeedback}[1]{#1}
+\newcommand{\styleExplanation}[1]{#1}
+
+\newcommand{\styleTrueHidden}[1]{#1}
+\newcommand{\styleFalseHidden}[1]{#1}
+
+\newcommand{\styleSolutionQuestion}[1]{#1}
+\newcommand{\styleSolutionQuestionSc}[1]{#1}
+
+\newcommand{\styleTrueSol}[1]{#1}
+\newcommand{\styleFalseSol}[1]{#1}
+\newcommand{\styleSolutionExplanation}[1]{#1}
+\newcommand{\styleSolutionFeedback}[1]{#1}
+
+
+\renewcommand{\styleQuestion}[1]{%
+    \bigskip%
+    \filbreak%
+    \noindent {\bf\arabic{questionOrdinal}.\ }{#1}%
+}
+
+\renewcommand{\styleQuestionSc}{\styleQuestion}
+
+\renewcommand{\styleTrue}[1]{%
+    \begin{itemize}%
+        \item[\begin{tabular}{rr}$\surd$&(\alph{answerOrdinal})\end{tabular}]{#1}
+    \end{itemize}%
+}
+
+\renewcommand{\styleFalse}[1]{%
+    \begin{itemize}%
+        \item[\begin{tabular}{rr}&(\alph{answerOrdinal})\end{tabular}]{#1}
+    \end{itemize}%
+}
+
+\renewcommand{\styleFeedback}[1]{%
+    \begin{itemize}%
+        \item[]{\par{\footnotesize{#1}}}%
+    \end{itemize}%
+}
+
+\renewcommand{\styleFalseHidden}[1]{%
+    \begin{itemize}%
+        \item[\begin{tabular}{rr}&(\alph{answerOrdinal})\end{tabular}]{#1}
+    \end{itemize}%
+}
+
+\renewcommand{\styleTrueHidden}[1]{%
+    \begin{itemize}%
+        \item[\begin{tabular}{rr}&(\alph{answerOrdinal})\end{tabular}]{#1}
+    \end{itemize}%
+}
+
+\renewcommand{\styleSolutionQuestion}[1]{%
+    \bigskip%
+    \filbreak%
+    \noindent {\bf\arabic{questionOrdinal}.\ }%
+    {\scriptsize {#1}}%
+}
+
+\renewcommand{\styleSolutionQuestionSc}{\styleSolutionQuestion}
+
+\renewcommand{\styleTrueSol}[1]{%
+    \begin{itemize}%
+        \item[%
+            \begin{tabular}{rr}%
+                $\surd$&(\alph{answerOrdinal})%
+            \end{tabular}%
+            ]%
+            {\scriptsize {#1}}
+    \end{itemize}%
+}
+
+\renewcommand{\styleFalseSol}[1]{%
+    \begin{itemize}%
+        \item[%
+            \begin{tabular}{rr}%
+                &(\alph{answerOrdinal})%
+            \end{tabular}%
+            ]%
+            {\scriptsize {#1}}
+    \end{itemize}%
+}
+
+\renewcommand{\styleSolutionExplanation}[1]{%
+    \par\noindent {#1}%
+}
+
+\renewcommand{\styleSolutionFeedback}[1]{%
+    \begin{itemize}%
+        \item[]{\par{#1}}%
+    \end{itemize}%
+}
+
+%    \end{macrocode}
+% \Finale
+\endinput
+
+
+

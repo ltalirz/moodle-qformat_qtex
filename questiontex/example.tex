@@ -1,0 +1,74 @@
+\documentclass{article}                  % use any documentclass you like
+\usepackage{graphicx,amssymb}            % use any packages you like
+\usepackage{questiontex}                 % include the questiontex package
+
+                                         % you can include any and all macros
+                                         % of your own (except for Moodle import)
+\begin{document}
+
+%\hidesolution                           % uncomment this line to hide solution
+                                         % and produce printer's copy
+
+\intro{%
+    \noindent An intro for the test. Write anything you want in here.
+    \bigskip\hrule\bigskip
+}
+
+% 1. Hello, world!
+
+\question{This is not a question.}
+\true{A true answer.}
+\feedback{The feedback for the true answer.}
+\false{A false answer.}
+\feedback{The feedback for the false answer.}
+\true{Feedbacks are optional.}
+\explanation{Your explanation here. Explanations are optional.}
+
+% 2. LaTeX support
+
+\question{%
+    What \LaTeX\ is allowed?
+}
+\true{%
+Labels and references are not supported yet.%
+}
+\true{%
+    Besides labels and references you can use any \LaTeX. Anywhere.
+    $$\prod_{p\in{\bf \mathbb{P}}}\frac{1}{1-\frac{1}{p^2}}=\frac{\pi^2}{6}$$
+}
+
+% 3. Encouraging the use of feedbacks and explanations
+
+\question{%
+    Why bother with feedbacks and explanations, when they're optional?
+}
+\false{%
+    Exactly. I never do anything optional. That's why it's optional, right?
+}
+\true{%
+    We encourage you to make deliberate use of feedbacks and explanations.
+Your students will be grateful for your efforts.
+}
+
+%% 4. How to use images
+%
+%\question{%
+%    Images must be present in {\tt eps} as well as {\tt pdf} format.
+%    \begin{center}
+%        \includegraphics[width=5cm]{myImages/cube}
+%    \end{center}
+%}
+%\true{%
+%    You can use images anywhere.
+%    \begin{center}
+%    \includegraphics[width=5cm]{myImages/grafSinPlusCos}
+%    \end{center}
+%}
+%\feedback{%
+%    This is a feedback with an image.
+%    \begin{center}
+%    \includegraphics[width=5cm]{myImages/pote5}
+%    \end{center}
+%}
+
+\end{document}

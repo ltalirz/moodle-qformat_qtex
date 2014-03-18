@@ -1,0 +1,32 @@
+README for questiontex 0.1 [2014/03/17] Project LEMUREN, ETH Zurich
+
+email: lemuren@math.ethz.ch
+
+========================================================================
+I. OVERVIEW
+
+The questiontex package allows to write multiple choice tests in LaTeX.
+The LaTeX sources can then be processed in order to produce a printer's 
+copy, standard solution and interactive classroom assessment tests.
+Furthermore, the questions may be imported into the Moodle Learning
+Management System.
+
+========================================================================
+II. INSTALLATION AND GETTING STARTED
+
+In order to install questiontex manually, run
+
+    latex questiontex.ins    
+
+in order to produce the questiontex.sty file 
+and then copy the questiontex folder into
+
+    texmf/tex/latex
+
+of you LaTeX distribution.
+
+
+The documentation can be produced by
+
+    pdflatex questiontex.dtx
+
