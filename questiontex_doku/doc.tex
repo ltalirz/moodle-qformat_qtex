@@ -22,6 +22,8 @@
 
 % In diesem Format steht |\befehl| für \verb|\befehl|
 
+\include{macros_nemesis}
+
 \begin{document}
 \reversemarginpar
 
@@ -30,26 +32,34 @@
 \newpage
 
 \section{Introduction}
-\emph{QuestionTeX} is a collection of \LaTeX\-macros that enables authors to
-create multiple-choice tests.\\
-For example, a question is entered as
-\begin{center}
-  |\question{Now, ain't that easy?}|
-\end{center}
- followed by all possible answers, e.g.
-\begin{center}
-  |\true{That's as easy as it gets.}|
-\end{center}
-This way, a computer can directly process a file with questions,
-automating the following deployment mechanisms:
+Question\TeX\ is a collection of \LaTeX\ macros that enables authors to
+write multiple-choice tests.
+The \LaTeX\  sources can be processed in order to
 \begin{itemize}
-  \item Creation of a high quality printer's copy with standardized
+  \item create a high quality printer's copy with standardized
   layout
-  \item Creation of a solution, including additional feedback
-  \item Creation of an interactive online-test (CAT)
-  \item Import of questions into Moodle LMS
-  \item \ldots your idea here.
+  \item create a standard solution, including additional feedback
+  \item create an interactive classroom assessment test (CAT)
+  \item import the questions into the Moodle Learming Management System 
+  \item \ldots your idea here!
 \end{itemize}
+
+A basic question is entered as
+
+\begin{verbatim}
+\question{The square root of two is \ldots}
+  \false{a rational number.}
+    \feedback{Try to represent it as a quotient of integers!}
+  \true{a real number.}
+  \false{an imaginary number.}
+\end{verbatim}
+
+and is typeset by \LaTeX\ to produce
+\question{The square root of two is \ldots}
+  \false{a rational number.}
+    \feedback{Try representing it as a quotient of integers!}
+  \true{a real number.}
+  \false{an imaginary number.}
 
 If you want to get an overview about the available commands and what they
 do, the fastest way is having a look at the template file that comes with

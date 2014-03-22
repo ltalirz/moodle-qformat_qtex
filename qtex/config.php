@@ -37,11 +37,11 @@
 $cfg['ENVIRONMENTS'] = array(
         'multichoice' => array('question', 'begin{multichoice}', 'begin{question}'),
 		'singlechoice' => array('questionSc'),
-        'description' => array('remark')
+        'description' => array('intro', 'keepme', 'remark')
 );
 $cfg['MACROS'] = array(
 // Meta macros
-        'title' => array('intro', 'quiztitle', 'section*', 'category'),
+        'title' => array('quiztitle', 'section*', 'category'),
 // Multichoice macros
         'true' => array('true', 'correctanswer'),
         'false' => array('false', 'incorrectanswer'),

@@ -57,16 +57,16 @@ $string['questionsincludeimages'] = 'The selected questions include images. A zi
 $string['embederror'] = 'Error while parsing embedded image';
 $string['notreadable'] = 'The filepath {$a} could not be read and can thus not be included in export.';
 // The preamble put into an exported quiz
-$string['preamble'] = '% QuestionTeX 
+$string['instructions'] = '% QuestionTeX 
 
-% User Information
-% ================
+% Instructions
+% ============
 %   - This LaTeX source may be compiled by either latex or pdflatex.
-%   - The compilation process requires a file "Questiontex_Macros.tex" to be
-%     found in the same folder. It can be downloaded from
+%   - Requires the questiontex package. 
+%     Alternatively, questiontex.sty may be placed in the same folder.
+%     It can be downloaded from
 %       www.lemuren.math.ethz.ch/coursesupport/multiplechoice
 %     where you can also find a more detailed documentation.
-%   - Please do not make use of user-defined macros.
 ';
 // Subfolder to store images in exported zip (may be left empty)
 $string['imagefolder'] = 'images/';
@@ -74,7 +74,8 @@ $string['imagefolder'] = 'images/';
 ////////////////
 // Miscellaneous
 $string['wrongidentifier'] = 'The identifier {$a} is unknown.';
-$string['norenderenginefound'] = 'No text filter for math detected. Assuming standard TeX filter.';
+$string['renderenginefound'] = 'Detected "{$a}" filter for displaying formulae.';
+$string['norenderenginefound'] = 'No text filter for math detected. Assuming standard TeX notation filter.';
 $string['unknowngradingscheme'] = 'The specified grading scheme cannot be found.';
 $string['configmissing'] = 'The configuration file config.php of the QuestionTeX format cannot be accessed.';
 $string['gradingmissing'] = 'The file grading.php containing the grading schemes cannot be accessed.';

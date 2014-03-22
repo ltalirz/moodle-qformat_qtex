@@ -87,7 +87,7 @@ class qformat_qtex extends qformat_default{
 
     /** Array containing configuration info from file config.php */
     private static $cfg;
-    /** This script may also be used in a "stand alone" version */
+    /** Whether class is used in a "stand alone" context (converter) */
     protected $standalone;
     /** Grading scheme object, @see grading.php */
     private $gradingscheme;
@@ -98,12 +98,12 @@ class qformat_qtex extends qformat_default{
     /**
      * Finds allowed mime types for file import.
      *
-     * Currently, we only support zip files.
+     * Currently, we support .tex and .zip files.
      *
      * @return array of allowed mime types
      */
     public function mime_types() {
-        return array(mimeinfo('type', '.zip'));
+        return array(mimeinfo('type', '.zip'), mimeinfo('type', '.tex'));
     }
 
     /**
@@ -162,9 +162,9 @@ class qformat_qtex extends qformat_default{
 
 
 
-    const FLAG_FILTER_JSMATH = 0;
-    const FLAG_FILTER_TEX = 1;
-    const FLAG_FILTER_MATHJAX = 2;
+    const FLAG_FILTER_JSMATH = 'jsMath';
+    const FLAG_FILTER_TEX = 'TeX notation';
+    const FLAG_FILTER_MATHJAX = 'MathJax';
     /**
      * Sets $this->renderengine to Moodle's render engine.
      */
@@ -175,7 +175,7 @@ class qformat_qtex extends qformat_default{
         $filters = get_list_of_plugins('filter');
         // TODO: Check whether filter is also active and not just available
         if (in_array('mathjax', $filters)) {
-            return self::FLAG_FILTER_MATHJAX;
+        	return self::FLAG_FILTER_MATHJAX;
         } elseif (in_array('tex', $filters)) {
             return self::FLAG_FILTER_TEX;
         } elseif (in_array('jsmath', $filters)) {
@@ -185,7 +185,7 @@ class qformat_qtex extends qformat_default{
                                                   'qformat_qtex'));
             return self::FLAG_FILTER_TEX;
         }
-
+        
     }
 
     /**
@@ -275,7 +275,7 @@ class qformat_qtex extends qformat_default{
 
             // Search the parameter file and set the parameters.
             // This is needed by the experimental converter that uses
-            // a complete Moodle installation as the converions backend.
+            // a complete Moodle installation as the conversion backend.
             $paramFile = '';
             for ($i=0; $i < count($zippedfilenames); $i++) {
                 if (preg_match('/(.*?\.json\z)/i',
@@ -657,11 +657,13 @@ class qformat_qtex extends qformat_default{
 
         // Finally, we have to perform some adjustments depending on the filter
         // used by Moodle.
+        echo $OUTPUT->notification(get_string('renderenginefound',
+        		'qformat_qtex', $this->renderengine));
+        
         if ($this->renderengine === self::FLAG_FILTER_TEX ||
             $this->renderengine === self::FLAG_FILTER_JSMATH) {
             // TeX and JsMath filters have no built-in way for displaying
-            // equations inline
-            // and in block-style. We therefore put block-style equations
+            // equations in block-style. We therefore put block-style equations
             // ( $$ $$, \[ \], in eqnarrays, etc.) into paragraphs by hand.
 
             $pformula = '<p style=\'text-align: center\' class=\'formula\'>';
@@ -679,11 +681,11 @@ class qformat_qtex extends qformat_default{
                                     '\\1\$\$\\2\$\$', $tex);
             }
         } else if ($this->renderengine === self::FLAG_FILTER_MATHJAX) {
-            // MathJax uses \( \) for inline formulae
+            // MathJax uses \( \) for inline formulae.
             // A single $ is one that is neither
             // preceded nor followed by another $:
             $tex = preg_replace('/([^\$])\$([^\$]+?)\$/sx','\\1\(\\2\)', $tex);
-            // and $$ $$ for block-formatted ones (nothing to be done here)
+            // MathJax uses $$ $$ for block-format (nothing to be done here).
         }
 
         return $tex;
@@ -710,9 +712,9 @@ class qformat_qtex extends qformat_default{
         $text = preg_replace('/--/','-', $text);
 
         // Replace thin spaces when not in math mode
-        $text = preg_replace('/\\\\,/','', $text);
-        // Replace thin spaces when not in math mode
-        $text = preg_replace('/\\\\ /','', $text);
+        $text = preg_replace('/\\\\,/',' ', $text);
+        // Replace control spaces when not in math mode
+        $text = preg_replace('/\\\\ /',' ', $text);
 
         $text = preg_replace('/\\\\emph\{(.*?)}/s','<i>\\1</i>', $text);
         $text = preg_replace('/\\\\textit\{(.*?)}/s','<i>\\1</i>', $text);
@@ -1505,9 +1507,10 @@ class qformat_qtex extends qformat_default{
      * Returns default file extension.
      *
      * If images are involved, we should give back a zip archive.
-     * For some stupid reason, the Moodle 2 export function creates a new
-     * qformat instance to call this function, so this function does not
-     * work anymore. Thus, we currently always return a zip file, also if
+     * For some reason, the Moodle 2 export function creates a new
+     * qformat instance to call this function, so empty($this->images)
+     * will always be true.
+     * Thus, we currently always return a zip file, also if
      * there are no images involved.
      *
      * @return string The file extension.
@@ -1517,15 +1520,23 @@ class qformat_qtex extends qformat_default{
     }
 
     /**
-     * Translate internal Moodle code number into human readable format
+     * Used to be necessary in order to translate internal Moodle code number
+     * 
+     * Probably not needed anymore, may come in handy though if we want to
+     * name identifiers differently.
      *
-     * @param string $qtype Moodle-internal question type
-     * @return string Identifier of corresponding LaTeX environment
+     * @param object $question A question object fresh from the moodle database
+     * @return string Identifier of corresponding LaTeX macro/environment
      */
-    function get_identifier($qtype) {
-        switch($qtype) {
+    function get_identifier($question) {
+        switch($question->qtype) {
             case 'multichoice':
-                $identifier = 'multichoice';
+            	if (property_exists($question, 'single') && 
+            	    ($question->single === True || $question->single === 'true')) {
+            	    $identifier = 'singlechoice';
+            	} else {
+            		$identifier = 'multichoice';
+            	}
                 break;
             case 'description':
                 $identifier = 'description';
@@ -1548,7 +1559,7 @@ class qformat_qtex extends qformat_default{
      */
     public function writequestion($question) {
         global $OUTPUT;
-        $identifier = $this->get_identifier($question->qtype);
+        $identifier = $this->get_identifier($question);
 
         // If our get_identifier function knows the question type
         if($identifier){
@@ -1645,31 +1656,47 @@ class qformat_qtex extends qformat_default{
      * @return string The corresponding TeX string
      */
     function export_multichoice($question) {
+        return $this->export_anychoice($question, False);
+    }
+    
+    /**
+     * Returns the content of a TeX environment for a single choice question
+     *
+     * @param object $question A question object from the Moodle data base
+     * @return string The corresponding TeX string
+     */
+    function export_singlechoice($question) {
+    	return $this->export_anychoice($question, True);
+    }
+    
+    
+    /**
+     * Returns the content of a TeX environment for a multiple/single choice question
+     *
+     * @param object $question A question object from the Moodle data base
+     * @param bool $single Whether to allow only for a single choice
+     * @return string The corresponding TeX string
+     */
+    function export_anychoice($question, $single) {
+    	
+    	
+    	$econtent = $this->create_macro($this->get_identifier($question),
+    			array($question->questiontext));
+    	// optional parameter with $question->name is DEPRECATED
+    	//$econtent = $this->create_macro($this->get_identifier($question),
+    	//		array($question->questiontext),
+    	//		$question->name);
+    	 
+        // Shuffle answers?  DEPRECATED
+        //if (((is_object($question) &&
+        //         property_exists($question, 'shuffleanswers'))
+        //         ?
+        //         $question->shuffleanswers
+        //         :
+        //         '') === '0') {
+        //    $econtent .= $this->create_macro('shuffleanswers', array('false'));
+        //}
 
-        $econtent = $this->create_macro($this->get_identifier($question->qtype),
-                                        array($question->questiontext),
-                                        $question->name);
-
-        // Shuffle answers?
-        if (((is_object($question) &&
-                 property_exists($question, 'shuffleanswers'))
-                 ?
-                 $question->shuffleanswers
-                 :
-                 '') === '0') {
-            $econtent .= $this->create_macro('shuffleanswers', array('false'));
-        }
-
-        // Multiple correct answers?
-        if (is_object($question) &&
-               property_exists($question, 'single') &&
-               ($question->single === false || $question->single === 'false')) {
-            $econtent .= $this->create_macro('multianswer');
-            // We need to know this for handling the answer fractions
-            $single = false;
-        } else {
-            $single = true;
-        }
 
         // Handle answers. For export, the Moodle geniuses invented sth new:
         // $question->options->answers, where each answer object has
@@ -1691,9 +1718,11 @@ class qformat_qtex extends qformat_default{
             }
             // If we have a multi-answer question, we do...
             else {
+            	// optional arguments DEPRECATED
                 $econtent .=
                     $this->create_macro($identifier,
-                                        array($aobject->answer), $percentage);
+                                        array($aobject->answer));
+                //    		, $percentage);
             }
             // Handle answer images
             $this->writeimages($aobject->answerfiles);
@@ -1724,20 +1753,24 @@ class qformat_qtex extends qformat_default{
      * @return string The corresponding TeX string
      */
     function export_description($question) {
-        $econtent = $this->create_macro($this->get_identifier($question->qtype),
-                                        array($question->questiontext),
-                                        $question->name);
+    	// optional arguments DEPRECATED
+        $econtent = $this->create_macro($this->get_identifier($question),
+                                        array($question->questiontext));
+        //                                $question->name);
 
         return $econtent;
     }
 
     /**
-     * Changes the category (represented as a header in LaTeX
+     * Changes the category (represented as a header in LaTeX)
      *
      * @param object question A category
      * @return string tex The category to put into the LaTeX code
      */
     function export_category($question){
+    	// exporting categories is DEPRECATED
+    	return '';
+    	
         // Used for category switching
         $tex = self::$cfg['NL'];
 
@@ -1746,7 +1779,7 @@ class qformat_qtex extends qformat_default{
             preg_replace('/\$(?:.*?)\$\/?/s', '', $question->category);
 
         $tex .=
-            $this->create_macro($this->get_identifier($question->qtype),
+            $this->create_macro($this->get_identifier($question),
                                 array($question->category),
                                 (is_object($question) &&
                                  property_exists($question, 'name'))
@@ -1799,10 +1832,11 @@ class qformat_qtex extends qformat_default{
     }
 
     /**
-     * Creates a TeX environment. (DEPRECATED, we don't use environments)
-     *
+     * Creates a TeX environment.
+     * 
      * Parameters are an identifier, the environment content, an
      * array of obligatory parameters and an optional parameter.
+     * (DEPRECATED, we don't use environments anymore)
      *
      * @param string identifier
      * @param string environmentcontent
@@ -1978,12 +2012,14 @@ class qformat_qtex extends qformat_default{
         // Clean from XML remains (represent special entities in LaTeX, etc)
         $texcode = $this->export_prepare_xml($texcode);
 
-        $texfile = get_string('preamble', 'qformat_qtex').self::$cfg['NL'];
+        $texfile = get_string('instructions', 'qformat_qtex').self::$cfg['NL'];
         $texfile .= '\documentclass[a4paper,oneside]{article}'.self::$cfg['NL'];
-        // We must include the macro file
-        $texfile .= '\input{'.self::$cfg['MACRO_FILENAME'].'}'.self::$cfg['NL'];
-        $texfile .= '\showsolution'.self::$cfg['NL'];
-        $texfile .= '\showfeedback'.self::$cfg['NL'];
+        $texfile .= '\usepackage{questiontex}'.self::$cfg['NL'];
+        $texfile .= '\usepackage{amsmath,amssymb,amsthm}'.self::$cfg['NL'];
+        // Macro file deprecated
+        // $texfile .= '\input{'.self::$cfg['MACRO_FILENAME'].'}'.self::$cfg['NL'];
+        // $texfile .= '\showsolution'.self::$cfg['NL'];
+        // $texfile .= '\showfeedback'.self::$cfg['NL'];
         $texfile .= self::$cfg['NL'];
         $texfile .= $this->create_environment('document', $texcode);
 
@@ -2043,20 +2079,29 @@ class qformat_qtex extends qformat_default{
         $dirty = str_replace('Ü', '\\"U', $dirty);
         $dirty = str_replace('ß', '\\"s', $dirty);
 
-
-        // For JsMath replace the brackets by $$
-        if ($this->renderengine === self::FLAG_FILTER_JSMATH) {
-            $dirty = preg_replace('/\\\\\((.*?)\\\\\)/', '\$\$\\1\$\$', $dirty);
+        
+        
+        // Handle formulae depending on the filter used by Moodle.        
+        if ($this->renderengine === self::FLAG_FILTER_TEX) {
+        	// First we put everything in single $
+        	$dirty = preg_replace('/\${2}/', '$', $dirty);     	
+        	// Then we add a $ for special paragraphs
+        	$dirty = preg_replace('/<p[^>]*?class=\'formula\'>(.*?)<\/p>/',
+        			'\$\\1\$', $dirty);
+        } else if ($this->renderengine === self::FLAG_FILTER_JSMATH) {
+        	// First we put everything in single $
+        	$dirty = preg_replace('/\\\\\((.*?)\\\\\)/', '\$\\1\$', $dirty);
+        	// Then we add a $ for special paragraphs
+        	$dirty = preg_replace('/<p[^>]*?class=\'formula\'>(.*?)<\/p>/',
+        			'\$\\1\$', $dirty);
+        } else if ($this->renderengine === self::FLAG_FILTER_MATHJAX) {
+        	// MathJax uses \( \) for inline formulae.
+        	$dirty = preg_replace('/\\\\\((.*?)\\\\\)/', '\$\\1\$', $dirty);
+        	// MathJax uses $$ $$ for block-format (nothing to be done here).
         }
-
-        // First we put everything in single $
-        $dirty = preg_replace('/\${2}/', '$', $dirty);
-
-        // Then we add a $ for special paragraphs
-        $dirty = preg_replace('/<p[^>]*?class=\'formula\'>(.*?)<\/p>/',
-                              '\$\\1\$', $dirty);
+        
         $dirty = preg_replace('/<p.*?>(.*?)<\/p>/', '\\1', $dirty);
-
+                
         return $dirty;
     }
 
