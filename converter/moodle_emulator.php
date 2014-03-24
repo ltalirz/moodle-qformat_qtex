@@ -350,7 +350,7 @@ function process_for_export($questions){
         	}	
         }
         
-        // answer ids are arrays that also hold the questio id
+        // answer ids are arrays that also hold the question id
         if (property_exists($question, 'answer')) {
         	foreach ($question->answer as $i => $answer) {
         		$question->answer[$i]['id'] = array($qid, $i);
@@ -574,7 +574,26 @@ function file_get_unused_draft_itemid() {
 }
 
 
-
+/**
+ * Class emulating Moodle file storage
+ * 
+ * It seems there are two different ways of providing additional files
+ * during import:
+ * a) fill the $question->questiontextfiles, ... members,
+ *    which is what qformat_qtex does.
+ * b) use $fs->create_file_from_string()
+ *    and store id in $question->questiontextitemid, ...members,
+ *    which is what qformat_xml does. 
+ *
+ * For export, the files are needed in $question->questiontextfiles, 
+ * so in principle there is nothing to be done for the conversion
+ * TeX -> MoodleXML.
+ * However, format_xml is still calling $fs->get_area_files() to fill
+ * $question->questiontextfiles, so this needs to be caught.
+ * 
+ * It would make things simpler, if both formats used the same method,
+ * but I find using $fs less elegant. 
+ */
 class file_storage {
     public $questions;
     private $createdFiles;
@@ -590,7 +609,7 @@ class file_storage {
      * In order to access the proper item from the array of questions,
      * we allow $itemid to be either a question id or an array
      * array($questionid, $answerid).
-     * 
+     *  
      * @param int $contextid
      * @param unknown $mod
      * @param string $area
@@ -606,30 +625,42 @@ class file_storage {
         if (!is_array($itemid)) {
         	$question = $this->questions[$itemid];
         	
-        	if ($area === 'questiontext' && 
-        		!empty($question->questiontextitemid)){
+        	if ($area === 'questiontext') {
+        		if (!empty($question->questiontextitemid)){
         			return $this->createdFiles[$question->questiontextitemid];
-        	} else if ($area === 'generalfeedback' &&
-        		!empty($question->generalfeedbackitemid)){
-        			return $this->createdFiles[$question->generalfeedbackitemid];
-        	} else {
-        		return array();
+        		} else if (!empty($question->questiontextfiles)){
+        			return $question->questiontextfiles;
+        		}
+
+        	} else if ($area === 'generalfeedback') {
+        			if (!empty($question->generalfeedbackitemid)){
+        				return $this->createdFiles[$question->generalfeedbackitemid];
+        			} else if (!empty($question->generalfeedbackfiles)){
+        				return $question->generalfeedbackfiles;
+        			}
         	}
         // If $itemid is an array, we are handling an answer
         } else {
         	$question = $this->questions[ $itemid[0] ];
         	$answer = $question->options->answers[ $itemid[1] ];
         	
-        	if ($area === 'answer' && 
-        		!empty($answer->answeritemid)){
-                	return $this->createdFiles[$answer->answeritemid];
-        	} else if ($area === 'answerfeedback' && 
-        		!empty($answer->feedbackitemid)){
-                	return $this->createdFiles[$answer->feedbackitemid];
-        	} else {
-        		return array();
+        	if ($area === 'answer' ) {
+        		if (!empty($answer->answeritemid)){
+        			return $this->createdFiles[$answer->answeritemid];
+        		} else if (!empty($answer->answerfiles)){
+        			return $answer->answerfiles;
+        		} 
+        	} else if ($area === 'answerfeedback'){
+        	    if (!empty($answer->feedbackitemid)){
+        			return $this->createdFiles[$answer->feedbackitemid];
+        		} else if (!empty($answer->feedbackfiles)){
+        			return $answer->feedbackfiles;
+        		} 
         	}
         }
+        
+        // If nothing caught, there are no files
+        return array();
     }
 
     /**

@@ -20,7 +20,7 @@ curl --silent --header "Content-Type: multipart/form-data" \
 unzip -q output.zip -d output/
 unzip -q expected_output.zip -d expected_output/
 DIFF=`diff -r output/ expected_output/`
-rm -r output/ expected_output/
+rm -r output/ expected_output/ output.zip
 
 if [ "$DIFF" == "" ]
 then

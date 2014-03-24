@@ -9,7 +9,6 @@
  * @uses moodle_emulator.php
  *
  * @author Leopold Talirz, Patrick Spettel
- * @version 05.02.2014
  */
 
 // Configuration start
@@ -82,6 +81,7 @@ if (isset($_POST['sent']) && $_POST['sent']==='yes') {
     // back again.
     $questions = process_for_export($questions);
     $fs->questions = $questions;
+    
     
     // Export questions
     $qexport = new $endclass();

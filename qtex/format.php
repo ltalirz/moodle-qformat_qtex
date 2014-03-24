@@ -257,7 +257,7 @@ class qformat_qtex extends qformat_default{
         }
 
         // Get filetype of input file, using the file extension.
-        $inputfiletype = substr(strrchr($this->realfilename,"."), 1);
+        $inputfiletype = pathinfo($this->realfilename, PATHINFO_EXTENSION); 
         $inputfiletype = strtolower($inputfiletype);
 
         // If we have a zip file (with pictures)
@@ -826,7 +826,7 @@ class qformat_qtex extends qformat_default{
                         $providedname = $providedmatches[0][1];
 
                         // Do a check on file extension
-                        $providedtype = substr(strrchr($providedname,"."), 1);
+                        $providedtype = pathinfo($providedname, PATHINFO_EXTENSION);
                         $allowedtypes =
                             $this->preg_match_batch(
                                         '/'.preg_quote($providedtype, '/').'/i',
@@ -1922,6 +1922,12 @@ class qformat_qtex extends qformat_default{
         if ( property_exists($this, 'images') && (! empty($this->images))) {
         	// Iterate through $this->images.
         	foreach ($this->images as $includename => $image) {
+        		// If includename has no file extension, we assume .png
+        		$ext = pathinfo($includename, PATHINFO_EXTENSION);
+        		if(empty($ext)){
+        			$includename .= '.png';
+        		}
+        		
             	$zip->addFromString($includename, $image);
         	}
         }
