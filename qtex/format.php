@@ -172,8 +172,10 @@ class qformat_qtex extends qformat_default{
         global $CFG;
         global $OUTPUT;
 
-        $filters = get_list_of_plugins('filter');
         // TODO: Check whether filter is also active and not just available
+        // also move to new get_plugin_list() function (see moodlelib.php)
+        $filters = get_list_of_plugins('filter');
+        
         if (in_array('mathjax', $filters)) {
         	return self::FLAG_FILTER_MATHJAX;
         } elseif (in_array('tex', $filters)) {
@@ -589,6 +591,7 @@ class qformat_qtex extends qformat_default{
      * @return string The processed TeX-file in a string
      */
     function import_prepare_for_display($tex) {
+    	global $OUTPUT;
 
         // Remove full line commentaries and line break. Missing 's' option
         // prevents dot from matching newline. 'm' option makes start and end
@@ -1560,7 +1563,7 @@ class qformat_qtex extends qformat_default{
     public function writequestion($question) {
         global $OUTPUT;
         $identifier = $this->get_identifier($question);
-
+        
         // If our get_identifier function knows the question type
         if($identifier){
 
@@ -1570,24 +1573,24 @@ class qformat_qtex extends qformat_default{
             $content = $this->{$exportfunction}($question);
 
             // Keep track of non-embedded images (DEPRECATED)
-            if (!empty($question->image)) {
-                // Get file name
-                preg_match('/(.*?)\//',
-                           strrev($question->image), $imagenamesrev);
+//             if (!empty($question->image)) {
+//                 // Get file name
+//                 preg_match('/(.*?)\//',
+//                            strrev($question->image), $imagenamesrev);
 
-                $image['includename'] =
-                    get_string('imagefolder', 'qformat_qtex') .
-                    strrev($imagenamesrev[1]);
-                $image['filepath'] = $question->image;
-                $this->images[$image['includename']] = $image;
+//                 $image['includename'] =
+//                     get_string('imagefolder', 'qformat_qtex') .
+//                     strrev($imagenamesrev[1]);
+//                 $image['filepath'] = $question->image;
+//                 $this->images[$image['includename']] = $image;
 
-                // Add image in front of content
-                $imagetag = $this->create_macro('image',
-                                                array($image['includename']));
-                $content = $imagetag.$content;
+//                 // Add image in front of content
+//                 $imagetag = $this->create_macro('image',
+//                                                 array($image['includename']));
+//                 $content = $imagetag.$content;
 
-                unset($image);
-            }
+//                 unset($image);
+//             }
 
             $fs = get_file_storage();
             $contextid = $question->contextid;
@@ -1888,7 +1891,7 @@ class qformat_qtex extends qformat_default{
      *      (either TeX code or a zip file if images are included).
      */
     protected function presave_process($content) {
-        // Handle images
+        // fill $this->images
         $content = $this->export_extract_images($content);
 
         // The TeX code has to be cleaned from XML remains and be put into a
@@ -1916,9 +1919,11 @@ class qformat_qtex extends qformat_default{
         global $CFG;
         $pathprefix = $CFG->dataroot.'/'.$this->course->id.'/';
 
-        // Iterate through $this->images.
-        foreach ($this->images as $includename => $image) {
-            $zip->addFromString($includename, $image);
+        if ( property_exists($this, 'images') && (! empty($this->images))) {
+        	// Iterate through $this->images.
+        	foreach ($this->images as $includename => $image) {
+            	$zip->addFromString($includename, $image);
+        	}
         }
 
         $zip->close();
@@ -2016,6 +2021,9 @@ class qformat_qtex extends qformat_default{
         $texfile .= '\documentclass[a4paper,oneside]{article}'.self::$cfg['NL'];
         $texfile .= '\usepackage{questiontex}'.self::$cfg['NL'];
         $texfile .= '\usepackage{amsmath,amssymb,amsthm}'.self::$cfg['NL'];
+        if ( property_exists($this, 'images') && (! empty($this->images))) {
+        	$texfile .= '\usepackage{graphicx}'.self::$cfg['NL'];
+        }
         // Macro file deprecated
         // $texfile .= '\input{'.self::$cfg['MACRO_FILENAME'].'}'.self::$cfg['NL'];
         // $texfile .= '\showsolution'.self::$cfg['NL'];

@@ -62,10 +62,10 @@ if (isset($_POST['sent']) && $_POST['sent']==='yes') {
         print_form(1, "Unknown conversion requested.\n");
         die;
     }
-
+    
     $startclass = 'qformat_'.$startformat;
     $endclass = 'qformat_'.$endformat;
-
+    
     // Import questions into array of objects
     $qimport = new $startclass();
     if ($direction === 't2x') {
@@ -77,33 +77,12 @@ if (isset($_POST['sent']) && $_POST['sent']==='yes') {
     $lines = $qimport->readdata($qimport->filename);
 
     $questions = $qimport->readquestions($lines);
-    $questionId = 0;
-    foreach ($questions as $question) {
-        $question->id = $questionId;
-        if (is_object($question) && !property_exists($question, 'contextid')) {
-            $question->contextid = '';
-        }
-        if (is_object($question) && !property_exists($question, 'hidden')) {
-            $question->hidden = '';
-        }
-        if (is_object($question) && property_exists($question, 'answer')) {
-            foreach ($question->answer as $i => $answer) {
-                $question->answer[$i]['id'] = array($questionId, $i);
-            }
-        }
-        if (is_object($question) && property_exists($question, 'feedback')) {
-            foreach ($question->feedback as $i => $feedback) {
-                $question->feedback[$i]['id'] = array($questionId, $i);
-            }
-        }
-        $questionId++;
-    }
-    $fs->questions = $questions;
     // Regretfully, the questions don't pop out of the database as they
     // come in. Thus we have to do some cosmetics before passing them
     // back again.
     $questions = process_for_export($questions);
-
+    $fs->questions = $questions;
+    
     // Export questions
     $qexport = new $endclass();
 
@@ -119,7 +98,6 @@ if (isset($_POST['sent']) && $_POST['sent']==='yes') {
 
     $qexport->questions = $questions;
     $targetfile = $qexport->exportprocess();
-
     // Get name of target file
     if($targetfilename == '') $targetfilename = 'moodlequiz'.$qexport->export_file_extension();
 

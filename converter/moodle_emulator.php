@@ -266,65 +266,65 @@ class qformat_qtex_emulator extends qformat_qtex{
 
     }
 
-    public function writequestion($question){
-        global $OUTPUT;
-        $identifier = $this->get_identifier($question->qtype);
+//     public function writequestion($question){
+//         global $OUTPUT;
+//         $identifier = $this->get_identifier($question->qtype);
 
-        // If our get_identifier function knows the question type
-        if($identifier){
+//         // If our get_identifier function knows the question type
+//         if($identifier){
 
-            // Call the right specialized function to get the content of the
-            // tex environment.
-            $exportfunction = 'export_'.$identifier;
-            $content = $this->{$exportfunction}($question);
+//             // Call the right specialized function to get the content of the
+//             // tex environment.
+//             $exportfunction = 'export_'.$identifier;
+//             $content = $this->{$exportfunction}($question);
 
-            /*
-            // Keep track of non-embedded images (DEPRECATED)
-            if(!empty($question->image)){
-                // Get file name
-                preg_match('/(.*?)\//', strrev($question->image), $imagenamesrev);
+//             /*
+//             // Keep track of non-embedded images (DEPRECATED)
+//             if(!empty($question->image)){
+//                 // Get file name
+//                 preg_match('/(.*?)\//', strrev($question->image), $imagenamesrev);
 
-                $image['includename'] = get_string('imagefolder', 'qformat_qtex').strrev($imagenamesrev[1]);
-                $image['filepath'] = $question->image;
-                $this->images[$image['includename']] = $image;
+//                 $image['includename'] = get_string('imagefolder', 'qformat_qtex').strrev($imagenamesrev[1]);
+//                 $image['filepath'] = $question->image;
+//                 $this->images[$image['includename']] = $image;
 
-                // Add image in front of content
-                $imagetag = $this->create_macro('image', array($image['includename']));
-                $content = $imagetag.$content;
+//                 // Add image in front of content
+//                 $imagetag = $this->create_macro('image', array($image['includename']));
+//                 $content = $imagetag.$content;
 
-                unset($image);
-            }
-            */
+//                 unset($image);
+//             }
+//             */
 
-            $fs = get_file_storage();
-            $contextid = $question->contextid;
-            // Get files used by the questiontext.
-            $question->questiontextfiles = $fs->get_area_files(
-                                                               $contextid, 'question', 'questiontext', (is_object($question) && property_exists($question, 'questiontextitemid')) ? $question->questiontextitemid : '');
-            $this->writeimages($question->questiontextfiles);
+//             $fs = get_file_storage();
+//             $contextid = $question->contextid;
+//             // Get files used by the questiontext.
+//             $question->questiontextfiles = $fs->get_area_files(
+//                                                                $contextid, 'question', 'questiontext', (is_object($question) && property_exists($question, 'questiontextitemid')) ? $question->questiontextitemid : '');
+//             $this->writeimages($question->questiontextfiles);
 
-            // Get files used by the generalfeedback.
-            $question->generalfeedbackfiles = $fs->get_area_files(
-                                                                  $contextid, 'question', 'generalfeedback', (is_object($question) && property_exists($question, 'generalfeedbackitemid')) ? $question->generalfeedbackitemid : '');
-            if (!empty($question->options->answers)) {
-                foreach ($question->options->answers as $answer) {
-                    $answer->answerfiles = $fs->get_area_files(
-                                                               $contextid, 'question', 'answer', $answer->answeritemid);
-                    $this->writeimages($answer->answerfiles);
-                    $answer->feedbackfiles = $fs->get_area_files(
-                                                                 $contextid, 'question', 'answerfeedback', $answer->feedbackitemid);
-                    $this->writeimages($answer->feedbackfiles);
-                }
-            }
+//             // Get files used by the generalfeedback.
+//             $question->generalfeedbackfiles = $fs->get_area_files(
+//                                                                   $contextid, 'question', 'generalfeedback', (is_object($question) && property_exists($question, 'generalfeedbackitemid')) ? $question->generalfeedbackitemid : '');
+//             if (!empty($question->options->answers)) {
+//                 foreach ($question->options->answers as $answer) {
+//                     $answer->answerfiles = $fs->get_area_files(
+//                                                                $contextid, 'question', 'answer', $answer->answeritemid);
+//                     $this->writeimages($answer->answerfiles);
+//                     $answer->feedbackfiles = $fs->get_area_files(
+//                                                                  $contextid, 'question', 'answerfeedback', $answer->feedbackitemid);
+//                     $this->writeimages($answer->feedbackfiles);
+//                 }
+//             }
 
-        }
-        // Else we don't know the type
-        else{
-            echo $OUTPUT->notification(get_string('unknownexportformat', 'qformat_qtex', $question->qtype));
-        }
+//         }
+//         // Else we don't know the type
+//         else{
+//             echo $OUTPUT->notification(get_string('unknownexportformat', 'qformat_qtex', $question->qtype));
+//         }
 
-        return $content;
-    }
+//         return $content;
+//     }
 }
 
 /**
@@ -335,8 +335,39 @@ class qformat_qtex_emulator extends qformat_qtex{
  * @return array Processed array, ready to be handled by writequestions()
  */
 function process_for_export($questions){
+	
+	$qid = 0;
+	
     foreach($questions as $question){
+        
+        // Need to introduce proper ids for file handling
+    	$question->id = $qid;
+
+    	$qmembers = array('contextid', 'questiontextid', 'generalfeedbackid', 'hidden');
+        foreach($qmembers as $qmember){
+        	if (!property_exists($question, $qmember)) {
+        		$question->$qmember = '';
+        	}	
+        }
+        
+        // answer ids are arrays that also hold the questio id
+        if (property_exists($question, 'answer')) {
+        	foreach ($question->answer as $i => $answer) {
+        		$question->answer[$i]['id'] = array($qid, $i);
+        	}
+        }
+        if (property_exists($question, 'feedback')) {
+        	foreach ($question->feedback as $i => $feedback) {
+        		$question->feedback[$i]['id'] = array($qid, $i);
+        	}
+        }
+        
+        
+        ++$qid;
+        
+        // Rearrange data structure
         if($question->qtype == 'multichoice') $question = rearrange_multichoice($question);
+
     }
 
     return $questions;
@@ -553,47 +584,65 @@ class file_storage {
         $this->createdFiles = array();
     }
 
+    /**
+     * Return files for particular item
+     * 
+     * In order to access the proper item from the array of questions,
+     * we allow $itemid to be either a question id or an array
+     * array($questionid, $answerid).
+     * 
+     * @param int $contextid
+     * @param unknown $mod
+     * @param string $area
+     * @param int $itemid
+     * @return array The proper item from $createdFiles.
+     */
     function get_area_files($contextid, $mod, $area, $itemid) {
         if (!$itemid) {
             return array();
         }
 
-        if (!is_array($itemid) && isset($this->createdFiles[$itemid])) {
-            return $this->createdFiles[$itemid];
+        // If $itemid is not an array, we are handling a question
+        if (!is_array($itemid)) {
+        	$question = $this->questions[$itemid];
+        	
+        	if ($area === 'questiontext' && 
+        		!empty($question->questiontextitemid)){
+        			return $this->createdFiles[$question->questiontextitemid];
+        	} else if ($area === 'generalfeedback' &&
+        		!empty($question->generalfeedbackitemid)){
+        			return $this->createdFiles[$question->generalfeedbackitemid];
+        	} else {
+        		return array();
+        	}
+        // If $itemid is an array, we are handling an answer
         } else {
-            $questionId = 0;
-            $answerId = 0;
-            if (is_array($itemid)) {
-                $questionId = $itemid[0];
-                $answerId = $itemid[1];
-            } else {
-                $questionId = $itemid;
-            }
-
-            $question = $this->questions[$questionId];
-            if ($area === 'questiontext') {
-                if (is_object($question) &&
-                        property_exists($question, 'questiontextfiles')) {
-                    return $question->questiontextfiles;
-                }
-            } else if ($area === 'generalfeedback') {
-                if (is_object($question) &&
-                        property_exists($question, 'generalfeedbackfiles')) {
-                    return $question->generalfeedbackfiles;
-                }
-            } else if ($area === 'answer') {
-                $answer = $question->options->answers[$answerId];
-                return $answer->answerfiles;
-            } else if ($area === 'answerfeedback') {
-                $feedback = $question->options->answers[$answerId];
-                return $feedback->feedbackfiles;
-            }
-            return array();
+        	$question = $this->questions[ $itemid[0] ];
+        	$answer = $question->options->answers[ $itemid[1] ];
+        	
+        	if ($area === 'answer' && 
+        		!empty($answer->answeritemid)){
+                	return $this->createdFiles[$answer->answeritemid];
+        	} else if ($area === 'answerfeedback' && 
+        		!empty($answer->feedbackitemid)){
+                	return $this->createdFiles[$answer->feedbackitemid];
+        	} else {
+        		return array();
+        	}
         }
     }
 
+    /**
+     * Used by format_xml to store files associated with questions
+     * 
+     * @param array $filerecord With keys 'contextid', 'component', 'filearea',
+     *   'itemid', 'filepath', 'filename'.
+     * @param string $str File content.
+     */
     function create_file_from_string($filerecord, $str) {
+    	
         $itemid = $filerecord['itemid'];
+        
         if (!isset($this->createdFiles[$itemid])) {
             $this->createdFiles[$itemid] = array();
         }
