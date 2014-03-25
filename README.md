@@ -1,5 +1,5 @@
 QuestionTeX
------------------
+------------
 
 QuestionTeX is a collection of LaTeX macros that enables authors 
 to create multiple-choice tests.
@@ -11,10 +11,9 @@ Further documentation and examples are available on
     www.lemuren.math.ethz.ch/projects/texweb/texweb_mc
     
 QuestionTeX for Moodle
----------------------------------
+-----------------------
 
-Plugin
-======
+### Plugin
 
 The QuestionTeX plugin for Moodle enables the import of questions written in 
 QuestionTeX directly into the Moodle LMS. Export from Moodle to QuestionTeX
@@ -24,8 +23,7 @@ The plugin as well as installation instructions can be found in the *qtex/*
 subfolder. The plugin is also available as a zip archive from the Moodle plugin
 repository at www.moodle.org .
 
-Standalone Converter
-====================
+### Standalone Converter
 
 Some Moodle users do not have permission to install new plugins at their 
 Moodle server. For this scenario, we provide a set of PHP scripts, 
@@ -36,8 +34,7 @@ imported into Moodle without requiring modifications at the admin level.
 The converter as well as installation instructions can be found in the 
 *standalone-converter/* subfolder.
 
-Moodle Converter (Experimental) 
-===============================
+### Moodle Converter (Experimental) 
 
 An alternative to using the standalone converter is to set up a local
 Moodle installation with QuestionTeX plugin. This Moodle can then be
