@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function usage {
-    printf "usage: %s <URL to 'gui.php'>" $(basename $0)
+    printf "usage: %s <URL to 'gui.php'>\n" $(basename $0)
     exit 1
 }
 
@@ -12,7 +12,7 @@ then
 fi
 
 URL=$1
-#read -p "Please enter the URL pointig to 'gui.php' " URL
+#read -p "Please enter the URL pointing to 'gui.php' " URL
 
 for test in ./test*
 do
