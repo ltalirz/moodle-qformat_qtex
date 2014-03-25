@@ -61,7 +61,7 @@ if (isset($_FILES['input']) && isset($_POST['conversion']) &&
 
     // TODO: Make 100% sure that this is secure enough!!
     // E. g. no injections shall be possible.
-    system('../commandline_moodle_question_converter/moodle_question_converter.sh ' .
+    system('./moodle_question_converter.sh ' .
            $moodleUrl . ' ' . $username . ' ' .  $password . ' ' .
            $formatFrom . ' ' . $formatTo .
            ' ' . $inputFile . ' ' . $outputFile);
