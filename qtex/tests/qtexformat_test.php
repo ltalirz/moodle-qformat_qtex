@@ -287,12 +287,16 @@ class qformat_qtex_test extends question_testcase {
             15 => new question_answer(15, '3', 0, '', FORMAT_HTML),
             16 => new question_answer(16, '4', 1, '', FORMAT_HTML),
         );
+        foreach ($qdata->options->answers as $aobject) {
+            $aobject->answerfiles = array();
+            $aobject->feedbackfiles = array();
+        }
 
         $exporter = new qformat_qtex();
         $tex = $exporter->writequestion($qdata);
 
         $expectedtex =
-            '\question[Multiple choice question]{Which are the even numbers?}
+            '\question{Which are the even numbers?}
 \false{1}
 \true{2}
 \false{3}
@@ -339,6 +343,11 @@ class qformat_qtex_test extends question_testcase {
             16 => new question_answer(16, '4', 1, '', FORMAT_HTML),
         );
 
+        foreach ($qdata->options->answers as $aobject) {
+            $aobject->answerfiles = array();
+            $aobject->feedbackfiles = array();
+        }
+
         $exporter = new qformat_qtex();
         $exporter->qformat_qtex_initialize();
         $exporter->set_renderengine(qformat_qtex::FLAG_FILTER_JSMATH);
@@ -347,25 +356,23 @@ class qformat_qtex_test extends question_testcase {
         $tex = $exporter->export_prepare_for_display($tex);
 
         $expectedtex =
-            '% QuestionTeX Template
-% Version of 8.5.2009
+            '% QuestionTeX 
 
-% User Information
-% ================
+% Instructions
+% ============
 %   - This LaTeX source may be compiled by either latex or pdflatex.
-%   - The compilation process requires a file "Questiontex_Macros.tex" to be
-%     found in the same folder. It can be downloaded from
+%   - Requires the questiontex package. 
+%     Alternatively, questiontex.sty may be placed in the same folder.
+%     It can be downloaded from
 %       www.lemuren.math.ethz.ch/coursesupport/multiplechoice
 %     where you can also find a more detailed documentation.
-%   - Please do not make use of user-defined macros.
 
 \documentclass[a4paper,oneside]{article}
-\input{MoodleQuiz_Macros.tex}
-\showsolution
-\showfeedback
+\usepackage{questiontex}
+\usepackage{amsmath,amssymb,amsthm}
 
 \begin{document}
-\question[Multiple choice question]{Which are the even numbers $\frac{5}{5}$?}
+\question{Which are the even numbers $\frac{5}{5}$?}
 \false{1}
 \true{$\frac{4}{2} = 2$}
 \false{3}
@@ -376,5 +383,4 @@ class qformat_qtex_test extends question_testcase {
 
         $this->assert_same_tex($expectedtex, $tex);
     }
-
 }

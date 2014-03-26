@@ -133,7 +133,7 @@ class qformat_qtex extends qformat_default{
         if (!self::$cfg) {
             // Read configuration from file.
             // Make sure we look only in this directory.
-            if ( (require(dirname(__FILE__) . '/config.php')) ) {
+            if ( (require_once(dirname(__FILE__) . '/config.php')) ) {
                 self::$cfg = $cfg;
             } else {
                 $this->error(get_string('configmissing', 'qformat_qtex'));
@@ -142,7 +142,7 @@ class qformat_qtex extends qformat_default{
         
         // Read grading info form file
         // Make sure we look only in this directory.
-        if ( ! (require(dirname(__FILE__) . '/grading.php')) ) {
+        if ( ! (require_once(dirname(__FILE__) . '/grading.php')) ) {
         	$this->error(get_string('gradingmissing', 'qformat_qtex'));
         }
         
@@ -175,6 +175,7 @@ class qformat_qtex extends qformat_default{
         // TODO: Check whether filter is also active and not just available
         // also move to new get_plugin_list() function (see moodlelib.php)
         $filters = get_list_of_plugins('filter');
+        //$filters = core_component::get_plugin_list('filter');
         
         if (in_array('mathjax', $filters)) {
         	return self::FLAG_FILTER_MATHJAX;
