@@ -1,0 +1,28 @@
+\documentclass[a4paper]{article}
+\usepackage{amssymb, amsmath, graphicx, german,tikz}
+\usepackage{questiontex}
+
+\begin{document}
+
+
+\question
+    {Which of the following statements are correct?}
+        \true{$i^2 = -1$}
+        \true{$\frac 1i = -i$}
+        \true{$i^3 = -i$}
+        \true{$i^{17} = i$}
+        \false{None.}    
+        \explanation{For the imaginary unit $i$ holds $i^2 = -1$,
+            yielding $i^3 = i^2 \cdot i = (-1)\cdot i = -i$
+            and $i^4 = (i^2)^2 = (-1)^2 = 1$. 
+            Multiply  $\frac 1i = -i$ with the
+            denominator in to verify this equation.
+            From $i^4 = 1$ follows
+		$$
+                i^{17} = i^{4 \cdot 4 + 1} = (i^4)^4 \cdot i = 1^4 \cdot i = i,
+                $$
+            i.e. all equations are correct.
+}
+
+\end{document}
+
