@@ -4,7 +4,7 @@ QuestionTeX
 QuestionTeX is a collection of LaTeX macros that enables authors 
 to create multiple-choice tests.
 The QuestionTeX package and its documentation can be found in the 
-*questiontex/* folder.
+*questiontex/* folder and as *questiontex.zip* in the release section.
 Further documentation and examples are available on
 
     www.lemuren.math.ethz.ch/coursesupport/multiplechoice
@@ -20,8 +20,8 @@ QuestionTeX directly into the Moodle LMS. Export from Moodle to QuestionTeX
 is also possible.
 
 The plugin as well as installation instructions can be found in the *qtex/* 
-subfolder. The plugin is also available as a zip archive from the Moodle plugin
-repository at www.moodle.org .
+subfolder. Its zip archive *qformat_qtex.zip* is also available from the 
+Moodle plugin repository at www.moodle.org .
 
 ### Standalone Converter
 
@@ -32,7 +32,8 @@ Since MoodleXML is natively supported by Moodle, the XML file may then be
 imported into Moodle without requiring modifications at the admin level.
 
 The converter as well as installation instructions can be found in the 
-*standalone-converter/* subfolder.
+*standalone-converter/* subfolder and in the *standalone-converter.zip* 
+archive in the release section.
 
 ### Moodle Converter (Experimental) 
 
