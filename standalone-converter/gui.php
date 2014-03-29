@@ -15,11 +15,12 @@
 $path_to_moodle_emulator = 'moodle_emulator.php';
 // End configuration
 
+// Emulate a Moodle
+require_once($path_to_moodle_emulator);
+
 $gui_redirect = $_SERVER['SCRIPT_NAME'];
 
 if (isset($_POST['sent']) && $_POST['sent']==='yes') {
-    // Get me a moodle
-    require_once($path_to_moodle_emulator); // Then Moodle Emulator
 
     // Get uploaded file
     $inputdata = $_FILES['input'];
@@ -136,6 +137,7 @@ else{
  */
 function print_form($flag, $errormessage) {
     global $gui_redirect;
+    global $plugin;
 
     $html = "
 <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">
@@ -215,7 +217,7 @@ This script converts between QuestionTeX and Moodle XML.<br><br>
 <br>
 <input type=reset value='Reset'> <input type=submit value='Translate'></form>
 <br>
-<i>Beta 6, 05.02.2014</i>
+<i>Using plugin release v".$plugin->release."</i>
 </body>
 </html>
 ";

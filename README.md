@@ -48,6 +48,7 @@ Note, however, that these scripts have not been well tested.
 Contact
 -------
 
-This software has been written in the LEMUREN project at ETH Zurich.
+This software has been written in the LEMUREN project at the department
+of mathematics of ETH Zurich.
 
 For further information contact nemesis@math.ethz.ch

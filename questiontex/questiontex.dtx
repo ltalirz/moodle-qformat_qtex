@@ -18,7 +18,7 @@
 % \iffalse
 %<package>\NeedsTeXFormat{LaTeX2e}
 %<package>\ProvidesPackage{questiontex}
-%<package> [2014/03/17 v0.1 Package for multiple-choice tests]
+%<package> [2014/03/29 v0.1 Package for multiple-choice tests]
 %
 %<*driver>
 \documentclass{ltxdoc}
@@ -185,8 +185,8 @@
 % may be part an answer, a feedback or the like:\\
 % |\feedback{Correct! \includegraphics[height=1cm]{smiley.png}}|
 % 
-% \DescribeMacro{\intro} Inserts arbitrary text that is not an argument to another
-% command into the quiz.
+% \DescribeMacro{\intro} Inserts arbitrary text that is not an argument to 
+% another command into the quiz.
 % 
 % \DescribeMacro{\keepme} Same as |\intro|.
 % 
@@ -278,10 +278,13 @@
 % \end{itemize}
 % 
 % %\subsubsection{Grading}
-% %Since there is no possibility to specify grading rules during import into
-% %Moodle, we had to define a standard here:\\
-% %For each question, the full $100\%$ are distributed equally among its true
-% %answers. False answers have fraction $0$.
+% Since there is no possibility to specify additional parameters during
+% question import into Moodle, we had to define a standard here:\\
+% The \verb|\question| macro distributes the full $100\%$ equally among its true
+% answers, while false answers count as $-100\%$ in order to punish 
+% guessing.\\
+% The \verb|\questionSc| macro does not punish guessing; false answers
+% count as $0\%$.
 % 
 
 % \StopEventually{\PrintIndex}

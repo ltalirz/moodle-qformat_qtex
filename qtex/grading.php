@@ -63,8 +63,8 @@ class DefaultGradingScheme {
 
 		if ($predefcount == 0) {
 			// Each true answer gets the same fraction
-			if ($truecount == 0) print_error('allanswerswrong','qtex',"Question \"$qobject->name\"
-					has no true answer.");
+			if ($truecount == 0) print_error('allanswerswrong','qtex',
+					"Question \"$qobject->name\" has no true answer.");
 			$truefraction = 1.0/$truecount;
 			foreach($qobject->fraction as $i => $fraction){
 				if ($fraction === 'FRACTION_TRUE'){
@@ -72,8 +72,9 @@ class DefaultGradingScheme {
 				}
 			}
 		} elseif ($truecount > 0) {
-			print_error('specifyallanswers','qtex',"Please specify fractions for all
-			correct answers of question \"$qobject->name\" or for none of them.");
+			print_error('specifyallanswers','qtex',
+			  "Please specify fractions for all correct answers 
+			  of question \"$qobject->name\" or for none of them.");
 		}
 
 		return $qobject;

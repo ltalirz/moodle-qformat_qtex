@@ -7,8 +7,7 @@
  * @uses ../qtex/format.php
  * @uses ../qtex/qformat_tex.php
  *
- * @author Leopold Talirz
- * @version 26.11.2013
+ * @author Leopold Talirz, Patrick Spettel
  */
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -18,10 +17,12 @@
 $path_to_plugin = '../qtex/';
 $path_to_qtex_class = $path_to_plugin.'format.php';
 $path_to_qtex_strings = $path_to_plugin.'lang/en/qformat_qtex.php';
+$path_to_qtex_version = $path_to_plugin.'version.php';
 
 $CFG = new stdClass;
 $CFG->libdir = 'lib';                   // Used by xml format
 $CFG->dataroot = '.';
+$plugin = new stdClass();               // using plugin version in gui.php
 
 const FORMAT_MOODLE = 'FORMAT_MOODLE';
 const FORMAT_HTML = 'FORMAT_HTML';
@@ -42,15 +43,14 @@ define('MOODLE_INTERNAL', true);              // New in Moodle 2.?
 $OUTPUT = new core_renderer();
 
 // Get required code
-//require_once('lib/setuplib.php');     // First get help strings
-//require_once('lib/moodlelib.php');     // First get help strings
+//require_once('lib/setuplib.php'); 
+//require_once('lib/moodlelib.php');
 require_once($CFG->libdir . '/text.php');
 require_once($path_to_qtex_strings);     // First get help strings
 require_once($CFG->libdir . '/format_default.php');   // Then base class for formats
 require_once($CFG->libdir . '/format_xml.php');       // Moodle XML format...
 require_once($path_to_qtex_class);       // and finally the qtex format
-
-
+require_once($path_to_qtex_version);
 
 ///////////////////////////////////////////////////////////////////////////////
 ////   Emulated Moodle functions used by qformat_qtex + helper functions  /////

@@ -24,7 +24,7 @@
     <defaultgrade>1</defaultgrade>
     <penalty>0.3333333</penalty>
     <hidden></hidden>
-    <single>true</single>
+    <single>false</single>
     <shuffleanswers>true</shuffleanswers>
     <answernumbering>abc</answernumbering>
     <correctfeedback format="unknown">
@@ -60,7 +60,7 @@
         <text></text>
       </feedback>
     </answer>
-    <answer fraction="0" format="moodle_auto_format">
+    <answer fraction="-100" format="moodle_auto_format">
       <text>Keine.</text>
       <feedback format="moodle_auto_format">
         <text></text>

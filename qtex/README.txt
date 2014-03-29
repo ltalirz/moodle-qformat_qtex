@@ -16,7 +16,8 @@ The QuestionTeX format plugin enables the import of questions
 written in QuestionTeX directly into Moodle (as well as the
 export from Moodle to QuestionTeX).
 
-This plugin has been written in the LEMUREN project at ETH Zurich.
+This plugin has been written in the LEMUREN project at the department of
+mathematics of ETH Zurich.
 For further information contact nemesis@math.ethz.ch
 
 

@@ -1039,13 +1039,13 @@ class qformat_qtex extends qformat_default{
 
         $econtent = $ematch['content'];
 
-        // Even in multichoice answers one may trigger single choice
-        if ($this->tex_rgxp_match(array('multianswer'), $econtent,
-                                  self::FLAG_SINGLE_MATCH, -1)) {
-            $qobject->single = false;
-        } else {
-            $qobject->single = true;
-        }
+        // \multianswer is DEPRECATED
+        //if ($this->tex_rgxp_match(array('multianswer'), $econtent,
+        //                          self::FLAG_SINGLE_MATCH, -1)) {
+        //    $qobject->single = false;
+        //} else {
+        //    $qobject->single = true;
+        //}
 
         return $this->import_anychoice($ematch, $qobject);
     }
@@ -1535,11 +1535,20 @@ class qformat_qtex extends qformat_default{
     function get_identifier($question) {
         switch($question->qtype) {
             case 'multichoice':
-            	if (property_exists($question, 'single') && 
-            	    ($question->single === True || $question->single === 'true')) {
-            	    $identifier = 'singlechoice';
+            	// check for 'single' specification. location depends on
+            	// import/export.
+            	if ( isset($question->single) ) {
+            		$single = $question->single;
+            	} else if ( isset($question->options->single) ) {
+            		$single = $question->options->single;
             	} else {
-            		$identifier = 'multichoice';
+            		$single = false;
+            	}
+            	
+            	if ($single == false || single === 'false') {
+            	    $identifier = 'multichoice';
+            	} else {
+            		$identifier = 'singlechoice';
             	}
                 break;
             case 'description':
@@ -1660,7 +1669,7 @@ class qformat_qtex extends qformat_default{
      * @return string The corresponding TeX string
      */
     function export_multichoice($question) {
-        return $this->export_anychoice($question, False);
+        return $this->export_anychoice($question);
     }
     
     /**
@@ -1670,7 +1679,7 @@ class qformat_qtex extends qformat_default{
      * @return string The corresponding TeX string
      */
     function export_singlechoice($question) {
-    	return $this->export_anychoice($question, True);
+    	return $this->export_anychoice($question);
     }
     
     
@@ -1681,9 +1690,8 @@ class qformat_qtex extends qformat_default{
      * @param bool $single Whether to allow only for a single choice
      * @return string The corresponding TeX string
      */
-    function export_anychoice($question, $single) {
-    	
-    	
+    function export_anychoice($question) {
+
     	$econtent = $this->create_macro($this->get_identifier($question),
     			array($question->questiontext));
     	// optional parameter with $question->name is DEPRECATED
@@ -1702,7 +1710,7 @@ class qformat_qtex extends qformat_default{
         //}
 
 
-        // Handle answers. For export, the Moodle geniuses invented sth new:
+        // Handle answers. 
         // $question->options->answers, where each answer object has
         // $answer->answer, $answer->fraction, $answer->feedback
         foreach ($question->options->answers as $aobject) {
@@ -1714,20 +1722,23 @@ class qformat_qtex extends qformat_default{
             } else {
                 $identifier = 'false';
             }
-
-            // If we have a single-answer question, we dont specify a percentage
-            if ($single) {
-                $econtent .=
-                    $this->create_macro($identifier, array($aobject->answer));
-            }
+            
+            $econtent .= 
+                $this->create_macro($identifier, array($aobject->answer));
+            
+            // optional arguments are DEPRECATED
+            //if ($single) {
+            //    $econtent .=
+            //        $this->create_macro($identifier, array($aobject->answer));
+            //}
             // If we have a multi-answer question, we do...
-            else {
-            	// optional arguments DEPRECATED
-                $econtent .=
-                    $this->create_macro($identifier,
-                                        array($aobject->answer));
-                //    		, $percentage);
-            }
+            //else {
+            //    $econtent .=
+            //        $this->create_macro($identifier,
+            //                            array($aobject->answer)
+            //    		, $percentage);
+            //}
+            
             // Handle answer images
             $this->writeimages($aobject->answerfiles);
 
