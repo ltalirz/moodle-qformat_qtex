@@ -22,7 +22,7 @@ $path_to_qtex_version = $path_to_plugin.'version.php';
 $CFG = new stdClass;
 $CFG->libdir = 'lib';                   // Used by xml format
 $CFG->dataroot = '.';
-$plugin = new stdClass();               // using plugin version in gui.php
+$plugin = new stdClass();               // gui.php reads version of plugin
 
 const FORMAT_MOODLE = 'FORMAT_MOODLE';
 const FORMAT_HTML = 'FORMAT_HTML';
@@ -31,6 +31,11 @@ const FORMAT_MARKDOWN = 'FORMAT_MARKDOWN';
 const FORMAT_PLAIN = 'FORMAT_PLAIN';
 const RANDOM = 'RANDOM';
 const PARAM_TEXT = 'PARAM_TEXT';
+
+const MATURITY_ALPHA = 'MATURITY_ALPHA';
+const MATURITY_BETA = 'MATURITY_BETA';
+const MATURITY_RC = 'MATURITY_RC';
+const MATURITY_STABLE = 'MATURITY_STABLE';
 
 ///////////////////////////////////////////////////////////////////////////////
 ////////////////     End of configuration              ////////////////////////
