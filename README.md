@@ -3,8 +3,9 @@ QuestionTeX
 
 QuestionTeX is a collection of LaTeX macros that enables authors 
 to create multiple-choice tests.
-The QuestionTeX package and its documentation can be found in the 
-*questiontex/* folder and as *questiontex.zip* in the release section.
+The QuestionTeX package and its 
+[documentation](https://github.com/leoteo/moodle-qformat_qtex/blob/master/questiontex/questiontex.pdf?raw=true) 
+can be found in the *questiontex/* folder and as *questiontex.zip* in the release section.
 Further documentation and examples are available on
 
     www.lemuren.math.ethz.ch/coursesupport/multiplechoice
