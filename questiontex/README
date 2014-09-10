@@ -12,21 +12,23 @@ Furthermore, the questions may be imported into the Moodle Learning
 Management System.
 
 ========================================================================
-II. INSTALLATION AND GETTING STARTED
+II. INSTALLATION REQUIREMENTS
 
-In order to install questiontex manually, run
+A working LaTeX distribution, preferably supporting both the 
+'latex' and 'pdflatex' commands.
 
-    latex questiontex.ins    
+========================================================================
+III. INSTALLATION AND GETTING STARTED
 
-in order to produce the questiontex.sty file 
-and then copy the questiontex folder into
-
-    texmf/tex/latex
-
-of you LaTeX distribution.
-
-
-The documentation can be produced by
-
-    pdflatex questiontex.dtx
-
+ A) Produce questiontex.sty
+      latex questiontex.ins
+      
+ B) Typeset example test
+      pdflatex example.tex
+      
+ C) Generate documentation      
+      pdflatex questiontex.dtx
+      
+ D) Add questiontex package to your TeX distribution (optional)
+    by copying the questiontex folder into
+      <tex-root-directory>/texmf/tex/latex
