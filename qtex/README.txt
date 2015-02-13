@@ -2,10 +2,7 @@ QuestionTeX format plugin
 -------------------------
 
 QuestionTeX is a collection of LaTeX macros that enables authors 
-to create multiple-choice tests. The QuestionTeX package and its 
-documentation is hosted on
-
-  https://github.com/leoteo/moodle-qformat_qtex
+to create multiple-choice tests.
 
 Further documentation and examples are available on
 
