@@ -8,6 +8,7 @@ can be found in the *questiontex/* folder and as *questiontex.zip* in the releas
 Further documentation and examples are available on
 
 www.lemuren.math.ethz.ch/coursesupport/multiplechoice
+
 www.lemuren.math.ethz.ch/projects/texweb/texweb_mc
     
 QuestionTeX for Moodle
