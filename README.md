@@ -1,15 +1,9 @@
-QuestionTeX
+Introduction
 ------------
 
-QuestionTeX is a collection of LaTeX macros that enables authors 
-to create multiple-choice tests.
-The QuestionTeX package and its documentation
-can be found in the *questiontex/* folder and as *questiontex.zip* in the release section.
-Further documentation and examples are available on
-
-www.lemuren.math.ethz.ch/coursesupport/multiplechoice
-
-www.lemuren.math.ethz.ch/projects/texweb/texweb_mc
+QuestionTeX is LaTeX package for writing multiple-choice tests.
+The QuestionTeX package and its documentation can be found
+[on github](https://github.com/ltalirz/QuestionTeX).
     
 QuestionTeX for Moodle
 -----------------------
@@ -26,7 +20,7 @@ Moodle plugin repository at www.moodle.org .
 
 ### Standalone Converter
 
-Some Moodle users do not have permission to install new plugins at their 
+Some Moodle users do not have permission to install new plugins on their 
 Moodle server. For this scenario, we provide a set of PHP scripts, 
 which convert from QuestionTeX to MoodleXML and vice versa. 
 Since MoodleXML is natively supported by Moodle, the XML file may then be
@@ -51,4 +45,4 @@ Contact
 
 This software was written in the projects LEMUREN and nemesis at the department
 of mathematics of ETH Zurich.
-For further information contact nemesis@ethz.ch
+For further information please contact echo@ethz.ch

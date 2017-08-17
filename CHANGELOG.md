@@ -1,3 +1,8 @@
+17.08.2017
+==========
+- Moved QuestionTeX into separate repository
+- Removed broken links to LEMUREN project
+
 05.02.2014
 ==========
 - Tried to improve readability.
