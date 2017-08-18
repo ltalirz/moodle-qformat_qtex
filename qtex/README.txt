@@ -1,46 +1,44 @@
-QuestionTeX format plugin
--------------------------
+Introduction
+------------
 
-QuestionTeX is a collection of LaTeX macros that enables authors 
-to create multiple-choice tests.
+QuestionTeX is LaTeX package for writing multiple-choice tests.
+The QuestionTeX package and its documentation can be found
+on https://github.com/ltalirz/QuestionTeX.
 
-Further documentation and examples are available on
-
-    www.lemuren.math.ethz.ch/coursesupport/multiplechoice
-    www.lemuren.math.ethz.ch/projects/texweb/texweb_mc
-  
-The QuestionTeX format plugin enables the import of questions 
-written in QuestionTeX directly into Moodle (as well as the
-export from Moodle to QuestionTeX).
-
-This plugin has been written in the projects LEMUREN and nemesis 
-at the department of mathematics of ETH Zurich.
-For further information contact nemesis@ethz.ch.
-
+The QuestionTeX format plugin makes it possible to import of questions written
+in QuestionTeX directly into Moodle and to export questions from Moodle to
+QuestionTeX.
 
 Installation instructions
 -------------------------
 
-Prerequisites:
+### Prerequisites
+
 - A working Moodle installation
-- For the convenient installation through the Moodle admin interface, the web
-  server needs write permissions to the $moodle_root/question/format directory.
-  For manual installation (or if your Moodle version is < 2.5), 
-  copy the folder "qtex" to $moodle_root/question/format.
-  Then, in the admin panel purge the Plugin list on
-    Site Administration -> Plugins -> Caching -> Configuration
 - A configured and enabled TeX Notation filter is required to render the formulae.
   See http://docs.moodle.org/25/en/TeX_notation_filter for instructions.
-  Hint: In order to improve vertical alignment of images, 
+  Hint: In order to improve vertical alignment of images,
         add the following css to your theme:
           .texrender {border:0px;vertical-align:middle;}
-- Handling of images requires PHP's zip extension to be enabled
+- (optional) Handling of images requires PHP's zip extension to be enabled
 
-Following standard procedure, go to the administration panel under
-  Site Administration -> Plugins -> Install add-ons
-and select the plugin type 'Question  import/export format'.
+### Installation
 
-The QuestionTeX format should now appear in question export/import dialogues.
+Simply follow the standard procedure for installing plugins:
+- go to Site Administration -> Plugins -> Install add-ons
+- select plugin type 'Question  import/export format'
+- the QuestionTeX format should now appear in question export/import dialogues
 
-If you are looking for some QuestionTeX examples to test the import,
-check out the *examples/* folder. 
+For QuestionTeX examples to test the import, see the *examples/* folder.
+
+If you prefer a manual installation (or if your Moodle version is < 2.5),
+copy the folder "qtex" to $moodle_root/question/format.
+Then, in the admin panel purge the Plugin list on
+Site Administration -> Plugins -> Caching -> Configuration
+
+Contact
+-------
+
+This software was written in the projects LEMUREN and nemesis at the department
+of mathematics of ETH Zurich.
+For further information please contact echo@ethz.ch
